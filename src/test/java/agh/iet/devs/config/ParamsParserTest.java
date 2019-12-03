@@ -1,6 +1,8 @@
 package agh.iet.devs.config;
 
+import agh.iet.devs.data.Params;
 import agh.iet.devs.error.SimulationError;
+import agh.iet.devs.utils.ParamsParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 

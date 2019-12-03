@@ -1,5 +1,6 @@
-package agh.iet.devs.config;
+package agh.iet.devs.utils;
 
+import agh.iet.devs.data.Params;
 import agh.iet.devs.error.SimulationError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

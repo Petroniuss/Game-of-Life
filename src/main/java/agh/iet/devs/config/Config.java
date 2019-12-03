@@ -1,5 +1,11 @@
 package agh.iet.devs.config;
 
+import agh.iet.devs.data.Params;
+import agh.iet.devs.utils.ParamsParser;
+
+/**
+ * Singleton responsible for holding information about simulation parameters.
+ */
 public class Config {
     private static Config instance;
 

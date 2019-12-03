@@ -1,4 +1,4 @@
-package agh.iet.devs.config;
+package agh.iet.devs.data;
 
 public class Params {
     public final int width;
