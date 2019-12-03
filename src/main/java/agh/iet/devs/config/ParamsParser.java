@@ -19,8 +19,8 @@ public class ParamsParser {
     public static Params parse(String path) {
         Params params = null;
         try {
-            final String json = new String(Files.readAllBytes(Paths.get(path)));
-            final Gson gson = new Gson();
+            final var json = new String(Files.readAllBytes(Paths.get(path)));
+            final var gson = new Gson();
             params = gson.fromJson(json, Params.class);
         } catch (IOException | JsonSyntaxException e) {
             throw new SimulationError(e.getMessage(), SimulationError.Phase.PARSE);
