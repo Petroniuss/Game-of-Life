@@ -20,7 +20,7 @@ public class Genome {
     }
 
     public Genome(Genome g1, Genome g2) {
-        final var partition1 = random.nextInt(genomeSize - 2) + 1; // max genomeSize - 2
+        final var partition1 = random.nextInt(genomeSize - 3) + 1; // max genomeSize - 3
         final var partition2 = random.nextInt(genomeSize - partition1 - 1) + partition1 + 1; // max genomeSize - 1
 
         if (random.nextBoolean()) {
@@ -49,7 +49,7 @@ public class Genome {
     /**
      * @return int denoting how many rotations animal should do.
      */
-    public int rotateBy() {
+    public int predict() {
         final var i = random.nextInt(genomeSize);
 
         return genes[i];
