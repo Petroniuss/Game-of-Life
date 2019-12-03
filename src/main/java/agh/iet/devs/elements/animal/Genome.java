@@ -20,8 +20,8 @@ public class Genome {
     }
 
     public Genome(Genome g1, Genome g2) {
-        final var partition1 = random.nextInt(genomeSize - 3) + 1; // max genomeSize - 3
-        final var partition2 = random.nextInt(genomeSize - partition1 - 1) + partition1 + 1; // max genomeSize - 1
+        final var partition1 = random.nextInt(genomeSize - 3) + 1; // max genomeSize - 3, min 1
+        final var partition2 = random.nextInt(genomeSize - partition1 - 1) + partition1 + 1; // max genomeSize - 1, min 2
 
         if (random.nextBoolean()) {
             final var holder = g1;

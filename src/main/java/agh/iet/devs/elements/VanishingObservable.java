@@ -1,10 +1,13 @@
 package agh.iet.devs.elements;
 
-import agh.iet.devs.map.VanishingListener;
-import agh.iet.devs.utils.Observable;
+import agh.iet.devs.map.OnVanishListener;
 
-public interface VanishingObservable extends Observable<VanishingListener> {
+public interface VanishingObservable {
 
     void notifyOnVanishListeners();
+
+    void attachListener(OnVanishListener listener);
+
+    void detachListener(OnVanishListener listener);
 
 }

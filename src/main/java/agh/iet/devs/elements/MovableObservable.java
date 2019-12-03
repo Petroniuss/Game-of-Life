@@ -1,10 +1,14 @@
 package agh.iet.devs.elements;
 
-import agh.iet.devs.map.MovableListener;
-import agh.iet.devs.utils.Observable;
+import agh.iet.devs.data.Vector;
+import agh.iet.devs.map.OnMoveListener;
 
-public interface MovableObservable extends Observable<MovableListener> {
+public interface MovableObservable {
 
-     void notifyOnMoveListeners();
+     void notifyOnMoveListeners(MapElement e, Vector from);
+
+    void attachListener(OnMoveListener listener);
+
+    void detachListener(OnMoveListener listener);
 
 }

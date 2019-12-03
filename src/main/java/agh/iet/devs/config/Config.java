@@ -10,9 +10,11 @@ public class Config {
     private static Config instance;
 
     public final Params params;
+    public final MoveCoordinator moveCoordinator;
 
     private Config() {
         this.params = ParamsParser.parse();
+        this.moveCoordinator = new MoveCoordinator(params.width, params.height);
     }
 
     public static Config getInstance() {

@@ -7,6 +7,7 @@ import agh.iet.devs.map.Map;
 
 import java.util.Random;
 
+@Deprecated
 public class EmptyPositionGenerator {
     private static final Params params = Config.getInstance().params;
     private static final Random random = new Random();

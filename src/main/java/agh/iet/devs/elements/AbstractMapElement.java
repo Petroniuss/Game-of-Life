@@ -2,7 +2,7 @@ package agh.iet.devs.elements;
 
 import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
-import agh.iet.devs.map.VanishingListener;
+import agh.iet.devs.map.OnVanishListener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +12,7 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
     protected Vector currentPosition;
     protected int currentEnergy;
 
-    private Set<VanishingListener> onVanishListenerSet = new HashSet<>();
+    private Set<OnVanishListener> onVanishListenerSet = new HashSet<>();
 
     public AbstractMapElement(Vector initialPosition, int initialEnergy) {
         this.currentPosition = initialPosition;
@@ -44,12 +44,12 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
     }
 
     @Override
-    public void attachListener(VanishingListener listener) {
+    public void attachListener(OnVanishListener listener) {
         onVanishListenerSet.add(listener);
     }
 
     @Override
-    public void detachListener(VanishingListener listener) {
+    public void detachListener(OnVanishListener listener) {
         onVanishListenerSet.remove(listener);
     }
 
