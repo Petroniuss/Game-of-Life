@@ -2,28 +2,31 @@ package agh.iet.devs.config;
 
 import agh.iet.devs.error.SimulationError;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ParamsParser {
-    private static final String defaultPath = "src/resources/parameters.json".replace("/", System.lineSeparator());
+    private static final String defaultPath = "src/main/resources/parameters.json".replace("/", File.separator);
 
     public static Params parse() {
         return parse(defaultPath);
     }
 
     public static Params parse(String path) {
-        String json = null;
+        Params params = null;
         try {
-            json = new String(Files.readAllBytes(Paths.get(path)));
-        } catch (IOException e) {
+            final String json = new String(Files.readAllBytes(Paths.get(path)));
+            final Gson gson = new Gson();
+            params = gson.fromJson(json, Params.class);
+        } catch (IOException | JsonSyntaxException e) {
             throw new SimulationError(e.getMessage(), SimulationError.Phase.PARSE);
         }
-        final Gson gson = new Gson();
 
-        return gson.fromJson(json, Params.class);
+        return params;
     }
 
 }
