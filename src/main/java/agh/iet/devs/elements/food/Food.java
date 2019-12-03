@@ -11,7 +11,7 @@ public class Food extends AbstractMapElement {
     }
 
     @Override
-    public void onUpdate() {
-        this.currentEnergy -= Config.getInstance().params.moveEnergy;
+    protected void update() {
+        // Ignore!
     }
 }

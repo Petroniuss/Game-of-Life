@@ -19,9 +19,6 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
         this.currentEnergy = initialEnergy;
     }
 
-    /**
-     * Note that this method should be called by all subtypes.
-     */
     @Override
     public void onUpdate() {
         this.currentEnergy -= Config.getInstance().params.moveEnergy;
@@ -30,7 +27,11 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
             update();
     }
 
-    abstract void update();
+    /**
+     * This method should specify behaviour of a subclass
+     * Note that it will only be executed if element is alive.
+     */
+    protected abstract void update();
 
     @Override
     public Vector getPosition() {
