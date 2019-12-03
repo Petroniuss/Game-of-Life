@@ -27,7 +27,7 @@ class ParamsParserTest {
     }
 
     @Test
-    void testParse_whenWidth200andHeight100() {
+    void testParseParameters_whenWidth200andHeight100() {
         final var params = ParamsParser.parse(testPath);
 
         assertEquals(200, params.width);

@@ -25,8 +25,12 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
     @Override
     public void onUpdate() {
         this.currentEnergy -= Config.getInstance().params.moveEnergy;
-        check();
+
+        if (isAlive())
+            update();
     }
+
+    abstract void update();
 
     @Override
     public Vector getPosition() {
@@ -56,10 +60,12 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
     /**
      * Method is responsible for checking whether element should be detached and if so detaching it.
      */
-    private void check() {
+    private boolean isAlive() {
         if (this.currentEnergy <= 0) {
             notifyOnVanishListeners();
         }
+
+        return this.currentEnergy > 0;
     }
 
 }
