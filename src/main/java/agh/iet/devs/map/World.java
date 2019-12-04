@@ -11,16 +11,10 @@ import java.util.List;
 
 public class World {
 
-    private final List<Region> regions;
+//    private final List<Region> regions;
 
     public World() {
         final var params = Config.getInstance().params;
-
-        final var outer = new Rect();
-
-        this.regions = List.of(
-                new Jungle()
-        );
     }
 
 
