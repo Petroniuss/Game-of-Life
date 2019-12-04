@@ -74,4 +74,25 @@ public class Genome {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public String toString() {
+        return "Genome{" +
+                "genes=" + Arrays.toString(genes) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Genome)) return false;
+
+        Genome genome = (Genome) o;
+
+        return Arrays.equals(genes, genome.genes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(genes);
+    }
 }
