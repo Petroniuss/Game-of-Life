@@ -1,6 +1,7 @@
 package agh.iet.devs.map;
 
 import agh.iet.devs.config.Config;
+import agh.iet.devs.data.Rect;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.elements.animal.Animal;
@@ -18,7 +19,6 @@ public class World {
     private final Config config = Config.getInstance();
 
     public World() {
-
         regions.add(new Jungle(config.jungleBounds()));
         regions.add(new Grassland(config.outerBounds(), config.jungleBounds()));
 
@@ -32,7 +32,21 @@ public class World {
     }
 
     public void onUpdate() {
-        //...
+        addFood();
+
+        regions.stream()
+                .map(Region::objectsInRegion)
+                .flatMap(Collection::stream)
+                .map(Map.Entry::getValue)
+                .flatMap(Collection::stream)
+                .forEach(MapElement::onUpdate);
+
+        regions.stream()
+                .map(Region::objectsInRegion)
+                .flatMap(Collection::stream)
+                .map(Map.Entry::getValue)
+                .filter(set -> set.size() >= 2)
+                .forEach(this::handleCollisions);
     }
 
     /**
