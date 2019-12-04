@@ -1,7 +1,6 @@
 package agh.iet.devs.map;
 
 import agh.iet.devs.config.Config;
-import agh.iet.devs.data.Rect;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.elements.animal.Animal;
@@ -34,6 +33,8 @@ public class World {
     public void onUpdate() {
         addFood();
 
+        // Fixme concurent modification exception
+        // Possible fix iterate over copy.
         regions.stream()
                 .map(Region::objectsInRegion)
                 .flatMap(Collection::stream)
