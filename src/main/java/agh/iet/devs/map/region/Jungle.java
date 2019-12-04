@@ -1,10 +1,7 @@
-package agh.iet.devs.map;
+package agh.iet.devs.map.region;
 
 import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;
-import agh.iet.devs.elements.MapElement;
-
-import java.util.Optional;
 
 public class Jungle extends AbstractRegion {
 

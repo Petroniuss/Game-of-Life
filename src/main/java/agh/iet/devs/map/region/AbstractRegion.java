@@ -1,13 +1,20 @@
-package agh.iet.devs.map;
+package agh.iet.devs.map.region;
 
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
+import agh.iet.devs.map.OnMoveListener;
+import agh.iet.devs.map.OnVanishListener;
 
 import java.util.Map;
 import java.util.*;
 
 public abstract class AbstractRegion implements Region, OnMoveListener, OnVanishListener {
-    protected Map<Vector, Set<MapElement>> elements = new HashMap<>();
+    protected final Map<Vector, Set<MapElement>> elements = new HashMap<>();
+    protected final Set<Vector> emptyPositions;
+
+    public AbstractRegion(Collection<Vector> freePositions) {
+        this.emptyPositions = new HashSet<>(freePositions);
+    }
 
     @Override
     public Set<MapElement> objectsAt(Vector position) {
@@ -25,13 +32,21 @@ public abstract class AbstractRegion implements Region, OnMoveListener, OnVanish
     }
 
     @Override
+    public Optional<Vector> emptyPosition() {
+        return emptyPositions.stream().findAny();
+    }
+
+    @Override
     public void onMove(MapElement e, Vector from) {
-        if (isWithin(from))
+        if (isWithin(from)) {
             elements.get(from).remove(e);
+
+            if (elements.get(from).isEmpty())
+                emptyPositions.add(from);
+        }
 
         if (isWithin(e.getPosition()))
             addMapElement(e);
-
     }
 
     @Override
@@ -40,7 +55,6 @@ public abstract class AbstractRegion implements Region, OnMoveListener, OnVanish
 
         if (isWithin(position))
             removeElement(e);
-
     }
 
     protected void addMapElement(MapElement e) {
@@ -50,13 +64,19 @@ public abstract class AbstractRegion implements Region, OnMoveListener, OnVanish
             elements.get(key).add(e);
         else
             elements.put(key, new HashSet<>(Collections.singleton(e)));
+
+        emptyPositions.remove(key);
     }
 
     protected void removeElement(MapElement e) {
         final var key = e.getPosition();
 
-        if (elements.containsKey(key))
+        if (elements.containsKey(key)) {
             elements.get(key).remove(e);
+
+            if (elements.get(key).isEmpty())
+                emptyPositions.add(key);
+        }
     }
 
 }

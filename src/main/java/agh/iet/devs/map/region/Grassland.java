@@ -1,4 +1,4 @@
-package agh.iet.devs.map;
+package agh.iet.devs.map.region;
 
 import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;

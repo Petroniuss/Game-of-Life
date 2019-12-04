@@ -1,27 +1,27 @@
 package agh.iet.devs.map;
 
 import agh.iet.devs.config.Config;
-import agh.iet.devs.data.Vector;
-import agh.iet.devs.elements.MapElement;
+import agh.iet.devs.data.Rect;
+import agh.iet.devs.map.region.Jungle;
+import agh.iet.devs.map.region.Region;
 
-public class World implements Map, OnMoveListener, OnVanishListener {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class World {
+
+    private final List<Region> regions;
 
     public World() {
         final var params = Config.getInstance().params;
+
+        final var outer = new Rect();
+
+        this.regions = List.of(
+                new Jungle()
+        );
     }
 
-    @Override
-    public boolean isOccupied(Vector position) {
-        return false;
-    }
 
-    @Override
-    public void onMove(MapElement e, Vector from) {
-
-    }
-
-    @Override
-    public void onVanish(MapElement element) {
-
-    }
 }

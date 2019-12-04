@@ -1,4 +1,4 @@
-package agh.iet.devs.map;
+package agh.iet.devs.map.region;
 
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
@@ -24,4 +24,8 @@ public interface Region {
      */
     Set<MapElement> objectsInRegion();
 
+    /**
+     * @return position not occupied by any object.
+     */
+    Optional<Vector> emptyPosition();
 }
