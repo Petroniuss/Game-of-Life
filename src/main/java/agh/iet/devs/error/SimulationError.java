@@ -3,24 +3,16 @@ package agh.iet.devs.error;
 public class SimulationError extends RuntimeException {
 
     private final static String header =
-            "<SIMULATION-EXCEPTION>";
+            "------------<SIMULATION-EXCEPTION>-----------------" + "\n" +
+            "--STH-WENT-HORRIBLY-WRONG!-------------------------" + "\n";
 
     public SimulationError(String message, Phase phase) {
-        super(constructMessage(message) + """
-
-
-                """ + "PHASE: " + phase + "\n" + message);
+        super(constructMessage(message, phase));
     }
 
-    private static String constructMessage(String msg) {
-        final int append = (msg.length() - header.length()) / 2;
-
-        if (append > 0) {
-            return "=".repeat(append) +
-                    header +
-                    "=".repeat(append);
-        } else
-            return header;
+    private static String constructMessage(String msg, Phase phase) {
+        return header + "----PHASE:  " + phase + "\n" +
+                "----MSG:  " + msg + "\n";
     }
 
     public enum Phase {

@@ -6,14 +6,8 @@ import agh.iet.devs.elements.MapElement;
 
 public class World implements Map, OnMoveListener, OnVanishListener {
 
-    private final int width;
-    private final int height;
-
     public World() {
         final var params = Config.getInstance().params;
-
-        this.height = params.height;
-        this.width = params.width;
     }
 
     @Override

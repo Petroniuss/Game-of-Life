@@ -78,7 +78,7 @@ public class Vector {
         return withinRect(rect.lowerLeft, rect.upperRight);
     }
 
-    public boolean withinRect(Vector lowerLeft, Vector upperRight) {
+    private boolean withinRect(Vector lowerLeft, Vector upperRight) {
         return lowerLeft.x <= this.x && this.x <= upperRight.x
                 && lowerLeft.y <= this.y && this.y <= upperRight.y;
     }

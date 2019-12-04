@@ -10,6 +10,7 @@ import java.util.Random;
 /**
  * Note that this implementation might be slow when map is overloaded with food.
  */
+@Deprecated
 public class EmptyPositionGenerator {
     private static final Params params = Config.getInstance().params;
     private static final Random random = new Random();

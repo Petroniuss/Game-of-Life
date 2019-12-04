@@ -1,7 +1,6 @@
 package agh.iet.devs.data;
 
 public class Rect {
-
     public final Vector lowerLeft;
     public final Vector upperRight;
 
