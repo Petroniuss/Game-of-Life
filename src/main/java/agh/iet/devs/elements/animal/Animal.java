@@ -83,23 +83,4 @@ public class Animal extends AbstractMapElement implements MovableObservable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Animal)) return false;
-
-        Animal animal = (Animal) o;
-
-        if (!onMoveListenerSet.equals(animal.onMoveListenerSet)) return false;
-        if (!genome.equals(animal.genome)) return false;
-        return orientation == animal.orientation;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = onMoveListenerSet.hashCode();
-        result = 31 * result + genome.hashCode();
-        result = 31 * result + orientation.hashCode();
-        return result;
-    }
 }

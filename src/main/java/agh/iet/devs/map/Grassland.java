@@ -2,11 +2,8 @@ package agh.iet.devs.map;
 
 import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;
-import agh.iet.devs.elements.MapElement;
 
-import java.util.Optional;
-
-public class Grassland implements Region {
+public class Grassland extends AbstractRegion {
 
     private final Rect outer;
     private final Rect inner;
@@ -21,9 +18,4 @@ public class Grassland implements Region {
         return vector.withinRect(outer) && !vector.withinRect(inner);
     }
 
-
-    @Override
-    public Optional<MapElement> objectAt(Vector vector) {
-        return Optional.empty();
-    }
 }

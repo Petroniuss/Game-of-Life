@@ -6,7 +6,7 @@ import agh.iet.devs.elements.MapElement;
 
 import java.util.Optional;
 
-public class Jungle implements Region {
+public class Jungle extends AbstractRegion {
 
     private final Rect rect;
 
@@ -15,12 +15,8 @@ public class Jungle implements Region {
     }
 
     @Override
-    public Optional<MapElement> objectAt(Vector vector) {
-        return Optional.empty();
-    }
-
-    @Override
     public boolean isWithin(Vector vector) {
         return vector.withinRect(rect);
     }
+
 }
