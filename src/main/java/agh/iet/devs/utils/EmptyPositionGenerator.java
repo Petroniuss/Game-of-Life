@@ -7,7 +7,9 @@ import agh.iet.devs.map.Map;
 
 import java.util.Random;
 
-@Deprecated
+/**
+ * Note that this implementation might be slow when map is overloaded with food.
+ */
 public class EmptyPositionGenerator {
     private static final Params params = Config.getInstance().params;
     private static final Random random = new Random();
@@ -15,17 +17,17 @@ public class EmptyPositionGenerator {
     /**
      * @return empty position within given map.
      */
-    public static Vector find(Map map) {
-        var position = randomWithin(params.width, params.height);
+    public static Vector find(Map map, int startX, int endX, int startY, int endY) {
+        var position = randomWithinRect(startX, endX, startY, endY);
         while (map.isOccupied(position))
-            position = randomWithin(params.width, params.height);
+            position = randomWithinRect(startX, endX, startY, endY);
 
         return position;
     }
 
-    private static Vector randomWithin(int width, int height) {
-        int x = random.nextInt(width);
-        int y = random.nextInt(height);
+    private static Vector randomWithinRect(int startX, int endX, int startY, int endY) {
+        final var x = startX + random.nextInt(endX - startX);
+        final var y = startY + random.nextInt(endY - startY);
 
         return Vector.create(x, y);
     }

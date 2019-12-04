@@ -6,7 +6,10 @@ public class SimulationError extends RuntimeException {
             "<SIMULATION-EXCEPTION>";
 
     public SimulationError(String message, Phase phase) {
-        super(constructMessage(message) + "\n\n" + "PHASE: " + phase + "\n" + message);
+        super(constructMessage(message) + """
+
+
+                """ + "PHASE: " + phase + "\n" + message);
     }
 
     private static String constructMessage(String msg) {
@@ -21,7 +24,9 @@ public class SimulationError extends RuntimeException {
     }
 
     public enum Phase {
-        PARSE
+        PARSE,
+        INIT,
+        RUNTIME
     }
 
 }

@@ -6,6 +6,7 @@ import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.elements.MovableObservable;
+import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.OnMoveListener;
 
 import java.util.HashSet;
@@ -39,6 +40,10 @@ public class Animal extends AbstractMapElement implements MovableObservable {
         p2.currentEnergy -= delta2;
 
         return new Animal(position, delta1 + delta2, p1.genome, p2.genome);
+    }
+
+    public void eat(Food food) {
+        this.currentEnergy += food.getEnergy();
     }
 
     @Override

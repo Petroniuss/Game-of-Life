@@ -18,7 +18,7 @@ public class ParamsParser {
     }
 
     public static Params parse(String path) {
-        Params params = null;
+        final Params params;
         try {
             final var json = new String(Files.readAllBytes(Paths.get(path)));
             final var gson = new Gson();

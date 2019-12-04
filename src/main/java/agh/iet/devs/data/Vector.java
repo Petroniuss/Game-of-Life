@@ -74,6 +74,15 @@ public class Vector {
         return apply(i -> -i);
     }
 
+    public boolean withinRect(Rect rect) {
+        return withinRect(rect.lowerLeft, rect.upperRight);
+    }
+
+    public boolean withinRect(Vector lowerLeft, Vector upperRight) {
+        return lowerLeft.x <= this.x && this.x <= upperRight.x
+                && lowerLeft.y <= this.y && this.y <= upperRight.y;
+    }
+
     public Vector apply(IntFunction function) {
         return Vector.create(function.apply(this.x), function.apply(this.y));
     }
