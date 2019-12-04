@@ -9,6 +9,11 @@ import java.util.Set;
 public interface Region {
 
     /**
+     * Add new element to region.
+     */
+    void addElement(MapElement e);
+
+    /**
      * @return whether position is within region.
      */
     boolean isWithin(Vector position);
@@ -28,4 +33,5 @@ public interface Region {
      * @return position not occupied by any object.
      */
     Optional<Vector> emptyPosition();
+
 }

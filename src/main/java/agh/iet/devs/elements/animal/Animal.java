@@ -4,17 +4,10 @@ import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Direction;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.AbstractMapElement;
-import agh.iet.devs.elements.MapElement;
-import agh.iet.devs.elements.MovableObservable;
 import agh.iet.devs.elements.food.Food;
-import agh.iet.devs.map.OnMoveListener;
 
-import java.util.HashSet;
-import java.util.Set;
+public class Animal extends AbstractMapElement {
 
-public class Animal extends AbstractMapElement implements MovableObservable {
-
-    private final Set<OnMoveListener> onMoveListenerSet = new HashSet<>();
     private final Genome genome;
 
     private Direction orientation = Direction.random();
@@ -54,28 +47,12 @@ public class Animal extends AbstractMapElement implements MovableObservable {
         this.currentPosition = Config.getInstance().moveCoordinator
                 .validateMove(this.currentPosition.add(this.orientation.direction));
 
-        notifyOnMoveListeners(this, prev);
-    }
-
-    @Override
-    public void notifyOnMoveListeners(MapElement e, Vector prev) {
-        onMoveListenerSet.forEach(listener -> listener.onMove(e, prev));
-    }
-
-    @Override
-    public void attachListener(OnMoveListener listener) {
-        onMoveListenerSet.add(listener);
-    }
-
-    @Override
-    public void detachListener(OnMoveListener listener) {
-        onMoveListenerSet.remove(listener);
+        notifyOnMove(this, prev);
     }
 
     @Override
     public String toString() {
         return "Animal{" +
-                "onMoveListenerSet=" + onMoveListenerSet +
                 ", genome=" + genome +
                 ", orientation=" + orientation +
                 ", currentPosition=" + currentPosition +

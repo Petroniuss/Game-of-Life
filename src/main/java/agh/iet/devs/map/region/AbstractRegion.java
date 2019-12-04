@@ -2,13 +2,14 @@ package agh.iet.devs.map.region;
 
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
+import agh.iet.devs.map.MapElementObserver;
 import agh.iet.devs.map.OnMoveListener;
 import agh.iet.devs.map.OnVanishListener;
 
 import java.util.Map;
 import java.util.*;
 
-public abstract class AbstractRegion implements Region, OnMoveListener, OnVanishListener {
+public abstract class AbstractRegion implements Region, MapElementObserver {
     protected final Map<Vector, Set<MapElement>> elements = new HashMap<>();
     protected final Set<Vector> emptyPositions;
 
@@ -57,6 +58,18 @@ public abstract class AbstractRegion implements Region, OnMoveListener, OnVanish
             removeElement(e);
     }
 
+    @Override
+    public void addElement(MapElement e) {
+        if (isWithin(e.getPosition()))
+            addMapElement(e);
+
+        // Todo
+        // Register this as observer for given observable
+    }
+
+    /**
+     * Note that this method does not check if element is within region.
+     */
     protected void addMapElement(MapElement e) {
         final var key = e.getPosition();
 

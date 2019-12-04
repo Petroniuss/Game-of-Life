@@ -2,17 +2,17 @@ package agh.iet.devs.elements;
 
 import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
-import agh.iet.devs.map.OnVanishListener;
+import agh.iet.devs.map.MapElementObserver;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractMapElement implements MapElement, VanishingObservable {
+public abstract class AbstractMapElement implements MapElement {
 
     protected Vector currentPosition;
     protected int currentEnergy;
 
-    private Set<OnVanishListener> onVanishListenerSet = new HashSet<>();
+    private Set<MapElementObserver> observers = new HashSet<>();
 
     public AbstractMapElement(Vector initialPosition, int initialEnergy) {
         this.currentPosition = initialPosition;
@@ -44,18 +44,23 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
     }
 
     @Override
-    public void attachListener(OnVanishListener listener) {
-        onVanishListenerSet.add(listener);
+    public void notifyOnMove(MapElement e, Vector from) {
+        observers.forEach(observer -> observer.onMove(e, from));
     }
 
     @Override
-    public void detachListener(OnVanishListener listener) {
-        onVanishListenerSet.remove(listener);
+    public void notifyOnVanish(MapElement e) {
+        observers.forEach(observer -> observer.onVanish(e));
     }
 
     @Override
-    public void notifyOnVanishListeners() {
-        onVanishListenerSet.forEach(listener -> listener.onVanish(this));
+    public void attachListener(MapElementObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detachListener(MapElementObserver observer) {
+        observers.remove(observer);
     }
 
     /**
@@ -63,7 +68,7 @@ public abstract class AbstractMapElement implements MapElement, VanishingObserva
      */
     private boolean isAlive() {
         if (this.currentEnergy <= 0) {
-            notifyOnVanishListeners();
+            notifyOnVanish(this);
         }
 
         return this.currentEnergy > 0;
