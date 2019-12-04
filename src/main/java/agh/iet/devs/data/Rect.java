@@ -2,7 +2,6 @@ package agh.iet.devs.data;
 
 import java.util.Iterator;
 
-//Todo define iterator over each position within rect!
 public class Rect implements Iterable<Vector> {
     public final Vector lowerLeft;
     public final Vector upperRight;
