@@ -2,6 +2,10 @@ package agh.iet.devs.data;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RectTest {
@@ -19,5 +23,15 @@ class RectTest {
 
         assertEquals(Vector.create(0, 0), first);
         assertEquals(Vector.create(1, 1), last);
+    }
+
+    @Test
+    void test() {
+        var map = new HashMap<Integer, String>();
+
+        map.put(1, "a");
+        map.put(2, "b");
+
+        (new HashSet<>(map.entrySet())).stream().map(Map.Entry::getKey).forEach(map::remove);
     }
 }

@@ -11,6 +11,7 @@ import agh.iet.devs.map.region.Region;
 import agh.iet.devs.utils.CollectionsUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class World {
@@ -33,13 +34,12 @@ public class World {
     public void onUpdate() {
         addFood();
 
-        // Fixme concurent modification exception
-        // Possible fix iterate over copy.
         regions.stream()
                 .map(Region::objectsInRegion)
                 .flatMap(Collection::stream)
                 .map(Map.Entry::getValue)
                 .flatMap(Collection::stream)
+                .collect(Collectors.toList())
                 .forEach(MapElement::onUpdate);
 
         regions.stream()

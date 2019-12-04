@@ -22,7 +22,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
 
     @Override
     public Set<Map.Entry<Vector, Set<MapElement>>> objectsInRegion() {
-        return elements.entrySet();
+        return new HashSet<>(elements.entrySet()); // return shallow copy so that iterator does not fail!
     }
 
     @Override
@@ -31,7 +31,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public void onMove(MapElement e, Vector from) {
+    public synchronized void onMove(MapElement e, Vector from) {
         if (isWithin(from)) {
             elements.get(from).remove(e);
 
@@ -44,17 +44,18 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public void onVanish(MapElement e) {
+    public synchronized void onVanish(MapElement e) {
         final var position = e.getPosition();
 
         if (isWithin(position))
             removeElement(e);
 
-        e.detachListener(this); // Garbage collector would have taken care of it anyway..
+//        e.detachListener(this); // Garbage collector will take care of it anyway..
+//        If we were to do it like that we would have to create fail safe iterator over observers
     }
 
     @Override
-    public void attachElement(MapElement e) {
+    public synchronized void attachElement(MapElement e) {
         if (isWithin(e.getPosition()))
             addMapElement(e);
 
