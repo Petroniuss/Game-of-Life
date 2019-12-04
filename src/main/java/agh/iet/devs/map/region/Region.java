@@ -3,6 +3,7 @@ package agh.iet.devs.map.region;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public interface Region {
     /**
      * @return set of all objects on the region.
      */
-    Set<MapElement> objectsInRegion();
+    Set<Map.Entry<Vector, Set<MapElement>>> objectsInRegion();
 
     /**
      * @return position not occupied by any object.

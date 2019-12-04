@@ -4,7 +4,6 @@ import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 
 public class Jungle extends AbstractRegion {

@@ -37,6 +37,11 @@ public class Animal extends AbstractMapElement {
 
     public void eat(Food food) {
         this.currentEnergy += food.getEnergy();
+        food.onDeath();
+    }
+
+    public boolean eligibleForReproduction() {
+        return this.currentEnergy >= Config.getInstance().params.startEnergy / 2;
     }
 
     @Override

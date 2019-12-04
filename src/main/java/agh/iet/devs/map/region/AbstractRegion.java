@@ -21,12 +21,8 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public Set<MapElement> objectsInRegion() {
-        return elements.values().stream()
-                .reduce(new HashSet<>(), (a, e) -> {
-                    a.addAll(e);
-                    return a;
-                });
+    public Set<Map.Entry<Vector, Set<MapElement>>> objectsInRegion() {
+        return elements.entrySet();
     }
 
     @Override
