@@ -1,6 +1,5 @@
 package agh.iet.devs.elements.food;
 
-import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.AbstractMapElement;
 

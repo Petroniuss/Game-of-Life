@@ -3,10 +3,7 @@ package agh.iet.devs.map.region;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.map.MapElementObserver;
-import agh.iet.devs.map.OnMoveListener;
-import agh.iet.devs.map.OnVanishListener;
 
-import java.util.Map;
 import java.util.*;
 
 public abstract class AbstractRegion implements Region, MapElementObserver {
@@ -56,15 +53,16 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
 
         if (isWithin(position))
             removeElement(e);
+
+        e.detachListener(this); // Garbage collector would have taken care of it anyway..
     }
 
     @Override
-    public void addElement(MapElement e) {
+    public void attachElement(MapElement e) {
         if (isWithin(e.getPosition()))
             addMapElement(e);
 
-        // Todo
-        // Register this as observer for given observable
+        e.attachListener(this);
     }
 
     /**

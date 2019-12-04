@@ -11,7 +11,7 @@ public interface Region {
     /**
      * Add new element to region.
      */
-    void addElement(MapElement e);
+    void attachElement(MapElement e);
 
     /**
      * @return whether position is within region.
