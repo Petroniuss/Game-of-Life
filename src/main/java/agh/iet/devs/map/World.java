@@ -31,7 +31,7 @@ public class World {
                 .forEach(this::attachMapElement);
     }
 
-    public void onUpdate() {
+    public List<MapElement> onUpdate() {
         addFood();
 
         regions.stream()
@@ -48,6 +48,14 @@ public class World {
                 .map(Map.Entry::getValue)
                 .filter(set -> set.size() >= 2)
                 .forEach(this::handleCollisions);
+
+
+        return regions.stream()
+                .map(Region::objectsInRegion)
+                .flatMap(Collection::stream)
+                .map(Map.Entry::getValue)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -66,8 +74,11 @@ public class World {
 
         if (!set.isEmpty()) {
             final var parent = findHealthiestAnimal(set);
-            final var kid = Animal.cross(healthiest, parent);
-            attachMapElement(kid);
+
+            if (parent.eligibleForReproduction()) {
+                final var kid = Animal.cross(healthiest, parent);
+                attachMapElement(kid);
+            }
         }
     }
 
