@@ -12,6 +12,7 @@ public class Config {
 
     public final Params params;
     public final MoveCoordinator moveCoordinator;
+    public final String name = "Game Of Life";
 
     private Config() {
         this.params = ParamsParser.parse();

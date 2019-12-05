@@ -1,0 +1,17 @@
+.root {
+    -fx-background-color:#4A586E;
+}
+
+.grassland-field {
+    -fx-background-color: #FFAF50;
+}
+
+.jungle-field {
+    -fx-background-color: #4BB462;
+}
+
+.field {
+    -fx-border-color: #2F3640;
+    -fx-border-width: 0.4;
+}
+
