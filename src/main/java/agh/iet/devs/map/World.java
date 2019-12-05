@@ -9,6 +9,7 @@ import agh.iet.devs.map.region.Grassland;
 import agh.iet.devs.map.region.Jungle;
 import agh.iet.devs.map.region.Region;
 import agh.iet.devs.utils.CollectionsUtils;
+import agh.iet.devs.view.OnAttachListener;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,8 +18,11 @@ import java.util.stream.IntStream;
 public class World {
     private final List<Region> regions = new LinkedList<>();
     private final Config config = Config.getInstance();
+    private final OnAttachListener listener;
 
-    public World() {
+    public World(OnAttachListener listener) {
+        this.listener = listener;
+
         regions.add(new Jungle(config.jungleBounds()));
         regions.add(new Grassland(config.outerBounds(), config.jungleBounds()));
 
@@ -111,6 +115,7 @@ public class World {
 
     private void attachMapElement(MapElement e) {
         regions.forEach(region -> region.attachElement(e));
+        listener.onAttach(e);
     }
 
 }
