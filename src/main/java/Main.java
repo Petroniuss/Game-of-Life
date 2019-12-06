@@ -1,6 +1,6 @@
 import agh.iet.devs.config.Config;
 import agh.iet.devs.map.World;
-import agh.iet.devs.view.MainMenu;
+import agh.iet.devs.view.SettingsMenu;
 import agh.iet.devs.view.StatisticsMenu;
 import agh.iet.devs.view.ViewController;
 import javafx.application.Application;
@@ -25,7 +25,7 @@ public class Main extends Application {
 
     // UI
     private final AtomicBoolean running = new AtomicBoolean(true);
-    private final AtomicLong interval = new AtomicLong(MainMenu.MAX_INTERVAL / 2);
+    private final AtomicLong interval = new AtomicLong(SettingsMenu.MIN_INTERVAL);
 
     private final AtomicInteger animalCount = new AtomicInteger(0);
     private final AtomicInteger foodCount = new AtomicInteger(0);
@@ -40,7 +40,7 @@ public class Main extends Application {
         this.world = new World(controller);
         this.statisticsMenu = new StatisticsMenu(animalCount, foodCount, dayCount);
 
-        final var menu = new MainMenu(running, interval);
+        final var menu = new SettingsMenu(running, interval);
         final var vbox = new VBox(new MenuBar(menu, statisticsMenu), grid);
 
         grid.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -70,7 +70,7 @@ public class Main extends Application {
         stage.setTitle(config.name);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/icon.jpg")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/icon.png")));
         stage.show();
     }
 

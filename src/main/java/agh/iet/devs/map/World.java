@@ -20,9 +20,6 @@ public class World {
     private final Config config = Config.getInstance();
     private final UpdateListener listener;
 
-    private int foodCounter = 0;
-    private int animalCounter = 0;
-
     public World(UpdateListener listener) {
         this.listener = listener;
 
@@ -69,6 +66,7 @@ public class World {
 
     /**
      * Note that this method should be called when set contains >= 2 elems.
+     * I think some kind of bug occurs when 3 animals and food happen to be on the same position.
      */
     private void handleCollisions(Set<MapElement> elements) {
         final var healthiest = findHealthiestAnimal(elements);
@@ -110,8 +108,6 @@ public class World {
      * If there's place adds food to each region.
      */
     private void addFood() {
-        foodCounter += regions.size();
-
         regions.stream()
                 .map(Region::emptyPosition)
                 .filter(Optional::isPresent)

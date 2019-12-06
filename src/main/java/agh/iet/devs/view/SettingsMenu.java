@@ -1,17 +1,19 @@
 package agh.iet.devs.view;
 
-import javafx.beans.value.ChangeListener;
+import agh.iet.devs.utils.GeneralUtils;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class MainMenu extends Menu {
+public class SettingsMenu extends Menu {
 
     public static final long MAX_INTERVAL = 200;
     public static final long MIN_INTERVAL = 20;
@@ -21,13 +23,13 @@ public class MainMenu extends Menu {
 
     private final Button pausePlayButton;
 
-    public MainMenu(AtomicBoolean running, AtomicLong interval) {
+    public SettingsMenu(AtomicBoolean running, AtomicLong interval) {
         super("Settings");
 
         this.running = running;
         this.interval = interval;
 
-        final var slider = new Slider(0.0, 1.0, 0.0);
+        final var slider = new Slider(0.0, 1.0, 1.0);
         slider.valueProperty().addListener(this::onSwiped);
 
         final var label = new Label("Evolution speed");
@@ -36,11 +38,11 @@ public class MainMenu extends Menu {
         final var firstItem = new CustomMenuItem(vbox, false);
 
         this.pausePlayButton = new Button("Pause");
+        this.pausePlayButton.setGraphic(new ImageView(ButtonGraphics.PAUSE.image));
+        this.setGraphic(new ImageView(ButtonGraphics.PLAY.image));
         this.pausePlayButton.setOnAction(this::onButtonClick);
 
         final var anotherVBox = new HBox(this.pausePlayButton);
-        anotherVBox.setAlignment(Pos.CENTER);
-        anotherVBox.setAlignment(Pos.CENTER_RIGHT);
         final var secondItem = new CustomMenuItem(anotherVBox, true);
 
         getItems().addAll(firstItem, new CustomMenuItem(label), secondItem);
@@ -56,8 +58,22 @@ public class MainMenu extends Menu {
 
         if (wasRunning) {
             this.pausePlayButton.setText("Play");
+            this.pausePlayButton.setGraphic(new ImageView(ButtonGraphics.PLAY.image));
+            this.setGraphic(new ImageView(ButtonGraphics.PAUSE.image));
         } else {
+            this.setGraphic(new ImageView(ButtonGraphics.PLAY.image));
+            this.pausePlayButton.setGraphic(new ImageView(ButtonGraphics.PAUSE.image));
             this.pausePlayButton.setText("Pause");
+        }
+    }
+
+    private enum ButtonGraphics {
+        PLAY("play-button.png"),
+        PAUSE("pause-button.png");
+
+        final Image image;
+        ButtonGraphics(String name) {
+            this.image = GeneralUtils.fromResources(name);
         }
     }
 

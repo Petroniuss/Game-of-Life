@@ -1,6 +1,7 @@
 package agh.iet.devs.elements;
 
 import agh.iet.devs.data.Vector;
+import agh.iet.devs.utils.GeneralUtils;
 import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
@@ -17,18 +18,12 @@ public interface MapElement extends MapElementObservable {
     Icon getIcon();
 
     enum Icon {
-        Animal("panda.png"),
+        Animal("animal.png"),
         Food("weed.png");
 
         public final Image img;
         Icon(String name) {
-            FileInputStream input = null;
-            try {
-                input = new FileInputStream("src/main/resources/images/" + name);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            this.img = new Image(input);
+            this.img = GeneralUtils.fromResources(name);
         }
     }
 

@@ -22,4 +22,12 @@ public class Food extends AbstractMapElement {
     protected void update() {
         // Ignore!
     }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "currentPosition=" + currentPosition +
+                ", currentEnergy=" + currentEnergy +
+                '}';
+    }
 }

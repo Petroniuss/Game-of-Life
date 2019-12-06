@@ -1,8 +1,10 @@
 package agh.iet.devs.view;
 
+import agh.iet.devs.utils.GeneralUtils;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.image.ImageView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,6 +28,8 @@ public class StatisticsMenu extends Menu {
         this.dayLabel = new Label("Day: " + dayCount.get());
         this.animalLabel = new Label("Animals: " + animalCount.get());
         this.foodLabel = new Label("Food: " + foodCount.get());
+
+        setGraphic(new ImageView(GeneralUtils.fromResources("bar-chart.png")));
 
         getItems().addAll(
                 new CustomMenuItem(dayLabel),
