@@ -1,6 +1,7 @@
 import agh.iet.devs.config.Config;
 import agh.iet.devs.map.World;
 import agh.iet.devs.view.MainMenu;
+import agh.iet.devs.view.StatisticsMenu;
 import agh.iet.devs.view.ViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Main extends Application {
@@ -19,10 +21,15 @@ public class Main extends Application {
     private static final int WINDOW_HEIGHT = 900;
 
     private World world;
+    private StatisticsMenu statisticsMenu;
 
     // UI
-    private AtomicBoolean running = new AtomicBoolean(true);
-    private AtomicLong interval = new AtomicLong(MainMenu.MAX_INTERVAL / 2);
+    private final AtomicBoolean running = new AtomicBoolean(true);
+    private final AtomicLong interval = new AtomicLong(MainMenu.MAX_INTERVAL / 2);
+
+    private final AtomicInteger animalCount = new AtomicInteger(0);
+    private final AtomicInteger foodCount = new AtomicInteger(0);
+    private final AtomicLong dayCount = new AtomicLong(0);
 
     @Override
     public void start(Stage stage) {
@@ -31,9 +38,10 @@ public class Main extends Application {
         final var controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         this.world = new World(controller);
+        this.statisticsMenu = new StatisticsMenu(animalCount, foodCount, dayCount);
 
         final var menu = new MainMenu(running, interval);
-        final var vbox = new VBox(new MenuBar(menu), grid);
+        final var vbox = new VBox(new MenuBar(menu, statisticsMenu), grid);
 
         grid.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -41,7 +49,11 @@ public class Main extends Application {
         scene.getStylesheets().add(getClass().getResource("styles/styles.css").toExternalForm());
 
         Thread thread = new Thread(() -> {
-            Runnable updater = () -> world.onUpdate();
+            Runnable updater = () -> {
+                this.dayCount.incrementAndGet();
+                world.onUpdate();
+                this.statisticsMenu.update();
+            };
             while (true) {
                 try {
                     Thread.sleep(interval.get());
@@ -58,7 +70,7 @@ public class Main extends Application {
         stage.setTitle(config.name);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/icon.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/icon.jpg")));
         stage.show();
     }
 

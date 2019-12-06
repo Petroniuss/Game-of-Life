@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class MainMenu extends Menu {
 
-    public static final long MAX_INTERVAL = 500;
-    public static final long MIN_INTERVAL = 50;
+    public static final long MAX_INTERVAL = 200;
+    public static final long MIN_INTERVAL = 20;
 
     private final AtomicBoolean running;
     private final AtomicLong interval;
@@ -27,10 +27,11 @@ public class MainMenu extends Menu {
         this.running = running;
         this.interval = interval;
 
-
         final var slider = new Slider(0.0, 1.0, 0.0);
         slider.valueProperty().addListener(this::onSwiped);
+
         final var label = new Label("Evolution speed");
+        label.setLabelFor(slider);
         final var vbox = new VBox(slider, label);
         final var firstItem = new CustomMenuItem(vbox, false);
 
@@ -39,7 +40,7 @@ public class MainMenu extends Menu {
 
         final var anotherVBox = new HBox(this.pausePlayButton);
         anotherVBox.setAlignment(Pos.CENTER);
-
+        anotherVBox.setAlignment(Pos.CENTER_RIGHT);
         final var secondItem = new CustomMenuItem(anotherVBox, true);
 
         getItems().addAll(firstItem, new CustomMenuItem(label), secondItem);
