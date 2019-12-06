@@ -12,8 +12,8 @@ public class MoveCoordinator {
     }
 
     public Vector validateMove(Vector move) {
-        var x = move.x % width;
-        var y = move.y % height;
+        var x = move.x % (width + 1);
+        var y = move.y % (height + 1);
 
         if (move.x < 0)
             x = width - Math.abs(move.x);
