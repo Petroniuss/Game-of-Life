@@ -3,6 +3,7 @@ package agh.iet.devs.map.region;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.map.MapElementObserver;
+import agh.iet.devs.utils.CollectionsUtils;
 
 import java.util.*;
 
@@ -27,7 +28,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
 
     @Override
     public Optional<Vector> emptyPosition() {
-        return emptyPositions.stream().findAny();
+        return emptyPositions.stream().findAny();// for some reason it returns same
     }
 
     @Override

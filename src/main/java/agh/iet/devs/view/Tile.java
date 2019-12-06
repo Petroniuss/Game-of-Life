@@ -20,8 +20,7 @@ public class Tile extends Button {
 
 
     public Tile(double width, double height, TileType type) {
-        setPrefWidth(width);
-        setPrefHeight(height);
+        setPrefSize(width, height);
         setMaxSize(width, height);
         setMinSize(width, height);
 
@@ -31,8 +30,8 @@ public class Tile extends Button {
     public void renderIcon(MapElement.Icon icon) {
         final ImageView imageView = new ImageView(icon.img);
 
-        imageView.setFitWidth(this.getPrefWidth() - 5);
-        imageView.setFitHeight(this.getPrefHeight() - 5);
+        imageView.setFitWidth(this.getPrefWidth() * 0.8);
+        imageView.setFitHeight(this.getPrefHeight() * 0.8);
 
         setGraphic(imageView);
     }

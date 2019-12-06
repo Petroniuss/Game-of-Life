@@ -4,15 +4,12 @@ import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
-import agh.iet.devs.elements.animal.Animal;
-import agh.iet.devs.elements.food.Food;
-import agh.iet.devs.map.MapElementObserver;
 import javafx.scene.layout.GridPane;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class ViewController implements MapElementObserver, OnAttachListener {
+public class ViewController implements UpdateListener {
 
     private final HashMap<Vector, Tile> nodes = new HashMap<>();
     private final Rect bounds;
@@ -36,8 +33,8 @@ public class ViewController implements MapElementObserver, OnAttachListener {
         }
     }
 
-
-    public void update(List<MapElement> updated) {
+    @Override
+    public void onUpdate(List<MapElement> updated) {
         for (Vector key : this.bounds)
             nodes.get(key).clear();
 
@@ -46,28 +43,5 @@ public class ViewController implements MapElementObserver, OnAttachListener {
 
     private void draw(MapElement e) {
         nodes.get(e.getPosition()).renderIcon(e.getIcon());
-    }
-
-    // DON"T SHOW THIS CODE TO YOUR KIDS!!!
-    @Override
-    public void onMove(MapElement e, Vector from) {
-        nodes.get(from).clear();
-//        nodes.get(e.getPosition()).renderIcon(MapElement.Icon.Animal);
-    }
-
-    @Override
-    public void onVanish(MapElement element) {
-        nodes.get(element.getPosition()).clear();
-    }
-
-    @Override
-    public void onAttach(MapElement e) {
-        final var node = nodes.get(e.getPosition());
-
-        if (e instanceof Animal) {
-//            node.renderIcon(Tile.Icon.Animal);
-        } else if (e instanceof Food) {
-//            node.renderIcon(Tile.Icon.Food);
-        }
     }
 }

@@ -36,7 +36,7 @@ public class Main extends Application {
 
             while (true) {
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(50);
                 } catch (InterruptedException ignore) {}
 
                 // UI update is run on the Application thread
@@ -49,6 +49,7 @@ public class Main extends Application {
 
         stage.setTitle(config.name);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

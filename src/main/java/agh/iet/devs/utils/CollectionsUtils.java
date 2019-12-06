@@ -1,5 +1,6 @@
 package agh.iet.devs.utils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
