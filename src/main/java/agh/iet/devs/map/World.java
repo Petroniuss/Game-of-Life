@@ -115,7 +115,7 @@ public class World {
 
     private void attachMapElement(MapElement e) {
         regions.forEach(region -> region.attachElement(e));
-        listener.onAttach(e);
+//        listener.onAttach(e);
     }
 
 }

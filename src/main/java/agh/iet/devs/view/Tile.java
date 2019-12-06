@@ -1,11 +1,8 @@
 package agh.iet.devs.view;
 
+import agh.iet.devs.elements.MapElement;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class Tile extends Button {
 
@@ -21,21 +18,6 @@ public class Tile extends Button {
         }
     }
 
-    public enum Icon {
-        Animal("panda.png"),
-        Food("food.png");
-
-        final Image img;
-        Icon(String name) {
-            FileInputStream input = null;
-            try {
-                input = new FileInputStream("src/main/resources/images/" + name);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            this.img = new Image(input);
-        }
-    }
 
     public Tile(double width, double height, TileType type) {
         setPrefWidth(width);
@@ -46,7 +28,7 @@ public class Tile extends Button {
         getStyleClass().addAll(defaultStyle, type.style);
     }
 
-    public void renderIcon(Icon icon) {
+    public void renderIcon(MapElement.Icon icon) {
         final ImageView imageView = new ImageView(icon.img);
 
         imageView.setFitWidth(this.getPrefWidth() - 5);

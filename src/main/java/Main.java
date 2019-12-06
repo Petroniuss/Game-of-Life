@@ -3,7 +3,6 @@ import agh.iet.devs.map.World;
 import agh.iet.devs.view.ViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -19,7 +18,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         final var config = Config.getInstance();
-
         final var grid = new GridPane();
 
         this.controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -30,24 +28,20 @@ public class Main extends Application {
         final var scene = new Scene(grid, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.getStylesheets().add(getClass().getResource("styles/styles.css").toExternalForm());
 
-        // longrunning operation runs on different thread
-        Thread thread = new Thread(new Runnable() {
+        Thread thread = new Thread(() -> {
+            Runnable updater = () -> {
+                final var toUpdate = world.onUpdate();
+                this.controller.update(toUpdate);
+            };
 
-            @Override
-            public void run() {
-                Runnable updater = () -> world.onUpdate();
+            while (true) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException ignore) {}
 
-                while (true) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException ex) {
-                    }
-
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
+                // UI update is run on the Application thread
+                Platform.runLater(updater);
             }
-
         });
         // don't let thread prevent JVM shutdown
         thread.setDaemon(true);

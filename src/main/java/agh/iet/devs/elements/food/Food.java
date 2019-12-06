@@ -14,6 +14,11 @@ public class Food extends AbstractMapElement {
     }
 
     @Override
+    public Icon getIcon() {
+        return Icon.Food;
+    }
+
+    @Override
     protected void update() {
         // Ignore!
     }

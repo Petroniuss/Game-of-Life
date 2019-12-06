@@ -56,6 +56,11 @@ public class Animal extends AbstractMapElement {
     }
 
     @Override
+    public Icon getIcon() {
+        return Icon.Animal;
+    }
+
+    @Override
     public String toString() {
         return "Animal{" +
                 ", genome=" + genome +
