@@ -13,8 +13,9 @@ public enum Direction {
     WEST(Vector.create(-1, 0)),
     NORTHWEST(Vector.create(-1, 1));
 
-    public final Vector direction;
+    private static final Random random = new Random();
 
+    public final Vector direction;
     Direction(Vector direction) {
         this.direction = direction;
     }
@@ -24,7 +25,7 @@ public enum Direction {
     }
 
     public static Direction random() {
-        return Direction.values()[new Random().nextInt(Direction.values().length)];
+        return Direction.values()[random.nextInt(Direction.values().length)];
     }
 
 }
