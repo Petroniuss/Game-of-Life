@@ -14,8 +14,4 @@ public final class ViewConfiguration {
         return GeneralUtils.fromImages("icon.png");
     }
 
-    public static String globalStyles() {
-        getClass().getResource("styles/styles.css").toExternalForm()
-    }
-
 }

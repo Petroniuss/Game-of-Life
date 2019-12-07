@@ -1,13 +1,12 @@
-import agh.iet.devs.config.Config;
 import agh.iet.devs.map.World;
 import agh.iet.devs.view.SettingsMenu;
 import agh.iet.devs.view.StatisticsMenu;
+import agh.iet.devs.view.ViewConfiguration;
 import agh.iet.devs.view.ViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -18,10 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Main extends Application {
-    private static final int WINDOW_WIDTH = 1600;
-    private static final int WINDOW_HEIGHT = 900;
+import static agh.iet.devs.view.ViewConfiguration.*;
 
+public class Main extends Application {
     private World world;
     private StatisticsMenu statisticsMenu;
     private SettingsMenu settingsMenu;
@@ -39,7 +37,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        final var config = Config.getInstance();
         final var grid = new GridPane();
         final var controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -50,7 +47,7 @@ public class Main extends Application {
         final var vbox = new VBox(new MenuBar(settingsMenu, statisticsMenu), grid);
 
         final var scene = new Scene(vbox);
-        scene.getStylesheets().add(getClass().getResource("styles/styles.css").toExternalForm());
+        scene.getStylesheets().add(getStyleSheets());
 
         Thread thread = new Thread(() -> {
             Runnable updater = () -> {
@@ -73,10 +70,10 @@ public class Main extends Application {
 
         scene.setOnKeyPressed(this::onKeyPressed);
 
-        stage.setTitle(config.name);
+        stage.setTitle(ViewConfiguration.TITLE);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/icon.png")));
+        stage.getIcons().add(ViewConfiguration.icon());
         stage.show();
     }
 
@@ -87,6 +84,10 @@ public class Main extends Application {
             this.settingsMenu.onPausePlayEvent();
         else if (code == KeyCode.ESCAPE)
             System.exit(0);
+    }
+
+    private String getStyleSheets() {
+        return getClass().getResource("styles/styles.css").toExternalForm();
     }
 
 }

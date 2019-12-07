@@ -15,8 +15,7 @@ public class Animal extends AbstractMapElement {
     private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2) {
         super(initialPosition, initialEnergy);
 
-//        this.genome = new Genome(g1, g2);
-        this.genome = new Genome();
+        this.genome = new Genome(g1, g2);
     }
 
     public Animal(Vector initialPosition, int initialEnergy) {

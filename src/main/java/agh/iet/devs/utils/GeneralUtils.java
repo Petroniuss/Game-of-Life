@@ -19,7 +19,6 @@ public final class GeneralUtils {
 
     private static final String resources = "src/main/resources/".replace("/", File.separator);
     private static final String images = resources + File.separator + "images" + File.separator;
-    private static final String styles = resources + File.separator + "styles" + File.separator;
     private static final String configuration = resources + File.separator + "configuration" + File.separator;
 
     public static Image fromImages(String name) {
@@ -32,17 +31,9 @@ public final class GeneralUtils {
         throw new AssertionError("No way");
     }
 
-    public static String fromStylesResources(String name) {
-        try {
-            return new String(Files.readAllBytes(Paths.get(styles + name)));
-        } catch (IOException ignore) {}
-
-        throw new AssertionError("No way");
-    }
-
     public static byte[] fromConfiguration(String name) {
         try {
-            return Files.readAllBytes(Paths.get(styles + name));
+            return Files.readAllBytes(Paths.get(configuration + name));
         } catch (IOException ignore) {}
 
         throw new AssertionError("No way");
