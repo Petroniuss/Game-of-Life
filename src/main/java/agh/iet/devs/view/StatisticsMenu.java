@@ -29,7 +29,7 @@ public class StatisticsMenu extends Menu {
         this.animalLabel = new Label("Animals: " + animalCount.get());
         this.foodLabel = new Label("Food: " + foodCount.get());
 
-        setGraphic(new ImageView(GeneralUtils.fromResources("bar-chart.png")));
+        setGraphic(new ImageView(GeneralUtils.fromImages("bar-chart.png")));
 
         getItems().addAll(
                 new CustomMenuItem(dayLabel),

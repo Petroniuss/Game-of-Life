@@ -2,23 +2,50 @@ package agh.iet.devs.utils;
 
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 public final class GeneralUtils {
+
     private static final Random random = new Random();
 
-    public static Image fromResources(String name) {
-        FileInputStream input = null;
+    private static final String resources = "src/main/resources/".replace("/", File.separator);
+    private static final String images = resources + File.separator + "images" + File.separator;
+    private static final String styles = resources + File.separator + "styles" + File.separator;
+    private static final String configuration = resources + File.separator + "configuration" + File.separator;
 
+    public static Image fromImages(String name) {
         try {
-            input = new FileInputStream("src/main/resources/images/" + name);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+            final var input = new FileInputStream(images + name);
 
-        return new Image(input);
+            return new Image(input);
+        } catch (FileNotFoundException ignore) {}
+
+        throw new AssertionError("No way");
+    }
+
+    public static String fromStylesResources(String name) {
+        try {
+            return new String(Files.readAllBytes(Paths.get(styles + name)));
+        } catch (IOException ignore) {}
+
+        throw new AssertionError("No way");
+    }
+
+    public static byte[] fromConfiguration(String name) {
+        try {
+            return Files.readAllBytes(Paths.get(styles + name));
+        } catch (IOException ignore) {}
+
+        throw new AssertionError("No way");
     }
 
     public static <E> E random(List<E> c) {

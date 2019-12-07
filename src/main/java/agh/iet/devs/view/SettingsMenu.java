@@ -61,7 +61,7 @@ public class SettingsMenu extends Menu {
 
         final Image image;
         ButtonGraphics(String name) {
-            this.image = GeneralUtils.fromResources(name);
+            this.image = GeneralUtils.fromImages(name);
         }
     }
 

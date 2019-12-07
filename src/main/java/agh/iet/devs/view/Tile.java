@@ -30,7 +30,7 @@ public class Tile extends Button {
 
         final var tooltip = new Tooltip("Empty spot");
 
-        tooltip.setShowDelay(Duration.millis(500));
+        tooltip.setShowDelay(Duration.ZERO);
         tooltip.setShowDuration(Duration.INDEFINITE);
         tooltip.getStyleClass().add("tile-tooltip");
 

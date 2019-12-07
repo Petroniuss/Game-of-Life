@@ -20,7 +20,7 @@ public interface MapElement extends MapElementObservable {
 
         public final Image img;
         Icon(String name) {
-            this.img = GeneralUtils.fromResources(name);
+            this.img = GeneralUtils.fromImages(name);
         }
     }
 
