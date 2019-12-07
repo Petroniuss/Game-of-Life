@@ -23,7 +23,7 @@ public class Jungle extends AbstractRegion {
 
     private static Collection<Vector> rectToVectors(Rect rect) {
         final var collection = new LinkedList<Vector>();
-        rect.iterator().forEachRemaining(collection::add);
+        rect.iterator().forEachRemaining(collection::addFirst);
 
         return collection;
     }

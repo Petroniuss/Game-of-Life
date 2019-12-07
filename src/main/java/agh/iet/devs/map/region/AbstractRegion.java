@@ -17,8 +17,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
 
     @Override
     public Set<MapElement> objectsAt(Vector position) {
-        return elements
-                .getOrDefault(position, Collections.emptySet());
+        return elements.getOrDefault(position, Collections.emptySet());
     }
 
     @Override

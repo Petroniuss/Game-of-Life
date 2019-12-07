@@ -28,7 +28,7 @@ public class Grassland extends AbstractRegion {
 
         for (Vector v : outer) {
             if (!v.withinRect(inner))
-                collection.add(v);
+                collection.addFirst(v);
         }
 
         return collection;

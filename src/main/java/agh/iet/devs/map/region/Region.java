@@ -15,23 +15,24 @@ public interface Region {
     void attachElement(MapElement e);
 
     /**
-     * @return whether position is within region.
+     * @return Whether position is within region.
      */
     boolean isWithin(Vector position);
 
     /**
-     * @return set with elements occupying position, empty if none.
+     * @return Set with elements occupying position, empty if none.
      */
     Set<MapElement> objectsAt(Vector position);
 
 
     /**
-     * @return set of all objects on the region.
+     * @return Set of all objects on the region.
+     * Note that it should return a shallow copy so that iterator wouldn't fail during updates.
      */
     Set<Map.Entry<Vector, Set<MapElement>>> objectsInRegion();
 
     /**
-     * @return position not occupied by any object.
+     * @return Position not occupied by any object, empty if no such exists.
      */
     Optional<Vector> emptyPosition();
 
