@@ -8,7 +8,7 @@ import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.region.Grassland;
 import agh.iet.devs.map.region.Jungle;
 import agh.iet.devs.map.region.Region;
-import agh.iet.devs.utils.CollectionsUtils;
+import agh.iet.devs.utils.GeneralUtils;
 import agh.iet.devs.view.UpdateListener;
 
 import java.util.*;
@@ -27,7 +27,7 @@ public class World {
         regions.add(new Grassland(config.outerBounds(), config.jungleBounds()));
 
         IntStream.range(0, config.params.animalsAtStart)
-                .mapToObj(i -> CollectionsUtils.random(regions))
+                .mapToObj(i -> GeneralUtils.random(regions))
                 .map(Region::emptyPosition)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

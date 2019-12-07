@@ -4,10 +4,11 @@ import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public final class GeneralUtils {
+
+    private static final Random random = new Random();
 
     public static Image fromResources(String name) {
         FileInputStream input = null;
@@ -25,6 +26,20 @@ public final class GeneralUtils {
         final var i = new Random().nextInt(c.size());
 
         return c.get(i);
+    }
+
+    public static <E> Optional<E> random(Collection<E> e) {
+        final var size = e.size();
+        if (size < 1)
+            return Optional.empty();
+
+        var i = random.nextInt(size);
+        for (E el : e) {
+            if (i-- == 0)
+                return Optional.of(el);
+        }
+
+        throw new AssertionError("No way");
     }
 
 }

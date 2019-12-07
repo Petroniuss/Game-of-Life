@@ -3,7 +3,7 @@ package agh.iet.devs.map.region;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.map.MapElementObserver;
-import agh.iet.devs.utils.CollectionsUtils;
+import agh.iet.devs.utils.GeneralUtils;
 
 import java.util.*;
 
@@ -23,16 +23,16 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
 
     @Override
     public Set<Map.Entry<Vector, Set<MapElement>>> objectsInRegion() {
-        return new HashSet<>(elements.entrySet()); // return shallow copy so that iterator does not fail!
+        return new HashSet<>(elements.entrySet());
     }
 
     @Override
     public Optional<Vector> emptyPosition() {
-        return emptyPositions.stream().findAny();// for some reason it returns same
+        return GeneralUtils.random(emptyPositions);
     }
 
     @Override
-    public synchronized void onMove(MapElement e, Vector from) {
+    public void onMove(MapElement e, Vector from) {
         if (isWithin(from)) {
             elements.get(from).remove(e);
 
@@ -45,18 +45,15 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public synchronized void onVanish(MapElement e) {
+    public void onVanish(MapElement e) {
         final var position = e.getPosition();
 
         if (isWithin(position))
             removeElement(e);
-
-//        e.detachListener(this); // Garbage collector will take care of it anyway..
-//        If we were to do it like that we would have to create fail safe iterator over observers
     }
 
     @Override
-    public synchronized void attachElement(MapElement e) {
+    public void attachElement(MapElement e) {
         if (isWithin(e.getPosition()))
             addMapElement(e);
 
