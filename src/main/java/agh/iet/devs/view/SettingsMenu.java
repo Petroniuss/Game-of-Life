@@ -3,7 +3,6 @@ package agh.iet.devs.view;
 import agh.iet.devs.utils.GeneralUtils;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

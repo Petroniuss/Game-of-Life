@@ -2,6 +2,12 @@ package agh.iet.devs.config;
 
 import agh.iet.devs.data.Vector;
 
+/**
+ * Class responsible for adjusting positions of movable objects on a map.
+ *
+ * Namely,
+ * When animal moves to the left of left edge he comes out the right one.
+ */
 public class MoveCoordinator {
     private final int width;
     private final int height;
