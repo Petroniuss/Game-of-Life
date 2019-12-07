@@ -8,6 +8,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,14 +24,18 @@ public class Main extends Application {
 
     private World world;
     private StatisticsMenu statisticsMenu;
+    private SettingsMenu settingsMenu;
 
-    // UI
     private final AtomicBoolean running = new AtomicBoolean(true);
-    private final AtomicLong interval = new AtomicLong(SettingsMenu.MIN_INTERVAL);
+    private final AtomicLong interval = new AtomicLong(SettingsMenu.MAX_INTERVAL);
 
     private final AtomicInteger animalCount = new AtomicInteger(0);
     private final AtomicInteger foodCount = new AtomicInteger(0);
     private final AtomicLong dayCount = new AtomicLong(0);
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage stage) {
@@ -39,11 +45,9 @@ public class Main extends Application {
 
         this.world = new World(controller);
         this.statisticsMenu = new StatisticsMenu(animalCount, foodCount, dayCount);
+        this.settingsMenu = new SettingsMenu(running, interval);
 
-        final var menu = new SettingsMenu(running, interval);
-        final var vbox = new VBox(new MenuBar(menu, statisticsMenu), grid);
-
-        grid.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        final var vbox = new VBox(new MenuBar(settingsMenu, statisticsMenu), grid);
 
         final var scene = new Scene(vbox);
         scene.getStylesheets().add(getClass().getResource("styles/styles.css").toExternalForm());
@@ -67,6 +71,8 @@ public class Main extends Application {
         thread.setDaemon(true);
         thread.start();
 
+        scene.setOnKeyPressed(this::onKeyPressed);
+
         stage.setTitle(config.name);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -74,9 +80,13 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
+    private void onKeyPressed(KeyEvent event) {
+        final var code = event.getCode();
 
+        if (code == KeyCode.P)
+            this.settingsMenu.onPausePlayEvent();
+        else if (code == KeyCode.ESCAPE)
+            System.exit(0);
+    }
 
 }

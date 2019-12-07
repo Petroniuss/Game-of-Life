@@ -10,8 +10,8 @@ public class Params {
     public final int animalsAtStart;
 
     public Params(int width, int height, int startEnergy, int moveEnergy, int plantEnergy, double jungleRatio, int animalsAtStart) {
-        this.width = width - 1;
-        this.height = height - 1;
+        this.width = width;
+        this.height = height;
         this.startEnergy = startEnergy;
         this.moveEnergy = moveEnergy;
         this.plantEnergy = plantEnergy;

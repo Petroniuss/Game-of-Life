@@ -15,7 +15,8 @@ public class Animal extends AbstractMapElement {
     private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2) {
         super(initialPosition, initialEnergy);
 
-        this.genome = new Genome(g1, g2);
+//        this.genome = new Genome(g1, g2);
+        this.genome = new Genome();
     }
 
     public Animal(Vector initialPosition, int initialEnergy) {
@@ -62,12 +63,12 @@ public class Animal extends AbstractMapElement {
 
     @Override
     public String toString() {
-        return "Animal{" +
-                ", genome=" + genome +
-                ", orientation=" + orientation +
-                ", currentPosition=" + currentPosition +
-                ", currentEnergy=" + currentEnergy +
-                '}';
+        return "Animal\n" +
+                genome +
+                "\nOrientation = " + orientation +
+                "\n Current Position = " + currentPosition +
+                "\n Current Energy = " + currentEnergy +
+                "\n";
     }
 
 }

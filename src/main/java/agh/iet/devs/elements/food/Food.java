@@ -25,9 +25,8 @@ public class Food extends AbstractMapElement {
 
     @Override
     public String toString() {
-        return "Food{" +
-                "currentPosition=" + currentPosition +
-                ", currentEnergy=" + currentEnergy +
-                '}';
+        return "Food" +
+                "\nCurrentPosition = " + currentPosition +
+                "\n CurrentEnergy = " + currentEnergy;
     }
 }

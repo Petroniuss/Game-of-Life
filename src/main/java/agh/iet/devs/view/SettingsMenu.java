@@ -15,8 +15,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class SettingsMenu extends Menu {
 
-    public static final long MAX_INTERVAL = 200;
-    public static final long MIN_INTERVAL = 20;
+    public static final long MAX_INTERVAL = 150;
+    public static final long MIN_INTERVAL = 50;
 
     private final AtomicBoolean running;
     private final AtomicLong interval;
@@ -29,7 +29,7 @@ public class SettingsMenu extends Menu {
         this.running = running;
         this.interval = interval;
 
-        final var slider = new Slider(0.0, 1.0, 1.0);
+        final var slider = new Slider(0.0, 1.0, 0.0);
         slider.valueProperty().addListener(this::onSwiped);
 
         final var label = new Label("Evolution speed");
@@ -53,6 +53,20 @@ public class SettingsMenu extends Menu {
     }
 
     private void onButtonClick(ActionEvent e) {
+        onPausePlayEvent();
+    }
+
+    private enum ButtonGraphics {
+        PLAY("play-btn.png"),
+        PAUSE("pause-button.png");
+
+        final Image image;
+        ButtonGraphics(String name) {
+            this.image = GeneralUtils.fromResources(name);
+        }
+    }
+
+    public void onPausePlayEvent() {
         final var wasRunning = this.running.get();
         this.running.set(!wasRunning);
 
@@ -64,16 +78,6 @@ public class SettingsMenu extends Menu {
             this.setGraphic(new ImageView(ButtonGraphics.PLAY.image));
             this.pausePlayButton.setGraphic(new ImageView(ButtonGraphics.PAUSE.image));
             this.pausePlayButton.setText("Pause");
-        }
-    }
-
-    private enum ButtonGraphics {
-        PLAY("play-button.png"),
-        PAUSE("pause-button.png");
-
-        final Image image;
-        ButtonGraphics(String name) {
-            this.image = GeneralUtils.fromResources(name);
         }
     }
 

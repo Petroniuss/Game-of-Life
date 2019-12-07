@@ -28,7 +28,7 @@ public class Config {
 
     public Rect outerBounds() {
         final Vector lowerLeft = Vector.create(0, 0);
-        final Vector upperRight = Vector.create(params.width, params.height);
+        final Vector upperRight = Vector.create(params.width - 1, params.height - 1);
 
         return new Rect(lowerLeft, upperRight);
     }

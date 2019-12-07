@@ -74,6 +74,11 @@ public class Vector {
         return apply(i -> -i);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
+    public Vector reverse() {
+        return Vector.create(this.y, this.x);
+    }
+
     public boolean withinRect(Rect rect) {
         return withinRect(rect.lowerLeft, rect.upperRight);
     }

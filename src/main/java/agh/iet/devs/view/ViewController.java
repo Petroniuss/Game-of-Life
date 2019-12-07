@@ -42,6 +42,9 @@ public class ViewController implements UpdateListener {
     }
 
     private void draw(MapElement e) {
-        nodes.get(e.getPosition()).renderIcon(e.getIcon());
+        final var node = nodes.get(e.getPosition().reverse());
+
+        node.renderIcon(e.getIcon());
+        node.updateTooltip(e.toString());
     }
 }

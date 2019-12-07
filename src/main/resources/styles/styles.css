@@ -42,3 +42,11 @@
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 
+.tile-tooltip {
+    -fx-font: normal bold 24 Langdon;
+    -fx-base: #AE3522;
+    -fx-text-fill: orange;
+    -fx-border-radius: 400;
+    -fx-background-color: #01142F;
+}
+

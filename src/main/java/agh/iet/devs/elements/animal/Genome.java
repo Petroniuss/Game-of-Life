@@ -19,6 +19,9 @@ public class Genome {
         Arrays.sort(this.genes);
     }
 
+    /**
+     * FIXME - this might be causing bugs!
+     */
     public Genome(Genome g1, Genome g2) {
         final var partition1 = random.nextInt(genomeSize - 3) + 1; // max genomeSize - 3, min 1
         final var partition2 = random.nextInt(genomeSize - partition1 - 1) + partition1 + 1; // max genomeSize - 1, min 2
@@ -38,6 +41,7 @@ public class Genome {
         for (int i = partition2; i < genomeSize; i++)
             this.genes[i] = g1.geneAt(i);
 
+        // Fixme - infinite loop..
         while (!verify()) {
             final var set = genesToSet();
             possibleGenes.stream()
@@ -76,9 +80,7 @@ public class Genome {
 
     @Override
     public String toString() {
-        return "Genome{" +
-                "genes=" + Arrays.toString(genes) +
-                '}';
+        return "Genes = " + Arrays.toString(genes);
     }
 
     @Override

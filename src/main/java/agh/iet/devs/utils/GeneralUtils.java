@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public final class GeneralUtils {
-
     private static final Random random = new Random();
 
     public static Image fromResources(String name) {

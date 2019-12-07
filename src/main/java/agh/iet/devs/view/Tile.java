@@ -2,7 +2,9 @@ package agh.iet.devs.view;
 
 import agh.iet.devs.elements.MapElement;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 public class Tile extends Button {
 
@@ -25,6 +27,14 @@ public class Tile extends Button {
         setMinSize(width, height);
 
         getStyleClass().addAll(defaultStyle, type.style);
+
+        final var tooltip = new Tooltip("Empty spot");
+
+        tooltip.setShowDelay(Duration.millis(500));
+        tooltip.setShowDuration(Duration.INDEFINITE);
+        tooltip.getStyleClass().add("tile-tooltip");
+
+        setTooltip(tooltip);
     }
 
     public void renderIcon(MapElement.Icon icon) {
@@ -36,8 +46,13 @@ public class Tile extends Button {
         setGraphic(imageView);
     }
 
+    public void updateTooltip(String txt) {
+        getTooltip().setText(txt);
+    }
+
     public void clear() {
         setGraphic(null);
+        getTooltip().setText("Empty spot");
     }
 
 }

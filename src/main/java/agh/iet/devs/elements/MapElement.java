@@ -4,9 +4,6 @@ import agh.iet.devs.data.Vector;
 import agh.iet.devs.utils.GeneralUtils;
 import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public interface MapElement extends MapElementObservable {
 
     void onUpdate();
