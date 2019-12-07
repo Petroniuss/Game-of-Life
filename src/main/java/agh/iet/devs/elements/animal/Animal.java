@@ -62,11 +62,11 @@ public class Animal extends AbstractMapElement {
 
     @Override
     public String toString() {
-        return "Animal\n" +
-                genome +
-                "\nOrientation = " + orientation +
-                "\n Current Position = " + currentPosition +
-                "\n Current Energy = " + currentEnergy +
+        return "Animal" +
+                "\n" + genome +
+                "\n" + "Orientation = " + orientation +
+                "\n" + "Current Position = " + currentPosition +
+                "\n" + "Current Energy = " + currentEnergy +
                 "\n";
     }
 

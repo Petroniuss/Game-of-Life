@@ -27,7 +27,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
 
     @Override
     public Optional<Vector> emptyPosition() {
-        return GeneralUtils.random(emptyPositions);
+        return GeneralUtils.randomFromIterable(emptyPositions);
     }
 
     @Override

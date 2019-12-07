@@ -16,18 +16,20 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class World {
-    private final List<Region> regions = new LinkedList<>();
     private final Config config = Config.getInstance();
     private final UpdateListener listener;
+    private final List<Region> regions;
 
     public World(UpdateListener listener) {
         this.listener = listener;
-
-        regions.add(new Jungle(config.jungleBounds()));
-        regions.add(new Grassland(config.outerBounds(), config.jungleBounds()));
+        this.regions = List.of(
+                new Jungle(config.jungleBounds()),
+                new Grassland(config.outerBounds(), config.jungleBounds()));
 
         IntStream.range(0, config.params.animalsAtStart)
-                .mapToObj(i -> GeneralUtils.random(regions))
+                .mapToObj(i -> GeneralUtils.randomFromList(regions))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(Region::emptyPosition)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -36,7 +38,12 @@ public class World {
     }
 
     public void onUpdate() {
-        addFood();
+        regions.stream()
+                .map(Region::emptyPosition)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(freePosition -> new Food(freePosition, config.params.plantEnergy))
+                .forEach(this::attachMapElement);
 
         regions.stream()
                 .map(Region::objectsInRegion)
@@ -53,7 +60,6 @@ public class World {
                 .filter(set -> set.size() >= 2)
                 .forEach(this::handleCollisions);
 
-
         final var updated = regions.stream()
                 .map(Region::objectsInRegion)
                 .flatMap(Collection::stream)
@@ -66,7 +72,6 @@ public class World {
 
     /**
      * Note that this method should be called when set contains >= 2 elems.
-     * I think some kind of bug occurs when 3 animals and food happen to be on the same position.
      */
     private void handleCollisions(Set<MapElement> elements) {
         final var healthiest = findHealthiestAnimal(elements);
@@ -104,20 +109,7 @@ public class World {
                 .findAny();
     }
 
-    /**
-     * If there's place adds food to each region.
-     */
-    private void addFood() {
-        regions.stream()
-                .map(Region::emptyPosition)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(freePosition -> new Food(freePosition, config.params.plantEnergy))
-                .forEach(this::attachMapElement);
-    }
-
     private void attachMapElement(MapElement e) {
         regions.forEach(region -> region.attachElement(e));
     }
-
 }

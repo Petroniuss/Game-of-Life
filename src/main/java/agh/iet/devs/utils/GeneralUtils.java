@@ -4,6 +4,7 @@ import agh.iet.devs.error.SimulationError;
 import agh.iet.devs.error.SimulationError.Phase;
 import javafx.scene.image.Image;
 
+import javax.swing.text.html.Option;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,13 +41,16 @@ public final class GeneralUtils {
         throw new SimulationError("No way...", Phase.INIT);
     }
 
-    public static <E> E random(List<E> c) {
-        final var i = new Random().nextInt(c.size());
+    public static <E> Optional<E> randomFromList(List<E> collection) {
+        final var size = collection.size();
+        if (size < 1)
+            return Optional.empty();
 
-        return c.get(i);
+        final var i = new Random().nextInt(size);
+        return Optional.of(collection.get(i));
     }
 
-    public static <E> Optional<E> random(Collection<E> e) {
+    public static <E> Optional<E> randomFromIterable(Collection<E> e) {
         final var size = e.size();
         if (size < 1)
             return Optional.empty();
