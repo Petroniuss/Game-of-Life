@@ -1,5 +1,7 @@
 package agh.iet.devs.utils;
 
+import agh.iet.devs.error.SimulationError;
+import agh.iet.devs.error.SimulationError.Phase;
 import javafx.scene.image.Image;
 
 import java.io.File;
@@ -24,11 +26,10 @@ public final class GeneralUtils {
     public static Image fromImages(String name) {
         try {
             final var input = new FileInputStream(images + name);
-
             return new Image(input);
         } catch (FileNotFoundException ignore) {}
 
-        throw new AssertionError("No way");
+        throw new SimulationError("No way...", Phase.INIT);
     }
 
     public static byte[] fromConfiguration(String name) {
@@ -36,7 +37,7 @@ public final class GeneralUtils {
             return Files.readAllBytes(Paths.get(configuration + name));
         } catch (IOException ignore) {}
 
-        throw new AssertionError("No way");
+        throw new SimulationError("No way...", Phase.INIT);
     }
 
     public static <E> E random(List<E> c) {
@@ -56,7 +57,7 @@ public final class GeneralUtils {
                 return Optional.of(el);
         }
 
-        throw new AssertionError("No way");
+        throw new SimulationError("No way...", Phase.RUNTIME);
     }
 
 }

@@ -1,7 +1,9 @@
 package agh.iet.devs.error;
 
+/**
+ * Class existing solely
+ */
 public class SimulationError extends RuntimeException {
-
     private final static String header =
             "------------<SIMULATION-EXCEPTION>-----------------" + "\n" +
             "--STH-WENT-HORRIBLY-WRONG!-------------------------" + "\n";
