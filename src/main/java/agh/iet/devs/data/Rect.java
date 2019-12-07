@@ -11,6 +11,11 @@ public class Rect implements Iterable<Vector> {
         this.upperRight = upperRight;
     }
 
+    @Override
+    public Iterator<Vector> iterator() {
+        return new RectIterator(lowerLeft, upperRight);
+    }
+
     private static class RectIterator implements Iterator<Vector> {
         private final Vector start;
         private final int max;
@@ -43,8 +48,4 @@ public class Rect implements Iterable<Vector> {
         }
     }
 
-    @Override
-    public Iterator<Vector> iterator() {
-        return new RectIterator(lowerLeft, upperRight);
-    }
 }
