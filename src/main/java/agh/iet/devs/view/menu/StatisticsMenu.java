@@ -1,6 +1,7 @@
-package agh.iet.devs.view;
+package agh.iet.devs.view.menu;
 
 import agh.iet.devs.utils.GeneralUtils;
+import agh.iet.devs.config.SimulationState;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -18,12 +19,12 @@ public class StatisticsMenu extends Menu {
     private final Label animalLabel;
     private final Label foodLabel;
 
-    public StatisticsMenu(AtomicInteger animalCount, AtomicInteger foodCount, AtomicLong dayCount) {
+    public StatisticsMenu(SimulationState state) {
         super("Statistics");
 
-        this.animalCount = animalCount;
-        this.foodCount = foodCount;
-        this.dayCount = dayCount;
+        this.animalCount = state.animalCount;
+        this.foodCount = state.foodCount;
+        this.dayCount = state.dayCount;
 
         this.dayLabel = new Label("Day: " + dayCount.get());
         this.animalLabel = new Label("Animals: " + animalCount.get());
@@ -37,8 +38,8 @@ public class StatisticsMenu extends Menu {
                 new CustomMenuItem(foodLabel));
     }
 
-    public void update() {
-        this.dayLabel.setText("Day: " + dayCount.get());
+    public void onUpdate() {
+        this.dayLabel.setText("Day: " + dayCount.incrementAndGet());
         this.animalLabel.setText("Animals: " + animalCount.get());
         this.foodLabel.setText("Food: " + foodCount.get());
     }

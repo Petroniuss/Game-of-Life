@@ -9,7 +9,7 @@ import agh.iet.devs.map.region.Grassland;
 import agh.iet.devs.map.region.Jungle;
 import agh.iet.devs.map.region.Region;
 import agh.iet.devs.utils.GeneralUtils;
-import agh.iet.devs.view.UpdateListener;
+import agh.iet.devs.view.controller.UpdateListener;
 
 import java.util.*;
 import java.util.stream.Collectors;

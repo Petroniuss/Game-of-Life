@@ -1,8 +1,10 @@
-package agh.iet.devs.view;
+package agh.iet.devs.view.menu;
 
 import agh.iet.devs.utils.GeneralUtils;
+import agh.iet.devs.config.SimulationState;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,29 +24,33 @@ public class SettingsMenu extends Menu {
 
     private final Button pausePlayButton;
 
-    public SettingsMenu(AtomicBoolean running, AtomicLong interval) {
+    public SettingsMenu(SimulationState state) {
         super("Settings");
 
-        this.running = running;
-        this.interval = interval;
+        this.running = state.running;
+        this.interval = state.interval;
 
         final var slider = new Slider(0.0, 1.0, 0.0);
         slider.valueProperty().addListener(this::onSwiped);
 
         final var label = new Label("Evolution speed");
-        label.setLabelFor(slider);
         final var vbox = new VBox(slider, label);
         final var firstItem = new CustomMenuItem(vbox, false);
 
         this.pausePlayButton = new Button("Pause");
-        this.pausePlayButton.setGraphic(new ImageView(ButtonGraphics.PAUSE.image));
-        this.setGraphic(new ImageView(ButtonGraphics.PLAY.image));
+        this.pausePlayButton.setGraphic(
+                new ImageView(ButtonGraphics.PAUSE.image));
+        this.setGraphic(
+                new ImageView(ButtonGraphics.PLAY.image));
         this.pausePlayButton.setOnAction(this::onButtonClick);
 
-        final var anotherVBox = new HBox(this.pausePlayButton);
-        final var secondItem = new CustomMenuItem(anotherVBox, true);
+        final var hBox = new HBox(this.pausePlayButton);
+        final var secondItem = new CustomMenuItem(hBox, true);
 
-        getItems().addAll(firstItem, new CustomMenuItem(label), secondItem);
+        vbox.setAlignment(Pos.CENTER);
+        hBox.setAlignment(Pos.BASELINE_CENTER);
+
+        getItems().addAll(firstItem, secondItem);
     }
 
     private void onSwiped(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -71,11 +77,15 @@ public class SettingsMenu extends Menu {
 
         if (wasRunning) {
             this.pausePlayButton.setText("Play");
-            this.pausePlayButton.setGraphic(new ImageView(ButtonGraphics.PLAY.image));
-            this.setGraphic(new ImageView(ButtonGraphics.PAUSE.image));
+            this.pausePlayButton.setGraphic
+                    (new ImageView(ButtonGraphics.PLAY.image));
+            this.setGraphic(
+                    new ImageView(ButtonGraphics.PAUSE.image));
         } else {
-            this.setGraphic(new ImageView(ButtonGraphics.PLAY.image));
-            this.pausePlayButton.setGraphic(new ImageView(ButtonGraphics.PAUSE.image));
+            this.setGraphic(
+                    new ImageView(ButtonGraphics.PLAY.image));
+            this.pausePlayButton.setGraphic(
+                    new ImageView(ButtonGraphics.PAUSE.image));
             this.pausePlayButton.setText("Pause");
         }
     }

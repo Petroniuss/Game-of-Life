@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.Random;
 
 public final class GeneralUtils {
-
     private static final Random random = new Random();
 
     private static final String resources = "src/main/resources/".replace("/", File.separator);

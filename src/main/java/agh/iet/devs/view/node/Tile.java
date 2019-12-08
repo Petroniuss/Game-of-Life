@@ -1,4 +1,4 @@
-package agh.iet.devs.view;
+package agh.iet.devs.view.node;
 
 import agh.iet.devs.elements.MapElement;
 import javafx.scene.control.Button;
@@ -7,19 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class Tile extends Button {
-
     private static final String defaultStyle = "field";
-
-    public enum TileType {
-        JUNGLE("jungle-field"),
-        GRASSLAND("grassland-field");
-
-        final String style;
-        TileType(String style) {
-            this.style = style;
-        }
-    }
-
 
     public Tile(double width, double height, TileType type) {
         setPrefSize(width, height);
@@ -53,6 +41,16 @@ public class Tile extends Button {
     public void clear() {
         setGraphic(null);
         getTooltip().setText("Empty spot");
+    }
+
+    public enum TileType {
+        JUNGLE("jungle-field"),
+        GRASSLAND("grassland-field");
+
+        final String style;
+        TileType(String style) {
+            this.style = style;
+        }
     }
 
 }

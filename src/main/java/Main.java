@@ -1,8 +1,9 @@
+import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.World;
-import agh.iet.devs.view.SettingsMenu;
-import agh.iet.devs.view.StatisticsMenu;
-import agh.iet.devs.view.ViewConfiguration;
-import agh.iet.devs.view.ViewController;
+import agh.iet.devs.view.controller.ViewConfiguration;
+import agh.iet.devs.view.controller.ViewController;
+import agh.iet.devs.view.menu.SettingsMenu;
+import agh.iet.devs.view.menu.StatisticsMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -13,23 +14,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static agh.iet.devs.view.ViewConfiguration.*;
+import static agh.iet.devs.view.controller.ViewConfiguration.WINDOW_HEIGHT;
+import static agh.iet.devs.view.controller.ViewConfiguration.WINDOW_WIDTH;
 
 public class Main extends Application {
     private World world;
+
     private StatisticsMenu statisticsMenu;
     private SettingsMenu settingsMenu;
-
-    private final AtomicBoolean running = new AtomicBoolean(true);
-    private final AtomicLong interval = new AtomicLong(SettingsMenu.MAX_INTERVAL);
-
-    private final AtomicInteger animalCount = new AtomicInteger(0);
-    private final AtomicInteger foodCount = new AtomicInteger(0);
-    private final AtomicLong dayCount = new AtomicLong(0);
+    private SimulationState state;
 
     public static void main(String[] args) {
         launch();
@@ -37,31 +30,30 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        this.state = new SimulationState();
+
         final var grid = new GridPane();
-        final var controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT);
+        final var controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT, state);
 
         this.world = new World(controller);
-        this.statisticsMenu = new StatisticsMenu(animalCount, foodCount, dayCount);
-        this.settingsMenu = new SettingsMenu(running, interval);
+        this.statisticsMenu = new StatisticsMenu(state);
+        this.settingsMenu = new SettingsMenu(state);
 
-        final var vbox = new VBox(new MenuBar(settingsMenu, statisticsMenu), grid);
+        final var vbox = new VBox(
+                new MenuBar(settingsMenu, statisticsMenu), grid);
 
         final var scene = new Scene(vbox);
         scene.getStylesheets().add(getStyleSheets());
 
         Thread thread = new Thread(() -> {
-            Runnable updater = () -> {
-                this.dayCount.incrementAndGet();
-                world.onUpdate();
-                this.statisticsMenu.update();
-            };
+            Runnable updater = this::update;
             while (true) {
                 try {
-                    Thread.sleep(interval.get());
+                    Thread.sleep(state.interval.get());
                 } catch (InterruptedException ignore) {}
 
-                // UI update is run on the Application thread
-                if (running.get())
+                // UI update is run on the UI thread
+                if (state.running.get())
                     Platform.runLater(updater);
             }
         });
@@ -75,6 +67,11 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.getIcons().add(ViewConfiguration.icon());
         stage.show();
+    }
+
+    private void update() {
+        this.world.onUpdate();
+        this.statisticsMenu.onUpdate();
     }
 
     private void onKeyPressed(KeyEvent event) {
