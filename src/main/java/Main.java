@@ -2,12 +2,10 @@ import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.World;
 import agh.iet.devs.view.controller.ViewConfiguration;
 import agh.iet.devs.view.controller.ViewController;
-import agh.iet.devs.view.menu.SettingsMenu;
-import agh.iet.devs.view.menu.StatisticsMenu;
+import agh.iet.devs.view.menu.GeneralMenuBar;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -20,8 +18,7 @@ import static agh.iet.devs.view.controller.ViewConfiguration.WINDOW_WIDTH;
 public class Main extends Application {
     private World world;
 
-    private StatisticsMenu statisticsMenu;
-    private SettingsMenu settingsMenu;
+    private GeneralMenuBar menu;
     private SimulationState state;
 
     public static void main(String[] args) {
@@ -36,13 +33,11 @@ public class Main extends Application {
         final var controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT, state);
 
         this.world = new World(controller);
-        this.statisticsMenu = new StatisticsMenu(state);
-        this.settingsMenu = new SettingsMenu(state);
+        this.menu = new GeneralMenuBar(state);
 
-        final var vbox = new VBox(
-                new MenuBar(settingsMenu, statisticsMenu), grid);
-
+        final var vbox = new VBox( menu, grid);
         final var scene = new Scene(vbox);
+
         scene.getStylesheets().add(getStyleSheets());
 
         Thread thread = new Thread(() -> {
@@ -71,14 +66,14 @@ public class Main extends Application {
 
     private void update() {
         this.world.onUpdate();
-        this.statisticsMenu.onUpdate();
+        this.menu.statisticsMenu.onUpdate();
     }
 
     private void onKeyPressed(KeyEvent event) {
         final var code = event.getCode();
 
         if (code == KeyCode.P)
-            this.settingsMenu.onPausePlayEvent();
+            this.menu.settingsMenu.onPausePlayEvent();
         else if (code == KeyCode.ESCAPE)
             System.exit(0);
     }
