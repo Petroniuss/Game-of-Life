@@ -9,30 +9,34 @@ import agh.iet.devs.elements.food.Food;
 public class Animal extends AbstractMapElement {
 
     private final Genome genome;
+    private final int generation;
 
     private Direction orientation = Direction.random();
 
-    private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2) {
+    private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2, int generation) {
         super(initialPosition, initialEnergy);
 
         this.genome = new Genome(g1, g2);
+        this.generation = generation;
     }
 
     public Animal(Vector initialPosition, int initialEnergy) {
         super(initialPosition, initialEnergy);
 
         this.genome = new Genome();
+        this.generation = 1;
     }
 
     public static Animal cross(Animal p1, Animal p2) {
         final var position = p1.currentPosition;
         final var delta1 = p1.currentEnergy / 4;
         final var delta2 = p2.currentEnergy / 4;
+        final var gen = Math.max(p1.generation, p2.generation);
 
         p1.currentEnergy -= delta1;
         p2.currentEnergy -= delta2;
 
-        return new Animal(position, delta1 + delta2, p1.genome, p2.genome);
+        return new Animal(position, delta1 + delta2, p1.genome, p2.genome, gen);
     }
 
     public void eat(Food food) {
@@ -67,6 +71,7 @@ public class Animal extends AbstractMapElement {
                 "\n" + "Orientation = " + orientation +
                 "\n" + "Current Position = " + currentPosition +
                 "\n" + "Current Energy = " + currentEnergy +
+                "\n" + "Generation = " + generation +
                 "\n";
     }
 
