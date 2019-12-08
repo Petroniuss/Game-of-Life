@@ -7,12 +7,29 @@ import agh.iet.devs.utils.GeneralUtils;
 
 import java.util.*;
 
+/**
+ * Class implements most of the functionality of a region.
+ *
+ * Note that many methods' signatures contain synchronized keyword.
+ * This is due to the fact that we shuffle emptyPositions to "add even more randomness".
+ * To make sure that ui thread does not interfere with shuffle task, we synchronize methods.
+ */
 public abstract class AbstractRegion implements Region, MapElementObserver {
     protected final Map<Vector, Set<MapElement>> elements = new HashMap<>();
-    protected final Set<Vector> emptyPositions;
+    protected final List<Vector> emptyPositions;
 
     public AbstractRegion(Collection<Vector> freePositions) {
-        this.emptyPositions = new HashSet<>(freePositions);
+        this.emptyPositions = new ArrayList<>(freePositions);
+
+        final var shuffleTask = new TimerTask() {
+            @Override
+            public void run() {
+                AbstractRegion.this.shuffle();
+            }
+        };
+        final var timer = new Timer("Shuffler!");
+
+        timer.schedule(shuffleTask, 250, 500);
     }
 
     @Override
@@ -26,12 +43,12 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public Optional<Vector> emptyPosition() {
-        return GeneralUtils.randomFromIterable(emptyPositions);
+    public synchronized Optional<Vector> emptyPosition() {
+        return GeneralUtils.randomFromList(this.emptyPositions);
     }
 
     @Override
-    public void onMove(MapElement e, Vector from) {
+    public synchronized void onMove(MapElement e, Vector from) {
         if (isWithin(from)) {
             elements.get(from).remove(e);
 
@@ -44,7 +61,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public void onVanish(MapElement e) {
+    public synchronized void onVanish(MapElement e) {
         final var position = e.getPosition();
 
         if (isWithin(position))
@@ -52,7 +69,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public void attachElement(MapElement e) {
+    public synchronized void attachElement(MapElement e) {
         if (isWithin(e.getPosition()))
             addMapElement(e);
 
@@ -82,6 +99,10 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
             if (elements.get(key).isEmpty())
                 emptyPositions.add(key);
         }
+    }
+
+    private synchronized void shuffle() {
+        Collections.shuffle(this.emptyPositions);
     }
 
 }
