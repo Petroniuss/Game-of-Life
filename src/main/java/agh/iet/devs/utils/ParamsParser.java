@@ -5,25 +5,20 @@ import agh.iet.devs.error.SimulationError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class ParamsParser {
-    private static final String defaultPath = "src/main/resources/parameters.json".replace("/", File.separator);
+    private static final String defaultParameters = "parameters.json";
 
     public static Params parse() {
-        return parse(defaultPath);
+        return parse(defaultParameters);
     }
 
-    public static Params parse(String path) {
+    public static Params parse(String name) {
         final Params params;
         try {
-            final var json = new String(Files.readAllBytes(Paths.get(path)));
+            final var json = new String(GeneralUtils.fromConfiguration(name));
             final var gson = new Gson();
             params = gson.fromJson(json, Params.class);
-        } catch (IOException | JsonSyntaxException e) {
+        } catch (JsonSyntaxException e) {
             throw new SimulationError(e.getMessage(), SimulationError.Phase.PARSE);
         }
 

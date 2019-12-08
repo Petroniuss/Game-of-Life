@@ -1,7 +1,9 @@
 package agh.iet.devs.data;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,13 +27,4 @@ class RectTest {
         assertEquals(Vector.create(1, 1), last);
     }
 
-    @Test
-    void test() {
-        var map = new HashMap<Integer, String>();
-
-        map.put(1, "a");
-        map.put(2, "b");
-
-        (new HashSet<>(map.entrySet())).stream().map(Map.Entry::getKey).forEach(map::remove);
-    }
 }
