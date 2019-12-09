@@ -20,7 +20,8 @@
 
 .field {
     -fx-border-color: #2F3640;
-    -fx-border-width: 0.4;
+    -fx-border-width: 0.3;
+    -fx-border-radius: 0;
 }
 
 .menu-bar {

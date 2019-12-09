@@ -31,7 +31,7 @@ public class Animal extends AbstractMapElement {
         final var position = p1.currentPosition;
         final var delta1 = p1.currentEnergy / 4;
         final var delta2 = p2.currentEnergy / 4;
-        final var gen = Math.max(p1.generation, p2.generation);
+        final var gen = Math.max(p1.generation, p2.generation) + 1;
 
         p1.currentEnergy -= delta1;
         p2.currentEnergy -= delta2;

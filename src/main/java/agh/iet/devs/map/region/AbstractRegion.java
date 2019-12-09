@@ -13,6 +13,9 @@ import java.util.*;
  * Note that many methods' signatures contain synchronized keyword.
  * This is due to the fact that we shuffle emptyPositions to "add even more randomness".
  * To make sure that ui thread does not interfere with shuffle task, we synchronize methods.
+ *
+ * FIXME it would be better if we stored positions in hashset then finding random element would be done in O(n),
+ * FIXME but adding and removing element (which we do multiple time during each frame) would be in O(1)
  */
 public abstract class AbstractRegion implements Region, MapElementObserver {
     protected final Map<Vector, Set<MapElement>> elements = new HashMap<>();

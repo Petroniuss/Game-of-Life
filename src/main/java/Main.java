@@ -67,6 +67,7 @@ public class Main extends Application {
     private void update() {
         this.world.onUpdate();
         this.menu.statisticsMenu.onUpdate();
+        this.menu.chartMenu.onUpdate();
     }
 
     private void onKeyPressed(KeyEvent event) {
