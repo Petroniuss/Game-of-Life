@@ -16,23 +16,14 @@ import java.util.*;
  *
  * FIXME it would be better if we stored positions in hashset then finding random element would be done in O(n),
  * FIXME but adding and removing element (which we do multiple time during each frame) would be in O(1)
+ * FIXED
  */
 public abstract class AbstractRegion implements Region, MapElementObserver {
     protected final Map<Vector, Set<MapElement>> elements = new HashMap<>();
-    protected final List<Vector> emptyPositions;
+    protected final Set<Vector> emptyPositions;
 
     public AbstractRegion(Collection<Vector> freePositions) {
-        this.emptyPositions = new ArrayList<>(freePositions);
-
-        final var shuffleTask = new TimerTask() {
-            @Override
-            public void run() {
-                AbstractRegion.this.shuffle();
-            }
-        };
-        final var timer = new Timer("Shuffler!");
-
-        timer.schedule(shuffleTask, 250, 500);
+        this.emptyPositions = new HashSet<>(freePositions);
     }
 
     @Override
@@ -46,12 +37,12 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public synchronized Optional<Vector> emptyPosition() {
-        return GeneralUtils.randomFromList(this.emptyPositions);
+    public Optional<Vector> emptyPosition() {
+        return GeneralUtils.randomFromIterable(this.emptyPositions);
     }
 
     @Override
-    public synchronized void onMove(MapElement e, Vector from) {
+    public void onMove(MapElement e, Vector from) {
         if (isWithin(from)) {
             elements.get(from).remove(e);
 
@@ -64,7 +55,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public synchronized void onVanish(MapElement e) {
+    public void onVanish(MapElement e) {
         final var position = e.getPosition();
 
         if (isWithin(position))
@@ -72,7 +63,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
-    public synchronized void attachElement(MapElement e) {
+    public void attachElement(MapElement e) {
         if (isWithin(e.getPosition()))
             addMapElement(e);
 
@@ -102,10 +93,6 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
             if (elements.get(key).isEmpty())
                 emptyPositions.add(key);
         }
-    }
-
-    private synchronized void shuffle() {
-        Collections.shuffle(this.emptyPositions);
     }
 
 }

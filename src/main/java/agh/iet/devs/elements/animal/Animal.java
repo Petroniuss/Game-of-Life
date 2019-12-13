@@ -13,7 +13,8 @@ public class Animal extends AbstractMapElement {
 
     private Direction orientation = Direction.random();
 
-    private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2, int generation) {
+    private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2,
+                   int generation) {
         super(initialPosition, initialEnergy);
 
         this.genome = new Genome(g1, g2);
@@ -61,7 +62,17 @@ public class Animal extends AbstractMapElement {
 
     @Override
     public Icon getIcon() {
-        return Icon.Animal;
+        final var startEnergy = Config.getInstance().params.startEnergy;
+        Icon icon = null;
+
+        if (currentEnergy < startEnergy / 2)
+            icon = Icon.DYING_ANIMAL;
+        else if (currentEnergy < startEnergy)
+            icon = Icon.FERTILE_ANIMAL;
+        else
+            icon = Icon.HEALTHY_ANIMAL;
+
+        return icon;
     }
 
     @Override

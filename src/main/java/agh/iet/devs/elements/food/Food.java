@@ -15,12 +15,12 @@ public class Food extends AbstractMapElement {
 
     @Override
     public Icon getIcon() {
-        return Icon.Food;
+        return Icon.GRASS;
     }
 
     @Override
     protected void update() {
-        // Ignore!
+        // ignore!
     }
 
     @Override

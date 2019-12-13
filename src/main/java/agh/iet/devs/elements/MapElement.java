@@ -15,8 +15,11 @@ public interface MapElement extends MapElementObservable {
     Icon getIcon();
 
     enum Icon {
-        Animal("animal.png"),
-        Food("weed.png");
+        GRASS("grass.png"),
+        DYING_ANIMAL("dying_animal.png"),
+        FERTILE_ANIMAL("fertile_animal.png"),
+        HEALTHY_ANIMAL("healthy_animal.png"),
+        DOMINATING_ANIMAL("dominating_animal.png");
 
         public final Image img;
         Icon(String name) {
