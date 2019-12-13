@@ -4,6 +4,7 @@ import agh.iet.devs.config.Config;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.elements.animal.Animal;
+import agh.iet.devs.elements.animal.Genome;
 import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.region.Grassland;
 import agh.iet.devs.map.region.Jungle;
@@ -19,6 +20,7 @@ public class World {
     private final Config config = Config.getInstance();
     private final UpdateListener listener;
     private final List<Region> regions;
+    private final Map<Genome, Integer> genomes = new HashMap<>();
 
     public World(UpdateListener listener) {
         this.listener = listener;

@@ -49,6 +49,10 @@ public class Animal extends AbstractMapElement {
         return this.currentEnergy >= Config.getInstance().params.startEnergy / 2;
     }
 
+    public boolean hasDominatingGenome(Genome dominating) {
+        return this.genome.equals(dominating);
+    }
+
     @Override
     protected void update() {
         final var prev = currentPosition;
