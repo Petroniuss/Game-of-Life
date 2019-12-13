@@ -22,6 +22,7 @@ public interface MapElement extends MapElementObservable {
         DOMINATING_ANIMAL("dominating_animal.png");
 
         public final Image img;
+
         Icon(String name) {
             this.img = GeneralUtils.fromImages(name);
         }

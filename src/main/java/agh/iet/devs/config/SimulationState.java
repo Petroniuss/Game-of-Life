@@ -11,9 +11,9 @@ public class SimulationState {
     public final AtomicBoolean running = new AtomicBoolean(true);
     public final AtomicLong interval = new AtomicLong(SettingsMenu.MAX_INTERVAL);
 
-    public final AtomicInteger animalCount = new AtomicInteger(0);
-    public final AtomicInteger foodCount = new AtomicInteger(0);
-    public final AtomicLong dayCount = new AtomicLong(0);
+    public final AtomicInteger animalCount = new AtomicInteger(Config.getInstance().params.animalsAtStart);
+    public final AtomicInteger foodCount = new AtomicInteger(2);
+    public final AtomicLong dayCount = new AtomicLong(1);
 
     @Override
     public String toString() {

@@ -32,11 +32,11 @@ public class ChartMenu extends Menu {
         lineChart.setTitle("Life does find a way");
 
         this.animalSeries = new XYChart.Series<>(
-                "Animals", FXCollections.observableArrayList(new XYChart.Data<>(1, state.animalCount.get())));
+                "Animals", FXCollections.observableArrayList(new XYChart.Data<>(state.dayCount.get(), state.animalCount.get())));
 
 
         this.foodSeries = new XYChart.Series<>(
-                "Food", FXCollections.observableArrayList(new XYChart.Data<>(1, state.foodCount.get())));
+                "Food", FXCollections.observableArrayList(new XYChart.Data<>(state.dayCount.get(), state.foodCount.get())));
 
         lineChart.getData().addAll(animalSeries, foodSeries);
         lineChart.setCreateSymbols(false);
