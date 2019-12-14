@@ -3,8 +3,10 @@ package agh.iet.devs.map.region;
 import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Grassland extends AbstractRegion {
 
@@ -23,12 +25,12 @@ public class Grassland extends AbstractRegion {
         return vector.withinRect(outer) && !vector.withinRect(inner);
     }
 
-    private static Collection<Vector> space(Rect outer, Rect inner) {
-        final var collection = new LinkedList<Vector>();
+    private static List<Vector> space(Rect outer, Rect inner) {
+        final var collection = new ArrayList<Vector>();
 
         for (Vector v : outer) {
             if (!v.withinRect(inner))
-                collection.addFirst(v);
+                collection.add(v);
         }
 
         return collection;

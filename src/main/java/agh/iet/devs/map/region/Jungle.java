@@ -3,8 +3,9 @@ package agh.iet.devs.map.region;
 import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 
 public class Jungle extends AbstractRegion {
 
@@ -21,9 +22,9 @@ public class Jungle extends AbstractRegion {
         return vector.withinRect(rect);
     }
 
-    private static Collection<Vector> rectToVectors(Rect rect) {
-        final var collection = new LinkedList<Vector>();
-        rect.iterator().forEachRemaining(collection::addFirst);
+    private static List<Vector> rectToVectors(Rect rect) {
+        final var collection = new ArrayList<Vector>();
+        rect.iterator().forEachRemaining(collection::add);
 
         return collection;
     }

@@ -10,88 +10,98 @@ import java.util.*;
 /**
  * Class implements most of the functionality of a region.
  *
- * Note that many methods' signatures contain synchronized keyword.
- * This is due to the fact that we shuffle emptyPositions to "add even more randomness".
- * To make sure that ui thread does not interfere with shuffle task, we synchronize methods.
- *
- * FIXME it would be better if we stored positions in hashset then finding random element would be done in O(n),
- * FIXME but adding and removing element (which we do multiple time during each frame) would be in O(1)
- * FIXED
+ * The point of this class is to implement finding random position within some area (specified by subclass)in O(1).
+ * Basically every operation here, except for initialization is O(1).
  */
 public abstract class AbstractRegion implements Region, MapElementObserver {
-    protected final Map<Vector, Set<MapElement>> elements = new HashMap<>();
-    protected final Set<Vector> emptyPositions;
+    protected final Map<Vector, OccupancyValue> positionsOccupancyMap;
+    protected final List<Vector> emptyPositions;
 
-    public AbstractRegion(Collection<Vector> freePositions) {
-        this.emptyPositions = new HashSet<>(freePositions);
-    }
+    public AbstractRegion(List<Vector> freePositions) {
+        this.positionsOccupancyMap = new HashMap<>(freePositions.size());
+        this.emptyPositions = new ArrayList<>(freePositions.size());
 
-    @Override
-    public Set<MapElement> objectsAt(Vector position) {
-        return elements.getOrDefault(position, Collections.emptySet());
-    }
+        for (int i = 0; i < freePositions.size(); i++) {
+            final var key = freePositions.get(i);
 
-    @Override
-    public Set<Map.Entry<Vector, Set<MapElement>>> objectsInRegion() {
-        return new HashSet<>(elements.entrySet());
+            this.emptyPositions.add(key);
+            this.positionsOccupancyMap.put(key, OccupancyValue.create(i, 0));
+        }
     }
 
     @Override
     public Optional<Vector> emptyPosition() {
-        return GeneralUtils.randomFromIterable(this.emptyPositions);
+        return GeneralUtils.randomFromList(this.emptyPositions);
     }
 
     @Override
     public void onMove(MapElement e, Vector from) {
-        if (isWithin(from)) {
-            elements.get(from).remove(e);
-
-            if (elements.get(from).isEmpty())
-                emptyPositions.add(from);
-        }
+        if (isWithin(from))
+            updateAbandonedPosition(from);
 
         if (isWithin(e.getPosition()))
-            addMapElement(e);
+            updateEnteredPosition(e.getPosition());
     }
 
     @Override
     public void onVanish(MapElement e) {
-        final var position = e.getPosition();
-
-        if (isWithin(position))
-            removeElement(e);
+        if (isWithin(e.getPosition()))
+            updateAbandonedPosition(e.getPosition());
     }
 
     @Override
     public void attachElement(MapElement e) {
         if (isWithin(e.getPosition()))
-            addMapElement(e);
+            updateEnteredPosition(e.getPosition());
 
         e.attachListener(this);
     }
 
     /**
-     * Note that this method does not check if element is within region.
+     * Should be called when position has been entered.
      */
-    protected void addMapElement(MapElement e) {
-        final var key = e.getPosition();
+    private void updateEnteredPosition(Vector position) {
+        this.positionsOccupancyMap.computeIfPresent(position,
+                (k, v) -> OccupancyValue.create(-1, v.total + 1));
 
-        if (elements.containsKey(key))
-            elements.get(key).add(e);
-        else
-            elements.put(key, new HashSet<>(Collections.singleton(e)));
+        if (this.positionsOccupancyMap.get(position).total == 1) {
+            final var lastIndex = this.emptyPositions.size() - 1;
+            final var last = this.emptyPositions.get(lastIndex);
+            final var index = this.positionsOccupancyMap.get(position).index;
 
-        emptyPositions.remove(key);
+            Collections.swap(this.emptyPositions, index, lastIndex);
+
+            this.emptyPositions.remove(lastIndex);
+            positionsOccupancyMap.computeIfPresent(last, (k, v) -> OccupancyValue.create(index, v.total));
+        }
     }
 
-    protected void removeElement(MapElement e) {
-        final var key = e.getPosition();
+    /**
+     * Should be called when position has been left.
+     */
+    private void updateAbandonedPosition(Vector position) {
+        final var index = this.emptyPositions.size();
 
-        if (elements.containsKey(key)) {
-            elements.get(key).remove(e);
+        this.positionsOccupancyMap.computeIfPresent(position,
+                (key, v) -> OccupancyValue.create(-1, v.total - 1));
 
-            if (elements.get(key).isEmpty())
-                emptyPositions.add(key);
+        if (this.positionsOccupancyMap.get(position).total == 0) {
+            this.positionsOccupancyMap.put(position, OccupancyValue.create(index, 0));
+            this.emptyPositions.add(position);
+        }
+    }
+
+    private static class OccupancyValue {
+        final int index; // index in emptyPositions
+        final int total; // how many mapElements occupy given position
+
+        OccupancyValue(int index, int total) {
+            this.index = index;
+            this.total = total;
+        }
+
+        static OccupancyValue create(int index, int total) {
+            return new OccupancyValue(index, total);
         }
     }
 
