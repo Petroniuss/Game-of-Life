@@ -51,7 +51,7 @@ public class SettingsMenu extends VBox {
         hBox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
 
         getChildren().addAll(vbox, hBox);
-        setPadding(new Insets(10, 0, 0, 10));
+        setPadding(new Insets(10, 10, 0, 10));
     }
 
     private void onSwiped(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {

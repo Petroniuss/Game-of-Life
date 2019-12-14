@@ -4,9 +4,7 @@ import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementVisitor;
 import agh.iet.devs.utils.GeneralUtils;
 import agh.iet.devs.view.SimulationNode;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public interface MapElement extends MapElementObservable {
 
@@ -15,6 +13,8 @@ public interface MapElement extends MapElementObservable {
     void acceptOnVanish(MapElementVisitor visitor);
 
     void onUpdate();
+
+    void onDeath();
 
     Vector getPosition();
 

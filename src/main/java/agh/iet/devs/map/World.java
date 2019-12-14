@@ -87,7 +87,7 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .reduce((acc, e) -> {
                     freqMap.merge(e, 1, Integer::sum);
 
-                    if (freqMap.get(e) > freqMap.get(acc))
+                    if (freqMap.getOrDefault(e, 0) > freqMap.getOrDefault(acc, 0))
                         return e;
                     return acc;
                 }).orElseThrow();
@@ -98,7 +98,7 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .stream()
                 .flatMap(Collection::stream)
                 .map(AbstractMapElement::getEnergy)
-                .reduce(0.0, Double::sum, Double::sum) / animalCount();
+                .reduce(0.0, Double::sum, Double::sum) / (double) animalCount();
     }
 
     @Override
@@ -120,6 +120,7 @@ public class World implements MapElementObserver, MapElementVisitor {
     @Override
     public void onAnimalVanish(Animal animal) {
         this.animalMap.get(animal.getPosition()).remove(animal);
+        animal.setDeathEpoch(state.dayCount.intValue());
     }
 
     @Override
@@ -132,6 +133,7 @@ public class World implements MapElementObserver, MapElementVisitor {
         animalMap.get(animal.getPosition()).add(animal);
 
         attachMapElement(animal);
+        state.addNewborn(animal);
     }
 
     public void attachFood(Food food) {

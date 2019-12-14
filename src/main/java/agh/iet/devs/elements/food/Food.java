@@ -10,6 +10,7 @@ public class Food extends AbstractMapElement {
         super(initialPosition, initialEnergy);
     }
 
+    @Override
     public void onDeath() {
         notifyOnVanish(this);
     }

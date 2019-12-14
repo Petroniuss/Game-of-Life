@@ -81,7 +81,7 @@ public abstract class AbstractMapElement implements MapElement {
      */
     private boolean isAlive() {
         if (this.currentEnergy <= 0) {
-            notifyOnVanish(this);
+            this.onDeath();
         }
 
         return this.currentEnergy > 0;

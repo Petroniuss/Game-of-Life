@@ -68,11 +68,15 @@ public class WorldController {
                 .filter(animals -> animals.size() >= 2)
                 .map(WorldController::findHealthiestPair)
                 .filter(parents -> parents.second.eligibleForReproduction())
-                .map(parents -> Animal.cross(parents.first, parents.second))
+                .map(parents -> Animal.cross(parents.first, parents.second, state.dayCount.intValue()))
                 .peek(uiObserver::attach)
                 .forEach(world::attachAnimal);
 
-        this.state.update(world.foodCount(), world.animalCount());
+        this.state.update(
+                world.foodCount(),
+                world.animalCount(),
+                world.averageEnergy(),
+                world.dominatingGenome());
     }
 
     private static Animal findHealthiestAnimal(Set<Animal> animalSet) {

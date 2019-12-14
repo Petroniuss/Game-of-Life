@@ -79,7 +79,7 @@ public class Genome {
 
     @Override
     public String toString() {
-        return "Genes = " + Arrays.toString(genes);
+        return Arrays.toString(genes);
     }
 
     @Override

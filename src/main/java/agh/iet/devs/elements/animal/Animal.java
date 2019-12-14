@@ -7,32 +7,48 @@ import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.MapElementVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Animal extends AbstractMapElement {
 
     private final Genome genome;
     private final int generation;
-
     private final int bornEpoch;
-    private int deathEpoch;
+    private int deathEpoch = -1;
+
+    private int children = 0;
+    private int progeny = 0;
+
+    private final Animal p1;
+    private final Animal p2;
 
     private Direction orientation = Direction.random();
 
-    private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2,
-                   int generation) {
+    private Animal(Vector initialPosition, int initialEnergy, Animal p1, Animal p2,
+                   int generation, int epoch) {
         super(initialPosition, initialEnergy);
 
-        this.genome = new Genome(g1, g2);
+        this.bornEpoch = epoch;
+        this.genome = new Genome(p1.genome, p2.genome);
         this.generation = generation;
+
+        this.p1 = p1;
+        this.p2 = p2;
     }
 
     public Animal(Vector initialPosition, int initialEnergy) {
         super(initialPosition, initialEnergy);
 
+        this.bornEpoch = 1;
         this.genome = new Genome();
         this.generation = 1;
+
+        this.p1 = null;
+        this.p2 = null;
     }
 
-    public static Animal cross(Animal p1, Animal p2) {
+    public static Animal cross(Animal p1, Animal p2, int epoch) {
         final var position = p1.currentPosition;
         final var delta1 = p1.currentEnergy / 4;
         final var delta2 = p2.currentEnergy / 4;
@@ -41,7 +57,11 @@ public class Animal extends AbstractMapElement {
         p1.currentEnergy -= delta1;
         p2.currentEnergy -= delta2;
 
-        return new Animal(position, delta1 + delta2, p1.genome, p2.genome, gen);
+        final var kiddo = new Animal(position, delta1 + delta2, p1, p2, gen, epoch);
+
+        // FIXME -- here i should update parents children stats.
+
+        return kiddo;
     }
 
     public void eat(Food food) {
@@ -58,6 +78,11 @@ public class Animal extends AbstractMapElement {
     }
 
     @Override
+    public void onDeath() {
+        notifyOnVanish(this);
+    }
+
+    @Override
     public void acceptOnMove(MapElementVisitor visitor, Vector from) {
         visitor.onAnimalMove(this, from);
     }
@@ -65,6 +90,22 @@ public class Animal extends AbstractMapElement {
     @Override
     public void acceptOnVanish(MapElementVisitor visitor) {
         visitor.onAnimalVanish(this);
+    }
+
+    public int getLifetime() {
+        return deathEpoch - bornEpoch;
+    }
+
+    public int getBornEpoch() {
+        return bornEpoch;
+    }
+
+    public int getDeathEpoch() {
+        return deathEpoch;
+    }
+
+    public void setDeathEpoch(int deathEpoch) {
+        this.deathEpoch = deathEpoch;
     }
 
     @Override
@@ -96,7 +137,7 @@ public class Animal extends AbstractMapElement {
     @Override
     public String toString() {
         return "Animal" +
-                "\n" + genome +
+                "\n" + "Genes = " + genome +
                 "\n" + "Orientation = " + orientation +
                 "\n" + "Current Position = " + currentPosition +
                 "\n" + "Current Energy = " + currentEnergy +
