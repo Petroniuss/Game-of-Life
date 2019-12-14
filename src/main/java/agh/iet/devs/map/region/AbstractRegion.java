@@ -70,7 +70,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
      */
     private void updateEnteredPosition(Vector position) {
         this.positionsOccupancyMap.computeIfPresent(position,
-                (k, v) -> OccupancyValue.create(v.total == 0 ? v.index : -1, v.total + 1));
+                (k, v) -> OccupancyValue.create(v.index, v.total + 1));
 
         System.out.println("ENTERED " + position);
         System.out.println(this.emptyPositions);
