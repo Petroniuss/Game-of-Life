@@ -27,9 +27,6 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
             this.emptyPositions.add(i, key);
             this.positionsOccupancyMap.put(key, OccupancyValue.create(i, 0));
         }
-
-        System.out.println(this.emptyPositions);
-        System.out.println(this.positionsOccupancyMap);
     }
 
     @Override
