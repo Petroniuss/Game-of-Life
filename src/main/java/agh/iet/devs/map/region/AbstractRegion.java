@@ -35,6 +35,11 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     }
 
     @Override
+    public List<Vector> emptyPositions() {
+        return this.emptyPositions;
+    }
+
+    @Override
     public void onMove(MapElement e, Vector from) {
         if (isWithin(from))
             updateAbandonedPosition(from);
@@ -91,6 +96,9 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
         }
     }
 
+    /**
+     * Inner class used mainly for keeping things simple ;)
+     */
     private static class OccupancyValue {
         final int index; // index in emptyPositions
         final int total; // how many mapElements occupy given position

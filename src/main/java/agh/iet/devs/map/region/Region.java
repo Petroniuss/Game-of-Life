@@ -3,6 +3,7 @@ package agh.iet.devs.map.region;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface Region {
@@ -21,5 +22,10 @@ public interface Region {
      * @return Position not occupied by any object, empty if no such exists.
      */
     Optional<Vector> emptyPosition();
+
+    /**
+     * @return List of empty positions within given region.
+     */
+    List<Vector> emptyPositions();
 
 }

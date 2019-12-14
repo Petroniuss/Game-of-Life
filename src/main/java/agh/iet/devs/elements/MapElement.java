@@ -1,10 +1,15 @@
 package agh.iet.devs.elements;
 
 import agh.iet.devs.data.Vector;
+import agh.iet.devs.map.MapElementVisitor;
 import agh.iet.devs.utils.GeneralUtils;
 import javafx.scene.image.Image;
 
 public interface MapElement extends MapElementObservable {
+
+    void acceptOnMove(MapElementVisitor visitor, Vector from);
+
+    void acceptOnVanish(MapElementVisitor visitor);
 
     void onUpdate();
 

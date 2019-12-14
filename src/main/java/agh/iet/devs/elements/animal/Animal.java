@@ -5,6 +5,7 @@ import agh.iet.devs.data.Direction;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.food.Food;
+import agh.iet.devs.map.MapElementVisitor;
 
 public class Animal extends AbstractMapElement {
 
@@ -51,6 +52,16 @@ public class Animal extends AbstractMapElement {
 
     public boolean hasDominatingGenome(Genome dominating) {
         return this.genome.equals(dominating);
+    }
+
+    @Override
+    public void acceptOnMove(MapElementVisitor visitor, Vector from) {
+        visitor.onMove(this, from);
+    }
+
+    @Override
+    public void acceptOnVanish(MapElementVisitor visitor) {
+        visitor.onVanish(this);
     }
 
     @Override

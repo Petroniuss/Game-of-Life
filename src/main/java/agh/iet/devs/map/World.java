@@ -4,23 +4,30 @@ import agh.iet.devs.config.Config;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.elements.animal.Animal;
-import agh.iet.devs.elements.animal.Genome;
 import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.region.Grassland;
 import agh.iet.devs.map.region.Jungle;
 import agh.iet.devs.map.region.Region;
 import agh.iet.devs.utils.GeneralUtils;
 import agh.iet.devs.view.controller.UpdateListener;
+import agh.iet.devs.data.Vector;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class World {
+/**
+ * Class responsible for holding information about animals.
+ *
+ * To avoid using instanceof we could implement Visitor pattern!!!
+ */
+public class World implements MapElementObserver, MapElementVisitor {
     private final Config config = Config.getInstance();
     private final UpdateListener listener;
     private final List<Region> regions;
-    private final Map<Genome, Integer> genomes = new HashMap<>();
+
+    private final Map<Vector, Set<Animal>> animalDictionary;
+    private final Map<Vector, Food> foodDictionary;
 
     public World(UpdateListener listener) {
         this.listener = listener;
@@ -37,6 +44,31 @@ public class World {
                 .map(Optional::get)
                 .map(freePosition -> new Animal(freePosition, config.params.startEnergy))
                 .forEach(this::attachMapElement);
+    }
+
+    @Override
+    public void onMove(MapElement e, Vector from) {
+        e.acceptOnMove(this, from);
+    }
+
+    @Override
+    public void onVanish(MapElement e) {
+        e.acceptOnVanish(this);
+    }
+
+    @Override
+    public void onVanish(Food food) {
+
+    }
+
+    @Override
+    public void onVanish(Animal animal) {
+
+    }
+
+    @Override
+    public void onMove(Animal animal, Vector from) {
+
     }
 
     public void onUpdate() {
@@ -114,4 +146,7 @@ public class World {
     private void attachMapElement(MapElement e) {
         regions.forEach(region -> region.attachElement(e));
     }
+
+
+
 }

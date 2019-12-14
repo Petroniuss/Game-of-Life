@@ -2,6 +2,7 @@ package agh.iet.devs.elements.food;
 
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.AbstractMapElement;
+import agh.iet.devs.map.MapElementVisitor;
 
 public class Food extends AbstractMapElement {
 
@@ -11,6 +12,16 @@ public class Food extends AbstractMapElement {
 
     public void onDeath() {
         notifyOnVanish(this);
+    }
+
+    @Override
+    public void acceptOnMove(MapElementVisitor visitor) {
+        // ignore!
+    }
+
+    @Override
+    public void acceptOnVanish(MapElementVisitor visitor) {
+        visitor.onVanish(this);
     }
 
     @Override

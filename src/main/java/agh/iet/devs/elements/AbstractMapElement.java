@@ -3,6 +3,7 @@ package agh.iet.devs.elements;
 import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementObserver;
+import agh.iet.devs.map.MapElementVisitor;
 
 import java.util.HashSet;
 import java.util.Set;
