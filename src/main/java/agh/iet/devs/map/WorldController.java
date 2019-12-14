@@ -1,6 +1,7 @@
 package agh.iet.devs.map;
 
 import agh.iet.devs.config.Config;
+import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.data.Tuple;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.animal.Animal;
@@ -14,10 +15,12 @@ public class WorldController {
 
     private final World world;
     private final UpdateListener listener;
+    private final SimulationState state;
 
-    public WorldController(UpdateListener listener) {
+    public WorldController(UpdateListener listener, SimulationState state) {
         this.world = new World();
         this.listener = listener;
+        this.state = state;
     }
 
     public void updateWorld() {
@@ -46,7 +49,7 @@ public class WorldController {
         animalMap.values()
                 .stream()
                 .filter(animals -> !animals.isEmpty())
-                .map(this::findHealthiestAnimal)
+                .map(WorldController::findHealthiestAnimal)
                 .filter(animal -> foodMap.containsKey(animal.getPosition()))
                 .forEach(animal -> animal.eat(foodMap.get(animal.getPosition())));
 
@@ -54,21 +57,22 @@ public class WorldController {
         animalMap.values()
                 .stream()
                 .filter(animals -> animals.size() >= 2)
-                .map(this::findHealthiestPair)
+                .map(WorldController::findHealthiestPair)
                 .filter(parents -> parents.second.eligibleForReproduction())
                 .map(parents -> Animal.cross(parents.first, parents.second))
                 .forEach(world::attachAnimal);
 
         listener.onUpdate(world.elements());
+        this.state.update(world.foodCount(), world.animalCount());
     }
 
-    private Animal findHealthiestAnimal(Set<Animal> animalSet) {
+    private static Animal findHealthiestAnimal(Set<Animal> animalSet) {
         return animalSet.stream()
                 .max(Comparator.comparingInt(AbstractMapElement::getEnergy))
                 .orElseThrow();
     }
 
-    private Tuple<Animal> findHealthiestPair(Set<Animal> set) {
+    private static Tuple<Animal> findHealthiestPair(Set<Animal> set) {
         var it = set.iterator();
         var a = it.next();
         var b = it.next();

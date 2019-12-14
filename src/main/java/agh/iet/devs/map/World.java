@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-/**1
+/**
  * Class responsible for holding information about animals.
  */
 public class World implements MapElementObserver, MapElementVisitor {
@@ -60,6 +60,17 @@ public class World implements MapElementObserver, MapElementVisitor {
 
     public List<Region> getRegions() {
         return new ArrayList<>(regions);
+    }
+
+    public int foodCount() {
+        return foodMap.size();
+    }
+
+    public int animalCount() {
+        return animalMap.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .reduce(0, (acc, e) -> acc + 1, Integer::sum);
     }
 
     public List<MapElement> elements() {
