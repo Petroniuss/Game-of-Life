@@ -1,5 +1,4 @@
 import agh.iet.devs.config.SimulationState;
-import agh.iet.devs.map.World;
 import agh.iet.devs.map.WorldController;
 import agh.iet.devs.view.controller.ViewConfiguration;
 import agh.iet.devs.view.controller.ViewController;
