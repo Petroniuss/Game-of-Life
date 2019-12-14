@@ -8,8 +8,9 @@ public class Params {
     public final int plantEnergy;
     public final double jungleRatio;
     public final int animalsAtStart;
+    public final boolean parallel;
 
-    public Params(int width, int height, int startEnergy, int moveEnergy, int plantEnergy, double jungleRatio, int animalsAtStart) {
+    public Params(int width, int height, int startEnergy, int moveEnergy, int plantEnergy, double jungleRatio, int animalsAtStart, boolean parallel) {
         this.width = width;
         this.height = height;
         this.startEnergy = startEnergy;
@@ -17,6 +18,7 @@ public class Params {
         this.plantEnergy = plantEnergy;
         this.jungleRatio = jungleRatio;
         this.animalsAtStart = animalsAtStart;
+        this.parallel = parallel;
     }
 
     @Override

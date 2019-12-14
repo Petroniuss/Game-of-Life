@@ -2,16 +2,12 @@ import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.WorldController;
 import agh.iet.devs.view.SimulationView;
 import agh.iet.devs.view.controller.ViewConfiguration;
-import agh.iet.devs.view.controller.ViewController;
 import agh.iet.devs.view.menu.GeneralMenuBar;
-import agh.iet.devs.view.node.Tile;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 

@@ -3,7 +3,7 @@ package agh.iet.devs.elements;
 import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementObserver;
-import javafx.scene.image.ImageView;
+import agh.iet.devs.view.SimulationNode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public abstract class AbstractMapElement implements MapElement {
 
-    protected final ImageView view;
+    protected final SimulationNode view;
 
     protected Vector currentPosition;
     protected int currentEnergy;
@@ -21,19 +21,22 @@ public abstract class AbstractMapElement implements MapElement {
     public AbstractMapElement(Vector initialPosition, int initialEnergy) {
         this.currentPosition = initialPosition;
         this.currentEnergy = initialEnergy;
-        this.view = new ImageView(getIcon().img);
+        this.view = new SimulationNode(this);
     }
 
     @Override
     public void onUpdate() {
         this.currentEnergy -= Config.getInstance().params.moveEnergy;
 
-        if (isAlive())
+        if (isAlive()) {
             update();
+            view.updateTooltip(toString());
+            view.setImage(getIcon().img);
+        }
     }
 
     @Override
-    public ImageView getView() {
+    public SimulationNode getView() {
         return view;
     }
 
