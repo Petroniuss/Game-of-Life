@@ -6,10 +6,10 @@ import agh.iet.devs.elements.food.Food;
 
 public interface MapElementVisitor {
 
-    void onVanish(Food food);
+    void onFoodVanish(Food food);
 
-    void onVanish(Animal animal);
+    void onAnimalVanish(Animal animal);
 
-    void onMove(Animal animal, Vector from);
+    void onAnimalMove(Animal animal, Vector from);
 
 }

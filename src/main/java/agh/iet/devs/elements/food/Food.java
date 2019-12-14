@@ -21,7 +21,7 @@ public class Food extends AbstractMapElement {
 
     @Override
     public void acceptOnVanish(MapElementVisitor visitor) {
-        visitor.onVanish(this);
+        visitor.onFoodVanish(this);
     }
 
     @Override

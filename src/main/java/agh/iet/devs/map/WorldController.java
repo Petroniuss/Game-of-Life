@@ -56,15 +56,11 @@ public class WorldController {
                 .stream()
                 .filter(animals -> animals.size() >= 2)
                 .map(this::findHealthiest)
+                .filter(parents -> parents.first.eligibleForReproduction() && parents.second.eligibleForReproduction())
                 .map(parents -> Animal.cross(parents.first, parents.second))
                 .forEach(world::attachAnimal);
 
-
-        listener.onUpdate(
-                animalMap.values()
-                        .stream()
-                        .flatMap(Set::stream)
-                        .collect(Collectors.toList()));
+        listener.onUpdate(world.elements());
     }
 
     private Animal findHealthiestAnimal(Set<Animal> animalSet) {

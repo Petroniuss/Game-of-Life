@@ -11,6 +11,7 @@ import agh.iet.devs.map.region.Region;
 import agh.iet.devs.utils.GeneralUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**1
@@ -46,7 +47,11 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     public Map<Vector, Set<Animal>> getAnimalMap() {
-        return new HashMap<>(animalMap);
+        final var shallow = new  HashMap<Vector, Set<Animal>>(animalMap.size());
+
+        animalMap.forEach((key, value) -> shallow.put(key, new HashSet<>(value)));
+
+        return shallow;
     }
 
     public Map<Vector, Food> getFoodMap() {
@@ -55,6 +60,13 @@ public class World implements MapElementObserver, MapElementVisitor {
 
     public List<Region> getRegions() {
         return new ArrayList<>(regions);
+    }
+
+    public List<MapElement> elements() {
+        final var e = new ArrayList<MapElement>(foodMap.values());
+        e.addAll(animalMap.values().stream().flatMap(Set::stream).collect(Collectors.toList()));
+
+        return e;
     }
 
     @Override
@@ -68,17 +80,17 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     @Override
-    public void onVanish(Food food) {
+    public void onFoodVanish(Food food) {
         this.foodMap.remove(food.getPosition());
     }
 
     @Override
-    public void onVanish(Animal animal) {
+    public void onAnimalVanish(Animal animal) {
         this.animalMap.get(animal.getPosition()).remove(animal);
     }
 
     @Override
-    public void onMove(Animal animal, Vector from) {
+    public void onAnimalMove(Animal animal, Vector from) {
         this.animalMap.get(from).remove(animal);
         this.animalMap.get(animal.getPosition()).add(animal);
     }

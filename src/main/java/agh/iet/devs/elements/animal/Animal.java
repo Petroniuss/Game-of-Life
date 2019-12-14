@@ -56,12 +56,12 @@ public class Animal extends AbstractMapElement {
 
     @Override
     public void acceptOnMove(MapElementVisitor visitor, Vector from) {
-        visitor.onMove(this, from);
+        visitor.onAnimalMove(this, from);
     }
 
     @Override
     public void acceptOnVanish(MapElementVisitor visitor) {
-        visitor.onVanish(this);
+        visitor.onAnimalVanish(this);
     }
 
     @Override
