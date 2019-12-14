@@ -38,10 +38,10 @@ public class WorldController {
         foodMap.values()
                 .forEach(AbstractMapElement::onUpdate);
 
-        animalMap.values()
-                .stream()
-                .flatMap(Set::stream)
-                .forEach(AbstractMapElement::onUpdate);
+//        animalMap.values()
+//                .stream()
+//                .flatMap(Set::stream)
+//                .forEach(AbstractMapElement::onUpdate);
 
         // eat!
         animalMap.values()

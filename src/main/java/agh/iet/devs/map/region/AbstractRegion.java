@@ -12,8 +12,6 @@ import java.util.*;
  *
  * The point of this class is to implement finding random position within some area (specified by subclass) in O(1).
  * Basically every operation here, except for initialization is O(1).
- *
- * FIXME - there's clearly a bug!
  */
 public abstract class AbstractRegion implements Region, MapElementObserver {
     protected final Map<Vector, OccupancyValue> positionsOccupancyMap;
@@ -72,7 +70,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
      */
     private void updateEnteredPosition(Vector position) {
         this.positionsOccupancyMap.computeIfPresent(position,
-                (k, v) -> OccupancyValue.create(v.index, v.total + 1));
+                (k, v) -> OccupancyValue.create(v.total == 0 ? v.index : -1, v.total + 1));
 
         System.out.println("ENTERED " + position);
         System.out.println(this.emptyPositions);
@@ -86,7 +84,8 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
             Collections.swap(this.emptyPositions, index, lastIndex);
 
             this.emptyPositions.remove(lastIndex);
-            positionsOccupancyMap.computeIfPresent(last, (k, v) -> OccupancyValue.create(index, v.total));
+            positionsOccupancyMap.computeIfPresent(last,
+                    (k, v) -> OccupancyValue.create(index, v.total));
         }
     }
 
