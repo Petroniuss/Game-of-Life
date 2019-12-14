@@ -1,14 +1,17 @@
 import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.WorldController;
+import agh.iet.devs.view.SimulationView;
 import agh.iet.devs.view.controller.ViewConfiguration;
 import agh.iet.devs.view.controller.ViewController;
 import agh.iet.devs.view.menu.GeneralMenuBar;
+import agh.iet.devs.view.node.Tile;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -29,13 +32,12 @@ public class Main extends Application {
     public void start(Stage stage) {
         this.state = new SimulationState();
 
-        final var grid = new GridPane();
-        final var controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT, state);
+        final var controller = new SimulationView(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        this.worldController = new WorldController(controller);
+        this.worldController = new WorldController(controller, this.state);
         this.menu = new GeneralMenuBar(state);
 
-        final var vbox = new VBox( menu, grid);
+        final var vbox = new VBox(menu, controller);
         final var scene = new Scene(vbox);
 
         scene.getStylesheets().add(getStyleSheets());

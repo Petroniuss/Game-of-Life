@@ -47,6 +47,8 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
     public void onVanish(MapElement e) {
         if (isWithin(e.getPosition()))
             updateAbandonedPosition(e.getPosition());
+
+        e.detachListener(this);
     }
 
     @Override

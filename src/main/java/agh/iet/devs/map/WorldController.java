@@ -7,20 +7,28 @@ import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.animal.Animal;
 import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.region.Region;
-import agh.iet.devs.view.controller.UpdateListener;
+import agh.iet.devs.view.UIListener;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.Set;
 
 public class WorldController {
 
     private final World world;
-    private final UpdateListener listener;
+    private final UIListener uiObserver;
     private final SimulationState state;
 
-    public WorldController(UpdateListener listener, SimulationState state) {
+    public WorldController(UIListener uiObserver, SimulationState state) {
         this.world = new World();
-        this.listener = listener;
+        this.uiObserver = uiObserver;
         this.state = state;
+
+        this.world.getAnimalMap().values()
+                .stream()
+                .flatMap(Collection::stream)
+                .forEach(uiObserver::attach);
     }
 
     public void updateWorld() {
@@ -34,6 +42,7 @@ public class WorldController {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(empty -> new Food(empty, Config.getInstance().params.plantEnergy))
+                .peek(uiObserver::attach)
                 .forEach(world::attachFood);
 
         // update!
@@ -60,9 +69,9 @@ public class WorldController {
                 .map(WorldController::findHealthiestPair)
                 .filter(parents -> parents.second.eligibleForReproduction())
                 .map(parents -> Animal.cross(parents.first, parents.second))
+                .peek(uiObserver::attach)
                 .forEach(world::attachAnimal);
 
-        listener.onUpdate(world.elements());
         this.state.update(world.foodCount(), world.animalCount());
     }
 

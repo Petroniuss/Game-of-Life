@@ -3,11 +3,15 @@ package agh.iet.devs.elements;
 import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementObserver;
+import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AbstractMapElement implements MapElement {
+
+    protected final ImageView view;
 
     protected Vector currentPosition;
     protected int currentEnergy;
@@ -17,6 +21,7 @@ public abstract class AbstractMapElement implements MapElement {
     public AbstractMapElement(Vector initialPosition, int initialEnergy) {
         this.currentPosition = initialPosition;
         this.currentEnergy = initialEnergy;
+        this.view = new ImageView(getIcon().img);
     }
 
     @Override
@@ -25,6 +30,11 @@ public abstract class AbstractMapElement implements MapElement {
 
         if (isAlive())
             update();
+    }
+
+    @Override
+    public ImageView getView() {
+        return view;
     }
 
     /**
@@ -50,7 +60,7 @@ public abstract class AbstractMapElement implements MapElement {
 
     @Override
     public void notifyOnVanish(MapElement e) {
-        observers.forEach(observer -> observer.onVanish(e));
+        new ArrayList<>(observers).forEach(observer -> observer.onVanish(e));
     }
 
     @Override

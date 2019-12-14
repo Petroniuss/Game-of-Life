@@ -11,7 +11,6 @@ import agh.iet.devs.map.region.Region;
 import agh.iet.devs.utils.GeneralUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -73,16 +72,6 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .reduce(0, (acc, e) -> acc + 1, Integer::sum);
     }
 
-    public List<MapElement> elements() {
-        final List<MapElement> elements = animalMap.values()
-                .stream()
-                .flatMap(Set::stream)
-                .collect(Collectors.toList());
-        elements.addAll(foodMap.values());
-
-        return elements;
-    }
-
     @Override
     public void onMove(MapElement e, Vector from) {
         e.acceptOnMove(this, from);
@@ -91,6 +80,7 @@ public class World implements MapElementObserver, MapElementVisitor {
     @Override
     public void onVanish(MapElement e) {
         e.acceptOnVanish(this);
+        e.detachListener(this);
     }
 
     @Override

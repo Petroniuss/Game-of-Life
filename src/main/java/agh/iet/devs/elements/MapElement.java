@@ -3,7 +3,9 @@ package agh.iet.devs.elements;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementVisitor;
 import agh.iet.devs.utils.GeneralUtils;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public interface MapElement extends MapElementObservable {
 
@@ -16,6 +18,8 @@ public interface MapElement extends MapElementObservable {
     Vector getPosition();
 
     int getEnergy();
+
+    ImageView getView();
 
     Icon getIcon();
 
