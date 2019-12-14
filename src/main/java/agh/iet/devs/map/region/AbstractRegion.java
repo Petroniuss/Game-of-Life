@@ -72,10 +72,6 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
         this.positionsOccupancyMap.computeIfPresent(position,
                 (k, v) -> OccupancyValue.create(v.index, v.total + 1));
 
-        System.out.println("ENTERED " + position);
-        System.out.println(this.emptyPositions);
-        System.out.println(this.positionsOccupancyMap);
-
         if (this.positionsOccupancyMap.get(position).total == 1) {
             final var lastIndex = this.emptyPositions.size() - 1;
             final var last = this.emptyPositions.get(lastIndex);
@@ -86,6 +82,8 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
             this.emptyPositions.remove(lastIndex);
             positionsOccupancyMap.computeIfPresent(last,
                     (k, v) -> OccupancyValue.create(index, v.total));
+            positionsOccupancyMap.computeIfPresent(position,
+                    (k, v) -> OccupancyValue.create(-1, v.total));
         }
     }
 
