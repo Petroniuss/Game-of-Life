@@ -21,12 +21,7 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
         this.positionsOccupancyMap = new HashMap<>(freePositions.size());
         this.emptyPositions = new ArrayList<>(freePositions.size());
 
-        for (int i = 0; i < freePositions.size(); i++) {
-            final var key = freePositions.get(i);
-
-            this.emptyPositions.add(i, key);
-            this.positionsOccupancyMap.put(key, OccupancyValue.create(i, 0));
-        }
+        freePositions.forEach(this::addEmptyPosition);
     }
 
     @Override
@@ -66,37 +61,58 @@ public abstract class AbstractRegion implements Region, MapElementObserver {
      * Should be called when position has been entered.
      */
     private void updateEnteredPosition(Vector position) {
-        this.positionsOccupancyMap.computeIfPresent(position,
-                (k, v) -> OccupancyValue.create(v.index, v.total + 1));
+        incrementTotalAt(position);
 
-        if (this.positionsOccupancyMap.get(position).total == 1) {
-            final var lastIndex = this.emptyPositions.size() - 1;
-            final var last = this.emptyPositions.get(lastIndex);
-            final var index = this.positionsOccupancyMap.get(position).index;
-
-            Collections.swap(this.emptyPositions, index, lastIndex);
-
-            this.emptyPositions.remove(lastIndex);
-            positionsOccupancyMap.computeIfPresent(last,
-                    (k, v) -> OccupancyValue.create(index, v.total));
-            positionsOccupancyMap.computeIfPresent(position,
-                    (k, v) -> OccupancyValue.create(-1, v.total));
-        }
+        if (totalAt(position) == 1)
+            removeEmptyPosition(position);
     }
 
     /**
      * Should be called when position has been left.
      */
     private void updateAbandonedPosition(Vector position) {
-        final var index = this.emptyPositions.size();
+        decrementTotalAt(position);
 
+        if (totalAt(position) == 0)
+            addEmptyPosition(position);
+    }
+
+    private int totalAt(Vector position) {
+        return this.positionsOccupancyMap.get(position).total;
+    }
+
+    private void decrementTotalAt(Vector position) {
         this.positionsOccupancyMap.computeIfPresent(position,
-                (key, v) -> OccupancyValue.create(-1, v.total - 1));
+                (k, v) -> OccupancyValue.create(v.index, v.total - 1));
+    }
 
-        if (this.positionsOccupancyMap.get(position).total == 0) {
-            this.positionsOccupancyMap.put(position, OccupancyValue.create(index, 0));
-            this.emptyPositions.add(index, position);
-        }
+    private void incrementTotalAt(Vector position) {
+        this.positionsOccupancyMap.computeIfPresent(position,
+                (k, v) -> OccupancyValue.create(v.index, v.total + 1));
+    }
+
+    private void addEmptyPosition(Vector position) {
+        final var i = this.emptyPositions.size();
+
+        this.emptyPositions.add(position);
+        this.positionsOccupancyMap.put(position, OccupancyValue.create(i, 0));
+    }
+
+    /**
+     * Removes emptyPosition and updates occupancyMap
+     */
+    private void removeEmptyPosition(Vector wasEmpty) {
+        final var lastI = this.emptyPositions.size() - 1;
+        final var last = this.emptyPositions.get(lastI);
+
+        final var i = this.positionsOccupancyMap.get(wasEmpty).index;
+
+        Collections.swap(this.emptyPositions, i, lastI);
+
+        this.emptyPositions.remove(lastI);
+        this.positionsOccupancyMap.computeIfPresent(last,
+                (k, v) -> OccupancyValue.create(i, v.total));
+
     }
 
     /**

@@ -9,7 +9,6 @@ import agh.iet.devs.map.region.Region;
 import agh.iet.devs.view.controller.UpdateListener;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class WorldController {
 
@@ -55,8 +54,8 @@ public class WorldController {
         animalMap.values()
                 .stream()
                 .filter(animals -> animals.size() >= 2)
-                .map(this::findHealthiest)
-                .filter(parents -> parents.first.eligibleForReproduction() && parents.second.eligibleForReproduction())
+                .map(this::findHealthiestPair)
+                .filter(parents -> parents.second.eligibleForReproduction())
                 .map(parents -> Animal.cross(parents.first, parents.second))
                 .forEach(world::attachAnimal);
 
@@ -69,15 +68,28 @@ public class WorldController {
                 .orElseThrow();
     }
 
-    private Tuple<Animal> findHealthiest(Set<Animal> set) {
-        final var cpy = new HashSet<>(set);
-        final var a1 = findHealthiestAnimal(cpy);
+    private Tuple<Animal> findHealthiestPair(Set<Animal> set) {
+        var it = set.iterator();
+        var a = it.next();
+        var b = it.next();
 
-        cpy.remove(a1);
+        if (a.getEnergy() < b.getEnergy()) {
+            var c = a;
+            a = b;
+            b = c;
+        }
 
-        final var a2 = findHealthiestAnimal(cpy);
+        while (it.hasNext()) {
+            var next = it.next();
+            if (next.getEnergy() > a.getEnergy()){
+                b = a;
+                a = next;
+            } else if (next.getEnergy() > b.getEnergy()) {
+                b = next;
+            }
+        }
 
-        return Tuple.of(a1, a2);
+        return Tuple.of(a, b);
     }
 
 }

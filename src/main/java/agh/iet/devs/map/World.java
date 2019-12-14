@@ -63,10 +63,13 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     public List<MapElement> elements() {
-        final var e = new ArrayList<MapElement>(foodMap.values());
-        e.addAll(animalMap.values().stream().flatMap(Set::stream).collect(Collectors.toList()));
+        final List<MapElement> elements = animalMap.values()
+                .stream()
+                .flatMap(Set::stream)
+                .collect(Collectors.toList());
+        elements.addAll(foodMap.values());
 
-        return e;
+        return elements;
     }
 
     @Override
