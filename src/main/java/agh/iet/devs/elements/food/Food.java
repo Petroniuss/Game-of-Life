@@ -15,7 +15,7 @@ public class Food extends AbstractMapElement {
     }
 
     @Override
-    public void acceptOnMove(MapElementVisitor visitor) {
+    public void acceptOnMove(MapElementVisitor visitor, Vector from) {
         // ignore!
     }
 

@@ -1,5 +1,6 @@
 import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.World;
+import agh.iet.devs.map.WorldController;
 import agh.iet.devs.view.controller.ViewConfiguration;
 import agh.iet.devs.view.controller.ViewController;
 import agh.iet.devs.view.menu.GeneralMenuBar;
@@ -16,7 +17,7 @@ import static agh.iet.devs.view.controller.ViewConfiguration.WINDOW_HEIGHT;
 import static agh.iet.devs.view.controller.ViewConfiguration.WINDOW_WIDTH;
 
 public class Main extends Application {
-    private World world;
+    private WorldController worldController;
 
     private GeneralMenuBar menu;
     private SimulationState state;
@@ -32,7 +33,7 @@ public class Main extends Application {
         final var grid = new GridPane();
         final var controller = new ViewController(grid, WINDOW_WIDTH, WINDOW_HEIGHT, state);
 
-        this.world = new World(controller);
+        this.worldController = new WorldController(controller);
         this.menu = new GeneralMenuBar(state);
 
         final var vbox = new VBox( menu, grid);
@@ -65,7 +66,7 @@ public class Main extends Application {
     }
 
     private void update() {
-        this.world.onUpdate();
+        this.worldController.updateWorld();
         this.menu.statisticsMenu.onUpdate();
         this.menu.chartMenu.onUpdate();
     }

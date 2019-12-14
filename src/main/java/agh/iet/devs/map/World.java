@@ -1,9 +1,7 @@
 package agh.iet.devs.map;
 
 import agh.iet.devs.config.Config;
-import agh.iet.devs.data.Tuple;
 import agh.iet.devs.data.Vector;
-import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.elements.animal.Animal;
 import agh.iet.devs.elements.food.Food;
@@ -15,7 +13,7 @@ import agh.iet.devs.utils.GeneralUtils;
 import java.util.*;
 import java.util.stream.IntStream;
 
-/**
+/**1
  * Class responsible for holding information about animals.
  */
 public class World implements MapElementObserver, MapElementVisitor {
@@ -47,39 +45,16 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .forEach(this::attachAnimal);
     }
 
-    public void onUpdate() {
-        // grow!
-        regions.stream()
-                .map(Region::emptyPosition)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(empty -> new Food(empty, config.params.plantEnergy))
-                .forEach(this::attachFood);
+    public Map<Vector, Set<Animal>> getAnimalMap() {
+        return new HashMap<>(animalMap);
+    }
 
-        // update!
-        foodMap.values()
-                .forEach(AbstractMapElement::onUpdate);
+    public Map<Vector, Food> getFoodMap() {
+        return new HashMap<>(foodMap);
+    }
 
-        animalMap.values()
-                .stream()
-                .flatMap(Set::stream)
-                .forEach(AbstractMapElement::onUpdate);
-
-        // eat!
-        animalMap.values()
-                .stream()
-                .filter(animals -> !animals.isEmpty())
-                .map(this::findHealthiestAnimal)
-                .filter(animal -> foodMap.containsKey(animal.getPosition()))
-                .forEach(animal -> animal.eat(foodMap.get(animal.getPosition())));
-
-        // propagate!
-        animalMap.values()
-                .stream()
-                .filter(animals -> animals.size() >= 2)
-                .map(this::findHealthiest)
-                .map(parents -> Animal.cross(parents.first, parents.second))
-                .forEach(this::attachAnimal);
+    public List<Region> getRegions() {
+        return new ArrayList<>(regions);
     }
 
     @Override
@@ -108,37 +83,20 @@ public class World implements MapElementObserver, MapElementVisitor {
         this.animalMap.get(animal.getPosition()).add(animal);
     }
 
-    private void attachAnimal(Animal animal) {
+    public void attachAnimal(Animal animal) {
         animalMap.get(animal.getPosition()).add(animal);
 
         attachMapElement(animal);
     }
 
-    private void attachFood(Food food) {
+    public void attachFood(Food food) {
         foodMap.put(food.getPosition(), food);
 
         attachMapElement(food);
     }
 
-    private void attachMapElement(MapElement e) {
+    public void attachMapElement(MapElement e) {
         e.attachListener(this);
         regions.forEach(region -> region.attachElement(e));
     }
-
-    private Animal findHealthiestAnimal(Set<Animal> animalSet) {
-        return animalSet.stream()
-                .max(Comparator.comparingInt(AbstractMapElement::getEnergy))
-                .orElseThrow();
-    }
-
-    private Tuple<Animal> findHealthiest(Set<Animal> set) {
-        final var cpy = new HashSet<>(set);
-
-        final var a1 = findHealthiestAnimal(cpy);
-        cpy.remove(a1);
-        final var a2 = findHealthiestAnimal(cpy);
-
-        return Tuple.of(a1, a2);
-    }
-
 }
