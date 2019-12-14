@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * Class implements most of the functionality of a region.
  *
- * The point of this class is to implement finding random position within some area (specified by subclass)in O(1).
+ * The point of this class is to implement finding random position within some area (specified by subclass) in O(1).
  * Basically every operation here, except for initialization is O(1).
  */
 public abstract class AbstractRegion implements Region, MapElementObserver {

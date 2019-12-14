@@ -4,8 +4,6 @@ import agh.iet.devs.data.Rect;
 import agh.iet.devs.data.Vector;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Grassland extends AbstractRegion {
