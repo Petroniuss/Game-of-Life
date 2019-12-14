@@ -11,7 +11,6 @@ import agh.iet.devs.map.region.Grassland;
 import agh.iet.devs.map.region.Jungle;
 import agh.iet.devs.map.region.Region;
 import agh.iet.devs.utils.GeneralUtils;
-import agh.iet.devs.view.controller.UpdateListener;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -25,9 +24,9 @@ public class World implements MapElementObserver, MapElementVisitor {
     private final Map<Vector, Set<Animal>> animalMap = new HashMap<>();
     private final Map<Vector, Food> foodMap = new HashMap<>();
 
-    public World() {
-        final var config = Config.getInstance();
+    private final Config config = Config.getInstance();
 
+    public World() {
         this.regions = List.of(
                 new Jungle(config.jungleBounds()),
                 new Grassland(config.outerBounds(), config.jungleBounds()));
@@ -49,6 +48,14 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     public void onUpdate() {
+        // grow!
+        regions.stream()
+                .map(Region::emptyPosition)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(empty -> new Food(empty, config.params.plantEnergy))
+                .forEach(this::attachFood);
+
         // update!
         foodMap.values()
                 .forEach(AbstractMapElement::onUpdate);
