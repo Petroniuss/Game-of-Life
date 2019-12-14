@@ -1,24 +1,22 @@
 import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.WorldController;
+import agh.iet.devs.view.menu.SideMenu;
 import agh.iet.devs.view.SimulationView;
 import agh.iet.devs.view.controller.ViewConfiguration;
-import agh.iet.devs.view.menu.GeneralMenuBar;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import static agh.iet.devs.view.controller.ViewConfiguration.WINDOW_HEIGHT;
-import static agh.iet.devs.view.controller.ViewConfiguration.WINDOW_WIDTH;
+import static agh.iet.devs.view.controller.ViewConfiguration.*;
 
 public class Main extends Application {
-    private WorldController worldController;
 
-    private GeneralMenuBar menu;
-    private SimulationState state;
+    private WorldController worldController;
+    private SideMenu menu;
 
     public static void main(String[] args) {
         launch();
@@ -26,15 +24,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        this.state = new SimulationState();
 
-        final var controller = new SimulationView(WINDOW_WIDTH, WINDOW_HEIGHT);
+        var state = new SimulationState();
+        var controller = new SimulationView(SIMULATION_WIDTH, SIMULATION_HEIGHT);
 
-        this.worldController = new WorldController(controller, this.state);
-        this.menu = new GeneralMenuBar(state);
+        this.menu = new SideMenu(state);
+        this.worldController = new WorldController(controller, state);
 
-        final var vbox = new VBox(menu, controller);
-        final var scene = new Scene(vbox);
+        final var hbox = new HBox(menu, controller);
+        final var scene = new Scene(hbox);
 
         scene.getStylesheets().add(getStyleSheets());
 
@@ -42,11 +40,11 @@ public class Main extends Application {
             Runnable updater = this::update;
             while (true) {
                 try {
-                    Thread.sleep(state.interval.get());
+                    Thread.sleep(ViewConfiguration.getInstance().interval.get());
                 } catch (InterruptedException ignore) {}
 
                 // UI update is run on the UI thread
-                if (state.running.get())
+                if (ViewConfiguration.getInstance().running.get())
                     Platform.runLater(updater);
             }
         });
@@ -64,15 +62,14 @@ public class Main extends Application {
 
     private void update() {
         this.worldController.updateWorld();
-        this.menu.statisticsMenu.onUpdate();
-        this.menu.chartMenu.onUpdate();
+        this.menu.onUpdate();
     }
 
     private void onKeyPressed(KeyEvent event) {
         final var code = event.getCode();
 
         if (code == KeyCode.P)
-            this.menu.settingsMenu.onPausePlayEvent();
+            this.menu.onPausePlayEvent();
         else if (code == KeyCode.ESCAPE)
             System.exit(0);
     }

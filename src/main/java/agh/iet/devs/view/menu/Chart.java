@@ -1,48 +1,36 @@
 package agh.iet.devs.view.menu;
 
 import agh.iet.devs.config.SimulationState;
-import agh.iet.devs.utils.GeneralUtils;
+import agh.iet.devs.view.controller.ViewConfiguration;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.Menu;
-import javafx.scene.image.ImageView;
 
 @SuppressWarnings("unchecked")
-public class ChartMenu extends Menu {
+public class Chart extends LineChart<Number, Number> {
 
     private final SimulationState state;
     private final XYChart.Series<Number, Number> foodSeries;
     private final XYChart.Series<Number, Number> animalSeries;
 
-    public ChartMenu(SimulationState state) {
-        super("Chart");
+    public Chart(SimulationState state) {
+        super(new NumberAxis(), new NumberAxis());
         this.state = state;
-
-        setGraphic(new ImageView(GeneralUtils.fromImages("line-chart.png")));
-
-        final var xAxis = new NumberAxis();
-        final var yAxis = new NumberAxis();
-        final var lineChart = new LineChart<>(xAxis,yAxis);
-
-        xAxis.setLabel("Days");
-        lineChart.setTitle("Life does find a way");
 
         this.animalSeries = new XYChart.Series<>(
                 "Animals", FXCollections.observableArrayList(new XYChart.Data<>(state.dayCount.get(), state.animalCount.get())));
 
-
         this.foodSeries = new XYChart.Series<>(
                 "Food", FXCollections.observableArrayList(new XYChart.Data<>(state.dayCount.get(), state.foodCount.get())));
 
-        lineChart.getData().addAll(animalSeries, foodSeries);
-        lineChart.setCreateSymbols(false);
+        getData().addAll(animalSeries, foodSeries);
+        setCreateSymbols(false);
+        setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH);
+        setPadding(new Insets(2, 0, 10, 0));
 
-        final var charMenuItem = new CustomMenuItem(lineChart);
-        getItems().add(charMenuItem);
+        applyCss();
     }
 
     public void onUpdate() {

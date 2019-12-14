@@ -1,9 +1,12 @@
 package agh.iet.devs.map;
 
 import agh.iet.devs.config.Config;
+import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.data.Vector;
+import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.MapElement;
 import agh.iet.devs.elements.animal.Animal;
+import agh.iet.devs.elements.animal.Genome;
 import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.region.Grassland;
 import agh.iet.devs.map.region.Jungle;
@@ -21,10 +24,12 @@ public class World implements MapElementObserver, MapElementVisitor {
     private final List<Region> regions;
     private final Map<Vector, Set<Animal>> animalMap = new HashMap<>();
     private final Map<Vector, Food> foodMap = new HashMap<>();
+    private final SimulationState state;
 
     private final Config config = Config.getInstance();
 
-    public World() {
+    public World(SimulationState state) {
+        this.state = state;
         this.regions = List.of(
                 new Jungle(config.jungleBounds()),
                 new Grassland(config.outerBounds(), config.jungleBounds()));
@@ -70,6 +75,30 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .stream()
                 .flatMap(Collection::stream)
                 .reduce(0, (acc, e) -> acc + 1, Integer::sum);
+    }
+
+    public Genome dominatingGenome() {
+        final var freqMap = new HashMap<Genome, Integer>();
+
+        return animalMap.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .map(Animal::getGenome)
+                .reduce((acc, e) -> {
+                    freqMap.merge(e, 1, Integer::sum);
+
+                    if (freqMap.get(e) > freqMap.get(acc))
+                        return e;
+                    return acc;
+                }).orElseThrow();
+    }
+
+    public double averageEnergy() {
+        return animalMap.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .map(AbstractMapElement::getEnergy)
+                .reduce(0.0, Double::sum, Double::sum) / animalCount();
     }
 
     @Override

@@ -21,7 +21,7 @@ public class WorldController {
     private final SimulationState state;
 
     public WorldController(UIListener uiObserver, SimulationState state) {
-        this.world = new World();
+        this.world = new World(state);
         this.uiObserver = uiObserver;
         this.state = state;
 

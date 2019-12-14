@@ -12,6 +12,9 @@ public class Animal extends AbstractMapElement {
     private final Genome genome;
     private final int generation;
 
+    private final int bornEpoch;
+    private int deathEpoch;
+
     private Direction orientation = Direction.random();
 
     private Animal(Vector initialPosition, int initialEnergy, Genome g1, Genome g2,
@@ -50,8 +53,8 @@ public class Animal extends AbstractMapElement {
         return this.currentEnergy >= Config.getInstance().params.startEnergy / 2;
     }
 
-    public boolean hasDominatingGenome(Genome dominating) {
-        return this.genome.equals(dominating);
+    public Genome getGenome() {
+        return this.genome;
     }
 
     @Override
