@@ -10,14 +10,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class SimulationState {
 
+    public final Set<Animal> animals = new HashSet<>();
     public final AtomicInteger animalCount = new AtomicInteger(Config.getInstance().params.animalsAtStart);
     public final AtomicInteger foodCount = new AtomicInteger(0);
     public final AtomicLong dayCount = new AtomicLong(1);
 
     public Genome dominatingGenome;
-    public double averageEnergy = 0;
-    public double lifeExpectancy = 0;
-    public Set<Animal> animals = new HashSet<>();
+    public double averageEnergy = Double.NaN;
+    public double lifeExpectancy = Double.NaN;
+    public double averageChildren = Double.NaN;
 
     public void update(int foodCount, int animalCount, double averageEnergy, Genome dominatingGenome){
         this.dayCount.incrementAndGet();
@@ -26,6 +27,7 @@ public class SimulationState {
         this.averageEnergy = averageEnergy;
         this.dominatingGenome = dominatingGenome;
         this.lifeExpectancy = calcLifeExpectancy();
+        this.averageChildren = avgChildren();
     }
 
     public void addNewborn(Animal animal) {
@@ -43,6 +45,11 @@ public class SimulationState {
                 .filter(animal -> animal.getDeathEpoch() != -1).count();
     }
 
-
+    private double avgChildren() {
+        return animals.stream()
+                .map(Animal::getChildren)
+                .reduce(Integer::sum)
+                .orElse(0) / (double) animals.size();
+    }
 
 }

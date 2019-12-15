@@ -2,7 +2,6 @@ package agh.iet.devs.view.controller;
 
 import agh.iet.devs.config.Config;
 import agh.iet.devs.utils.GeneralUtils;
-import agh.iet.devs.view.menu.SettingsMenu;
 import javafx.scene.image.Image;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public final class ViewConfiguration {
     private static ViewConfiguration instance;
 
-    public static final String TITLE = "Game Of Life";
+    public static final String TITLE = "Game of Life";
 
     public static final int WINDOW_WIDTH = 1600;
     public static final int WINDOW_HEIGHT = 900;

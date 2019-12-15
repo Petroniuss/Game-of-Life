@@ -2,6 +2,13 @@
     -fx-background-color: #0c2242;
 }
 
+.slider .track {
+    -fx-background-color: #F39629;
+}
+.slider .thumb {
+    -fx-background-color: #1771F1;
+}
+
 .button {
     -fx-background-color: #01142F;
     -fx-text-fill: white;
@@ -34,40 +41,6 @@
 .chart-alternative-row-fill {
     -fx-fill:transparent;
     -fx-stroke: transparent;
-}
-
-
-.grassland-field {
-    -fx-background-color: #FFAF50;
-}
-
-.jungle-field {
-    -fx-background-color: #4BB462;
-}
-
-.field {
-    -fx-border-color: #2F3640;
-    -fx-border-width: 0.3;
-    -fx-border-radius: 0;
-}
-
-.menu-bar {
-    -fx-background-color: transparent;
-}
-.menu {
-    -fx-label-padding: 3px;
-}
-.menu .label, .menu-item .label {
-    -fx-text-fill: #eee;
-}
-.menu:hover, .menu:focused, .menu:pressed {
-    -fx-background-color: #052555;
-}
-.menu-item:hover {
-    -fx-background-color: #052555;
-}
-.context-menu {
-    -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 
 .tile-tooltip {

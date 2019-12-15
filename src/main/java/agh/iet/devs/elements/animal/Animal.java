@@ -7,9 +7,6 @@ import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.MapElementVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Animal extends AbstractMapElement {
 
     private final Genome genome;
@@ -18,6 +15,7 @@ public class Animal extends AbstractMapElement {
     private int deathEpoch = -1;
 
     private int children = 0;
+    // TODO update progeny!
     private int progeny = 0;
 
     private final Animal p1;
@@ -60,8 +58,14 @@ public class Animal extends AbstractMapElement {
         final var kiddo = new Animal(position, delta1 + delta2, p1, p2, gen, epoch);
 
         // FIXME -- here i should update parents children stats.
+        p1.children += 1;
+        p2.children += 1;
 
         return kiddo;
+    }
+
+    private void updateProgeny(Animal a, Animal b) {
+
     }
 
     public void eat(Food food) {
@@ -90,6 +94,14 @@ public class Animal extends AbstractMapElement {
     @Override
     public void acceptOnVanish(MapElementVisitor visitor) {
         visitor.onAnimalVanish(this);
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public int getProgeny() {
+        return progeny;
     }
 
     public int getLifetime() {
@@ -141,6 +153,8 @@ public class Animal extends AbstractMapElement {
                 "\n" + "Orientation = " + orientation +
                 "\n" + "Current Position = " + currentPosition +
                 "\n" + "Current Energy = " + currentEnergy +
+                "\n" + "Children = " + children +
+                "\n" + "Progeny = " + progeny +
                 "\n" + "Generation = " + generation +
                 "\n";
     }

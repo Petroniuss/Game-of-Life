@@ -26,10 +26,4 @@ public class SideMenu extends VBox {
         this.statisticsMenu.onUpdate();
         this.chart.onUpdate();
     }
-
-    public void clear(SimulationState newState) {
-
-    }
-
-
 }
