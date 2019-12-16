@@ -1,3 +1,4 @@
+import agh.iet.devs.config.Config;
 import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.WorldController;
 import agh.iet.devs.view.menu.SideMenu;
@@ -11,11 +12,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 import static agh.iet.devs.view.controller.ViewConfiguration.*;
 
 public class Main extends Application {
 
     private WorldController worldController;
+    private Optional<WorldController> parallelController = Optional.empty();
     private SideMenu menu;
 
     public static void main(String[] args) {
@@ -32,6 +36,17 @@ public class Main extends Application {
         this.worldController = new WorldController(controller, state);
 
         final var hbox = new HBox(menu, controller);
+
+        if (Config.getInstance().params.parallel) {
+            var parallelState = new SimulationState();
+            var parallel = new SimulationViewController(SIMULATION_WIDTH, SIDE_MENU_HEIGHT);
+            this.parallelController = Optional.of(new WorldController(parallel, parallelState));
+
+            hbox.getChildren().add(parallel);
+        }
+
+        state.setController(worldController);
+
         final var scene = new Scene(hbox);
 
         scene.getStylesheets().add(getStyleSheets());
@@ -62,6 +77,8 @@ public class Main extends Application {
 
     private void update() {
         this.worldController.updateWorld();
+        this.parallelController.ifPresent(WorldController::updateWorld);
+
         this.menu.onUpdate();
     }
 

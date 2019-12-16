@@ -15,11 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
-import javax.swing.text.View;
 
 public class Submenu extends VBox {
 
@@ -66,7 +63,7 @@ public class Submenu extends VBox {
         showDominatingButton.setGraphic(new ImageView(
                 GeneralUtils.ButtonGraphics.ARROW.image
         ));
-        showDominatingButton.setOnAction(a -> state.showDominating = !state.showDominating);
+        showDominatingButton.setOnAction(a -> state.showDominating());
 
         anotherHBox.setPadding(new Insets(5, 5, 5, 5));
         anotherHBox.setAlignment(Pos.BASELINE_CENTER);

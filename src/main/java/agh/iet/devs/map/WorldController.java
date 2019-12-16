@@ -87,6 +87,10 @@ public class WorldController {
                 .orElseThrow();
     }
 
+    public void showDominatingAnimals() {
+        world.markDominatingAnimals();
+    }
+
     private static Tuple<Animal> findHealthiestPair(Set<Animal> set) {
         var it = set.iterator();
         var a = it.next();

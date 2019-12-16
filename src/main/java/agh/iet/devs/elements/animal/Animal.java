@@ -86,6 +86,10 @@ public class Animal extends AbstractMapElement {
         return currentEpoch - bornEpoch;
     }
 
+    public int dominatingGene() {
+        return genome.dominatingGene();
+    }
+
     @Override
     protected void update() {
         final var prev = currentPosition;

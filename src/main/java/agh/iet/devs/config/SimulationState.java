@@ -1,6 +1,7 @@
 package agh.iet.devs.config;
 
 import agh.iet.devs.data.Epoch;
+import agh.iet.devs.map.WorldController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,13 @@ public class SimulationState {
        dominatingGen, averageEnergy, lifeExpectancy, averageChildren, animalCount.get(), foodCount.get(), dayCount.intValue()
     )));
 
+    // We need to maintain bidirectional relationship.
+    private WorldController controller;
+
+    public void setController(WorldController controller) {
+        this.controller = controller;
+    }
+
     public void update(int foodCount, int animalCount, double averageEnergy, int dominatingGen,
                        double lifeExpectancy, double avgChildren){
         this.dayCount.incrementAndGet();
@@ -39,6 +47,10 @@ public class SimulationState {
 
     public Epoch getEpoch(int i) {
         return history.get(i - 1);
+    }
+
+    public void showDominating() {
+        controller.showDominatingAnimals();
     }
 
 }

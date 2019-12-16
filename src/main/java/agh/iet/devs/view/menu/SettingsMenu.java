@@ -33,7 +33,7 @@ public class SettingsMenu extends VBox {
         this.running = ViewConfiguration.getInstance().running;
         this.interval = ViewConfiguration.getInstance().interval;
 
-        final var slider = new Slider(0.0, 1.0, 0.0);
+        final var slider = new Slider(0.0, 1.0, 1.0);
         slider.valueProperty().addListener(this::onSwiped);
         slider.setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH * 3.0/4.0);
 

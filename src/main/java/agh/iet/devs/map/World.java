@@ -107,10 +107,13 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .reduce(0.0, Double::sum, Double::sum) / (double) animalCount();
     }
 
-    public void markDominatingAnimal() {
+    public void markDominatingAnimals() {
+        final var dominatingGene = dominatingGeneCalculator.dominating();
+
         animalMap.values()
                 .stream()
                 .flatMap(Collection::stream)
+                .filter(a -> a.dominatingGene() == dominatingGene)
                 .forEach(Animal::markAsDominating);
     }
 

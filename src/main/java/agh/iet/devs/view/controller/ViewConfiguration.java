@@ -24,7 +24,7 @@ public final class ViewConfiguration {
     public static final int SIMULATION_WIDTH;
     public static final int SIMULATION_HEIGHT;
 
-    public final AtomicLong interval = new AtomicLong(MAX_INTERVAL);
+    public final AtomicLong interval = new AtomicLong(MIN_INTERVAL);
     public final AtomicBoolean running = new AtomicBoolean(true);
 
     static {

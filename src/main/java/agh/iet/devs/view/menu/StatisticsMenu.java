@@ -32,7 +32,7 @@ public class StatisticsMenu extends VBox {
         this.foodLabel = new Label("Food: " + state.foodCount.get());
         this.averageEnergyLabel = new Label(String.format("Average Energy: %.2f", state.averageEnergy));
         this.lifeExpectancyLabel = new Label(String.format("Life Expectancy: %.2f", state.lifeExpectancy));
-        this.dominatingGenomeLabel = new Label("Dominating Genome: ");
+        this.dominatingGenomeLabel = new Label("Dominating Gene: ");
         this.avgChildrenLabel = new Label(String.format("Average Number of Children: %.2f", state.averageChildren));
 
         this.dominatingGenomeLabel.textOverrunProperty().setValue(OverrunStyle.CENTER_ELLIPSIS);
@@ -65,7 +65,7 @@ public class StatisticsMenu extends VBox {
         this.foodLabel.setText("Food: " + state.foodCount.get());
         this.averageEnergyLabel.setText(String.format("Average Energy: %.2f", state.averageEnergy));
         this.lifeExpectancyLabel.setText(String.format("Life Expectancy: %.2f", state.lifeExpectancy));
-        this.dominatingGenomeLabel.setText("Dominating Gen: " + state.dominatingGen);
+        this.dominatingGenomeLabel.setText("Dominating Gene: " + state.dominatingGen);
         this.avgChildrenLabel.setText(String.format("Average Number of Children: %.2f", state.averageChildren));
     }
 
