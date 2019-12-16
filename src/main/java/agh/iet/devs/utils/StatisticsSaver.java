@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.controlsfx.control.Notifications;
 
-import javax.management.Notification;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,24 +14,23 @@ public class StatisticsSaver {
 
     private final static String directory = GeneralUtils.resources + "statistics" + File.separator;
     private static final Gson gson = new GsonBuilder().serializeSpecialFloatingPointValues().create();
+    private static final String name = "statistics";
 
     public static void saveAll(List<Epoch> history) {
         final var content = gson.toJson(history);
-        final var name = "ALL";
 
-        writeJson(name, content);
+        writeJson(content);
     }
 
     public static void save(Epoch epoch) {
         final var content = gson.toJson(epoch);
-        final var name = "EPOCH-" + epoch.epoch;
 
-        writeJson(name, content);
+        writeJson(content);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private static void writeJson(String name, String content) {
-        var file = new File(directory + name + ".json");
+    private static void writeJson(String content) {
+        var file = new File(directory + StatisticsSaver.name + ".json");
 
         try (FileOutputStream fop = new FileOutputStream(file)) {
             if (!file.exists())
