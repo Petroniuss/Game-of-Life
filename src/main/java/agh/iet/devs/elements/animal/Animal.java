@@ -12,15 +12,8 @@ public class Animal extends AbstractMapElement {
     private final Genome genome;
     private final int generation;
     private final int bornEpoch;
-    private int deathEpoch = -1;
 
     private int children = 0;
-    // TODO update progeny!
-    private int progeny = 0;
-
-    private final Animal p1;
-    private final Animal p2;
-
     private Direction orientation = Direction.random();
 
     private Animal(Vector initialPosition, int initialEnergy, Animal p1, Animal p2,
@@ -30,9 +23,6 @@ public class Animal extends AbstractMapElement {
         this.bornEpoch = epoch;
         this.genome = new Genome(p1.genome, p2.genome);
         this.generation = generation;
-
-        this.p1 = p1;
-        this.p2 = p2;
     }
 
     public Animal(Vector initialPosition, int initialEnergy) {
@@ -41,9 +31,6 @@ public class Animal extends AbstractMapElement {
         this.bornEpoch = 1;
         this.genome = new Genome();
         this.generation = 1;
-
-        this.p1 = null;
-        this.p2 = null;
     }
 
     public static Animal cross(Animal p1, Animal p2, int epoch) {
@@ -57,15 +44,10 @@ public class Animal extends AbstractMapElement {
 
         final var kiddo = new Animal(position, delta1 + delta2, p1, p2, gen, epoch);
 
-        // FIXME -- here i should update parents children stats.
         p1.children += 1;
         p2.children += 1;
 
         return kiddo;
-    }
-
-    private void updateProgeny(Animal a, Animal b) {
-
     }
 
     public void eat(Food food) {
@@ -100,24 +82,8 @@ public class Animal extends AbstractMapElement {
         return children;
     }
 
-    public int getProgeny() {
-        return progeny;
-    }
-
-    public int getLifetime() {
-        return deathEpoch - bornEpoch;
-    }
-
-    public int getBornEpoch() {
-        return bornEpoch;
-    }
-
-    public int getDeathEpoch() {
-        return deathEpoch;
-    }
-
-    public void setDeathEpoch(int deathEpoch) {
-        this.deathEpoch = deathEpoch;
+    public int getLifetime(int currentEpoch) {
+        return currentEpoch - bornEpoch;
     }
 
     @Override
@@ -129,6 +95,10 @@ public class Animal extends AbstractMapElement {
                 .validateMove(this.currentPosition.add(this.orientation.direction));
 
         notifyOnMove(this, prev);
+    }
+
+    public void markAsDominating() {
+        this.view.setImage(Icon.DOMINATING_ANIMAL.img);
     }
 
     @Override
@@ -154,7 +124,6 @@ public class Animal extends AbstractMapElement {
                 "\n" + "Current Position = " + currentPosition +
                 "\n" + "Current Energy = " + currentEnergy +
                 "\n" + "Children = " + children +
-                "\n" + "Progeny = " + progeny +
                 "\n" + "Generation = " + generation +
                 "\n";
     }

@@ -65,7 +65,7 @@ public class StatisticsMenu extends VBox {
         this.foodLabel.setText("Food: " + state.foodCount.get());
         this.averageEnergyLabel.setText(String.format("Average Energy: %.2f", state.averageEnergy));
         this.lifeExpectancyLabel.setText(String.format("Life Expectancy: %.2f", state.lifeExpectancy));
-        this.dominatingGenomeLabel.setText("Dominating Genome: \n" + state.dominatingGenome.toString().replace(", ", ""));
+        this.dominatingGenomeLabel.setText("Dominating Gen: " + state.dominatingGen);
         this.avgChildrenLabel.setText(String.format("Average Number of Children: %.2f", state.averageChildren));
     }
 

@@ -4,22 +4,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Genome {
-    public static Genome NIL;
+    public static final int genomeSize = 32;
 
     private static final Collection<Integer> possibleGenes = List.of(0, 1, 2, 3, 4, 5, 6, 7);
     private static final Random random = new Random();
-    private static final int genomeSize = 32;
-
-    static {
-        NIL = new Genome() {
-            @Override
-            public String toString() {
-                return "NIL";
-            }
-        };
-    }
 
     private final int[] genes = new int[genomeSize];
+    private int dominatingGene;
 
     public Genome() {
         for (int i = 0; i < 8; i++)
@@ -28,6 +19,7 @@ public class Genome {
             this.genes[i] = random.nextInt(8);
 
         Arrays.sort(this.genes);
+        this.dominatingGene = calcDominatingGene();
     }
 
     public Genome(Genome g1, Genome g2) {
@@ -58,6 +50,7 @@ public class Genome {
         }
 
         Arrays.sort(this.genes);
+        this.dominatingGene = calcDominatingGene();
     }
 
     /**
@@ -69,7 +62,11 @@ public class Genome {
         return genes[i];
     }
 
-    private int geneAt(int i) {
+    public int dominatingGene() {
+        return dominatingGene;
+    }
+
+    public int geneAt(int i) {
         return this.genes[i];
     }
 
@@ -80,6 +77,24 @@ public class Genome {
 
     private boolean verify() {
         return genesToSet().containsAll(possibleGenes);
+    }
+
+    private int calcDominatingGene() {
+        int[] freq = new int[8];
+
+        for (int gene : genes)
+            freq[gene]++;
+
+        int max = freq[0], dominating = 0;
+
+        for (int i = 1; i < 8; i++) {
+            if (freq[i] > max) {
+                max = freq[i];
+                dominating = i;
+            }
+        }
+
+        return dominating;
     }
 
     private Set<Integer> genesToSet() {

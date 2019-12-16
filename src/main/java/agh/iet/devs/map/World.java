@@ -24,7 +24,7 @@ public class World implements MapElementObserver, MapElementVisitor {
     private final List<Region> regions;
     private final Map<Vector, Set<Animal>> animalMap = new HashMap<>();
     private final Map<Vector, Food> foodMap = new HashMap<>();
-    private final Map<Genome, Integer> genomeFreqMap = new HashMap<>();
+    private final DominatingGeneCalculator dominatingGeneCalculator = new DominatingGeneCalculator();
     private final SimulationState state;
 
     private final Config config = Config.getInstance();
@@ -78,11 +78,25 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .reduce(0, (acc, e) -> acc + 1, Integer::sum);
     }
 
-    public Genome dominatingGenome() {
-        return genomeFreqMap.entrySet().stream()
-                .max(Comparator.comparingInt(Map.Entry::getValue))
-                .map(Map.Entry::getKey)
-                .orElse(Genome.NIL);
+    public int dominatingGen() {
+        return dominatingGeneCalculator.dominating();
+    }
+
+    public double lifeExpectancy() {
+        return animalMap.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .map(a -> a.getLifetime(state.dayCount.intValue()))
+                .reduce(Integer::sum).orElse(0) / (double) animalCount();
+    }
+
+    public double averageChildren() {
+        return animalMap.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .map(Animal::getChildren)
+                .reduce(Integer::sum)
+                .orElse(0) / (double) animalCount();
     }
 
     public double averageEnergy() {
@@ -91,6 +105,13 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .flatMap(Collection::stream)
                 .map(AbstractMapElement::getEnergy)
                 .reduce(0.0, Double::sum, Double::sum) / (double) animalCount();
+    }
+
+    public void markDominatingAnimal() {
+        animalMap.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .forEach(Animal::markAsDominating);
     }
 
     @Override
@@ -112,11 +133,7 @@ public class World implements MapElementObserver, MapElementVisitor {
     @Override
     public void onAnimalVanish(Animal animal) {
         this.animalMap.get(animal.getPosition()).remove(animal);
-        this.genomeFreqMap.computeIfPresent(animal.getGenome(), (g, i) -> i - 1);
-        if (this.genomeFreqMap.get(animal.getGenome()) <= 0)
-            this.genomeFreqMap.remove(animal.getGenome());
-
-        animal.setDeathEpoch(state.dayCount.intValue());
+        this.dominatingGeneCalculator.removeGenome(animal.getGenome());
     }
 
     @Override
@@ -127,13 +144,8 @@ public class World implements MapElementObserver, MapElementVisitor {
 
     public void attachAnimal(Animal animal) {
         animalMap.get(animal.getPosition()).add(animal);
-        if (genomeFreqMap.containsKey(animal.getGenome()))
-            genomeFreqMap.computeIfPresent(animal.getGenome(), (g, i) -> i + 1);
-        else
-            genomeFreqMap.put(animal.getGenome(), 1);
-
         attachMapElement(animal);
-        state.addNewborn(animal);
+        this.dominatingGeneCalculator.addGenome(animal.getGenome());
     }
 
     public void attachFood(Food food) {
@@ -146,4 +158,35 @@ public class World implements MapElementObserver, MapElementVisitor {
         e.attachListener(this);
         regions.forEach(region -> region.attachElement(e));
     }
+
+    private static class DominatingGeneCalculator {
+        private int[] freq = new int[8];
+
+        void addGenome(Genome g) {
+            for(int i = 0; i < 32; i++)
+                freq[g.geneAt(i)] += 1;
+
+        }
+
+        void removeGenome(Genome g) {
+            for(int i = 0; i < 32; i++)
+                freq[g.geneAt(i)] -= 1;
+
+        }
+
+        @SuppressWarnings("DuplicatedCode")
+        int dominating() {
+            int max = freq[0], dominating = 0;
+
+            for (int i = 1; i < 8; i++) {
+                if (freq[i] > max) {
+                    max = freq[i];
+                    dominating = i;
+                }
+            }
+
+            return dominating;
+        }
+    }
+
 }
