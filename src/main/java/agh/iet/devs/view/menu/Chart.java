@@ -28,7 +28,7 @@ public class Chart extends LineChart<Number, Number> {
         getData().addAll(animalSeries, foodSeries);
         setCreateSymbols(false);
         setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH);
-        setPadding(new Insets(2, 0, 10, 0));
+        setPadding(new Insets(2, 0, 0, 0));
 
         applyCss();
     }

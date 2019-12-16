@@ -7,7 +7,7 @@ import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.elements.animal.Animal;
 import agh.iet.devs.elements.food.Food;
 import agh.iet.devs.map.region.Region;
-import agh.iet.devs.view.UIListener;
+import agh.iet.devs.view.controller.UIListener;
 
 import java.util.Collection;
 import java.util.Comparator;

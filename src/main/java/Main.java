@@ -1,7 +1,7 @@
 import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.map.WorldController;
 import agh.iet.devs.view.menu.SideMenu;
-import agh.iet.devs.view.SimulationView;
+import agh.iet.devs.view.controller.SimulationViewController;
 import agh.iet.devs.view.controller.ViewConfiguration;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,7 +26,7 @@ public class Main extends Application {
     public void start(Stage stage) {
 
         var state = new SimulationState();
-        var controller = new SimulationView(SIMULATION_WIDTH, SIMULATION_HEIGHT);
+        var controller = new SimulationViewController(SIMULATION_WIDTH, SIMULATION_HEIGHT);
 
         this.menu = new SideMenu(state);
         this.worldController = new WorldController(controller, state);

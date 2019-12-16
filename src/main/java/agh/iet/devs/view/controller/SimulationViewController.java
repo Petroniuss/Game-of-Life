@@ -1,4 +1,4 @@
-package agh.iet.devs.view;
+package agh.iet.devs.view.controller;
 
 import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Tuple;
@@ -6,12 +6,12 @@ import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
 import javafx.scene.layout.Pane;
 
-public class SimulationView extends Pane implements UIListener {
+public class SimulationViewController extends Pane implements UIListener {
 
     private final double fitWidth;
     private final double fitHeight;
 
-    public SimulationView(int width, int height) {
+    public SimulationViewController(int width, int height) {
         setPrefSize(width, height);
 
         final var params = Config.getInstance().params;

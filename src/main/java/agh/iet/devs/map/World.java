@@ -86,11 +86,10 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .map(Animal::getGenome)
                 .reduce((acc, e) -> {
                     freqMap.merge(e, 1, Integer::sum);
-
                     if (freqMap.getOrDefault(e, 0) > freqMap.getOrDefault(acc, 0))
                         return e;
                     return acc;
-                }).orElseThrow();
+                }).orElse(Genome.NIL);
     }
 
     public double averageEnergy() {

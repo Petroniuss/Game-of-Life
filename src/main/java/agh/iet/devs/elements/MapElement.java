@@ -3,7 +3,7 @@ package agh.iet.devs.elements;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementVisitor;
 import agh.iet.devs.utils.GeneralUtils;
-import agh.iet.devs.view.SimulationNode;
+import agh.iet.devs.view.node.SimulationNode;
 import javafx.scene.image.Image;
 
 public interface MapElement extends MapElementObservable {

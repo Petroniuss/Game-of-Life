@@ -1,10 +1,16 @@
 package agh.iet.devs.view.menu;
 
 import agh.iet.devs.config.SimulationState;
+import agh.iet.devs.view.controller.ViewConfiguration;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class StatisticsMenu extends VBox {
 
@@ -31,7 +37,16 @@ public class StatisticsMenu extends VBox {
 
         this.dominatingGenomeLabel.textOverrunProperty().setValue(OverrunStyle.CENTER_ELLIPSIS);
 
+        final var label = new Text("Statistics");
+        label.setFont(Font.font(24));
+        label.setFill(Color.WHITE);
+        final var labelBox = new HBox(label);
+
+        labelBox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
+        labelBox.setAlignment(Pos.BASELINE_CENTER);
+
         getChildren().addAll(
+                labelBox,
                 dayLabel,
                 animalLabel,
                 foodLabel,

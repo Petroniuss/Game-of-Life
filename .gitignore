@@ -1,3 +1,4 @@
 /.idea/
 game_of_life.iml
 /target
+/src/main/resources/statistics/*

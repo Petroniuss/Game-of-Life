@@ -4,9 +4,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Genome {
+    public static Genome NIL;
+
     private static final Collection<Integer> possibleGenes = List.of(0, 1, 2, 3, 4, 5, 6, 7);
     private static final Random random = new Random();
     private static final int genomeSize = 32;
+
+    static {
+        NIL = new Genome() {
+            @Override
+            public String toString() {
+                return "NIL";
+            }
+        };
+    }
 
     private final int[] genes = new int[genomeSize];
 

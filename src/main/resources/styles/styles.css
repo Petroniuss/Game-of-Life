@@ -1,12 +1,59 @@
 .root {
     -fx-background-color: #0c2242;
+    -fx-text-fill: white;
+}
+
+.check-box {
+    -fx-text-fill: white;
+}
+
+.check-box .box {
+    -fx-background-color: #0c3442;
+    -fx-border-radius: 40px;
+}
+.check-box:selected .mark {
+    -fx-background-color: white;
+
+}
+.check-box:selected .box {
+    -fx-background-color: #F39629;
+}
+
+.spinner .text-field {
+    -fx-background-color: #0c3442;
+    -fx-text-fill: white;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-body-color: #0c3442;
+    -fx-border-width: 0;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-body-color: #F39629
+}
+
+.spinner .increment-arrow-button:hover:pressed,
+.spinner .decrement-arrow-button:hover:pressed,
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+    /* interpolate color between yellow and red based on first color brightness */
+    -fx-body-color: ladder(#AAA, yellow 0%, red 100%);
 }
 
 .slider .track {
     -fx-background-color: #F39629;
+    -fx-text-fill: white;
 }
+
 .slider .thumb {
-    -fx-background-color: #1771F1;
+    -fx-background-color: yellow;
+}
+
+.button:hover {
+    -fx-background-color: #0c2242;
 }
 
 .button {

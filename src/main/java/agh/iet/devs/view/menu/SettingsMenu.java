@@ -9,9 +9,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,6 +35,7 @@ public class SettingsMenu extends VBox {
 
         final var slider = new Slider(0.0, 1.0, 0.0);
         slider.valueProperty().addListener(this::onSwiped);
+        slider.setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH * 3.0/4.0);
 
         final var label = new Label("Evolution speed");
         final var vbox = new VBox(slider, label);
@@ -41,17 +45,24 @@ public class SettingsMenu extends VBox {
 
         this.pausePlayButton = new Button("Pause");
         this.pausePlayButton.setGraphic(
-                new ImageView(ButtonGraphics.PAUSE.image));
+                new ImageView(GeneralUtils.ButtonGraphics.PAUSE.image));
         this.pausePlayButton.setOnAction(this::onButtonClick);
 
-        final var hBox = new VBox(this.pausePlayButton);
+        final var hBox = new HBox(this.pausePlayButton);
 
         vbox.setAlignment(Pos.CENTER);
-        hBox.setAlignment(Pos.BASELINE_CENTER);
-        hBox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
+        hBox.setAlignment(Pos.CENTER);
 
-        getChildren().addAll(vbox, hBox);
-        setPadding(new Insets(10, 10, 0, 10));
+        final var title = new Text("Settings");
+        title.setFont(Font.font(24));
+        title.setFill(Color.WHITE);
+        final var labelBox = new HBox(title);
+        labelBox.setPadding(new Insets(0, 5, 5, 10));
+        labelBox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
+        labelBox.setAlignment(Pos.BASELINE_CENTER);
+
+        getChildren().addAll(labelBox, vbox, hBox);
+        setPadding(new Insets(2, 10, 0, 10));
     }
 
     private void onSwiped(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -62,16 +73,6 @@ public class SettingsMenu extends VBox {
         onPausePlayEvent();
     }
 
-    private enum ButtonGraphics {
-        PLAY("play-btn.png"),
-        PAUSE("pause-button.png");
-
-        final Image image;
-        ButtonGraphics(String name) {
-            this.image = GeneralUtils.fromImages(name);
-        }
-    }
-
     public void onPausePlayEvent() {
         final var wasRunning = this.running.get();
         this.running.set(!wasRunning);
@@ -79,10 +80,10 @@ public class SettingsMenu extends VBox {
         if (wasRunning) {
             this.pausePlayButton.setText("Play");
             this.pausePlayButton.setGraphic
-                    (new ImageView(ButtonGraphics.PLAY.image));
+                    (new ImageView(GeneralUtils.ButtonGraphics.PLAY.image));
         } else {
             this.pausePlayButton.setGraphic(
-                    new ImageView(ButtonGraphics.PAUSE.image));
+                    new ImageView(GeneralUtils.ButtonGraphics.PAUSE.image));
             this.pausePlayButton.setText("Pause");
         }
     }

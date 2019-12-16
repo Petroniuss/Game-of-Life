@@ -1,4 +1,4 @@
-package agh.iet.devs.view;
+package agh.iet.devs.view.node;
 
 import agh.iet.devs.elements.MapElement;
 import javafx.scene.control.Tooltip;
