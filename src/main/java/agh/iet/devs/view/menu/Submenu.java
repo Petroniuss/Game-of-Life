@@ -19,6 +19,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import javax.swing.text.View;
+
 public class Submenu extends VBox {
 
     private final SimulationState state;
@@ -58,7 +60,19 @@ public class Submenu extends VBox {
         hbox.setAlignment(Pos.BASELINE_CENTER);
         labelBox.setAlignment(Pos.BASELINE_CENTER);
 
-        getChildren().addAll(hbox);
+        final var showDominatingButton = new Button("Show Animals with dominating genome");
+        final var anotherHBox = new HBox(showDominatingButton);
+
+        showDominatingButton.setGraphic(new ImageView(
+                GeneralUtils.ButtonGraphics.ARROW.image
+        ));
+        showDominatingButton.setOnAction(a -> state.showDominating = !state.showDominating);
+
+        anotherHBox.setPadding(new Insets(5, 5, 5, 5));
+        anotherHBox.setAlignment(Pos.BASELINE_CENTER);
+        anotherHBox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
+
+        getChildren().addAll(hbox, anotherHBox);
     }
 
     private void setSaveButtonClick(ActionEvent a) {

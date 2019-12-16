@@ -24,6 +24,7 @@ public class World implements MapElementObserver, MapElementVisitor {
     private final List<Region> regions;
     private final Map<Vector, Set<Animal>> animalMap = new HashMap<>();
     private final Map<Vector, Food> foodMap = new HashMap<>();
+    private final Map<Genome, Integer> genomeFreqMap = new HashMap<>();
     private final SimulationState state;
 
     private final Config config = Config.getInstance();
@@ -78,18 +79,10 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     public Genome dominatingGenome() {
-        final var freqMap = new HashMap<Genome, Integer>();
-
-        return animalMap.values()
-                .stream()
-                .flatMap(Collection::stream)
-                .map(Animal::getGenome)
-                .reduce((acc, e) -> {
-                    freqMap.merge(e, 1, Integer::sum);
-                    if (freqMap.getOrDefault(e, 0) > freqMap.getOrDefault(acc, 0))
-                        return e;
-                    return acc;
-                }).orElse(Genome.NIL);
+        return genomeFreqMap.entrySet().stream()
+                .max(Comparator.comparingInt(Map.Entry::getValue))
+                .map(Map.Entry::getKey)
+                .orElse(Genome.NIL);
     }
 
     public double averageEnergy() {
@@ -119,6 +112,10 @@ public class World implements MapElementObserver, MapElementVisitor {
     @Override
     public void onAnimalVanish(Animal animal) {
         this.animalMap.get(animal.getPosition()).remove(animal);
+        this.genomeFreqMap.computeIfPresent(animal.getGenome(), (g, i) -> i - 1);
+        if (this.genomeFreqMap.get(animal.getGenome()) <= 0)
+            this.genomeFreqMap.remove(animal.getGenome());
+
         animal.setDeathEpoch(state.dayCount.intValue());
     }
 
@@ -130,6 +127,10 @@ public class World implements MapElementObserver, MapElementVisitor {
 
     public void attachAnimal(Animal animal) {
         animalMap.get(animal.getPosition()).add(animal);
+        if (genomeFreqMap.containsKey(animal.getGenome()))
+            genomeFreqMap.computeIfPresent(animal.getGenome(), (g, i) -> i + 1);
+        else
+            genomeFreqMap.put(animal.getGenome(), 1);
 
         attachMapElement(animal);
         state.addNewborn(animal);

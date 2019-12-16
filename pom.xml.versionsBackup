@@ -39,12 +39,10 @@
             <artifactId>javafx-fxml</artifactId>
             <version>13</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
         <dependency>
-            <groupId>org.controlsfx</groupId>
-            <artifactId>controlsfx</artifactId>
-            <version>11.0.1</version>
+            <groupId>com.github.PlusHaze</groupId>
+            <artifactId>TrayNotification</artifactId>
+            <version>446c33b60c</version>
         </dependency>
 
 

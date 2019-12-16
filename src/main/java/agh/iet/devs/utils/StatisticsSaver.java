@@ -1,13 +1,14 @@
 package agh.iet.devs.utils;
 
-import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.data.Epoch;
-import agh.iet.devs.error.SimulationError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.controlsfx.control.Notifications;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import javax.management.Notification;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class StatisticsSaver {
@@ -36,14 +37,28 @@ public class StatisticsSaver {
         try (FileOutputStream fop = new FileOutputStream(file)) {
             if (!file.exists())
                 file.createNewFile();
-
             var bytes = content.getBytes();
 
             fop.write(bytes);
             fop.flush();
+
+            String title = "Congratulations sir";
+            String message = "You've successfully saved your statistics";
+
+            showNotification(title, message);
         } catch (IOException e) {
-            throw new SimulationError("Failed to save statitcs.", SimulationError.Phase.RUNTIME);
+            String title = "Sorry sir";
+            String message = "Something went wrong during saving";
+
+            showNotification(title, message);
         }
+    }
+
+    private static void showNotification(String title, String message) {
+        Notifications.create()
+                .title(title)
+                .text(message)
+                .showInformation();
     }
 
 }

@@ -73,7 +73,8 @@ public final class GeneralUtils {
     public enum ButtonGraphics {
         PLAY("play-btn.png"),
         PAUSE("pause-button.png"),
-        SAVE("save-icon.png");
+        SAVE("save-icon.png"),
+        ARROW("arrow.png");
 
         public final Image image;
         ButtonGraphics(String name) {

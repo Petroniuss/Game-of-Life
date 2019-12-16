@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class SimulationState {
+    // fixme remove this piece of ****
     public final Set<Animal> animals = new HashSet<>();
 
     // Current state
@@ -23,6 +24,7 @@ public class SimulationState {
     public double averageEnergy = Double.NaN;
     public double lifeExpectancy = Double.NaN;
     public double averageChildren = Double.NaN;
+    public boolean showDominating = false;
 
     public final List<Epoch> history = new ArrayList<>(List.of(new Epoch(
        dominatingGenome, averageEnergy, lifeExpectancy, averageChildren, animalCount.get(), foodCount.get(), dayCount.intValue()
@@ -49,6 +51,8 @@ public class SimulationState {
     public void addNewborn(Animal animal) {
         animals.add(animal);
     }
+
+    // Rewrite methods below
 
     private double calcLifeExpectancy() {
         return this.animals.stream()
