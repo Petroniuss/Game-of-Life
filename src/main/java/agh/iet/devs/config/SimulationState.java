@@ -5,25 +5,22 @@ import agh.iet.devs.map.WorldController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class SimulationState {
-    // Current state
-    public final AtomicInteger animalCount = new AtomicInteger(Config.getInstance().params.animalsAtStart);
-    public final AtomicInteger foodCount = new AtomicInteger(0);
-    public final AtomicLong dayCount = new AtomicLong(1);
 
-    public int dominatingGen = -1;
-    public double averageEnergy = Double.NaN;
-    public double lifeExpectancy = Double.NaN;
-    public double averageChildren = Double.NaN;
+    private int animalCount = Config.getInstance().params.animalsAtStart;
+    private int foodCount = 0;
+    private int dayCount = 1;
 
-    public final List<Epoch> history = new ArrayList<>(List.of(new Epoch(
-       dominatingGen, averageEnergy, lifeExpectancy, averageChildren, animalCount.get(), foodCount.get(), dayCount.intValue()
-    )));
+    private int dominatingGen = -1;
+    private double averageEnergy = Double.NaN;
+    private double lifeExpectancy = Double.NaN;
+    private double averageChildren = Double.NaN;
 
-    // We need to maintain bidirectional relationship.
+    private final List<Epoch> history = new ArrayList<>(List.of(
+            new Epoch(dominatingGen, averageEnergy, lifeExpectancy, averageChildren, animalCount, foodCount, dayCount)
+    ));
+
     private WorldController controller;
 
     public void setController(WorldController controller) {
@@ -32,25 +29,56 @@ public class SimulationState {
 
     public void update(int foodCount, int animalCount, double averageEnergy, int dominatingGen,
                        double lifeExpectancy, double avgChildren){
-        this.dayCount.incrementAndGet();
-        this.foodCount.set(foodCount);
-        this.animalCount.set(animalCount);
+        this.dayCount += 1;
+        this.foodCount = foodCount;
+        this.animalCount = animalCount;
         this.averageEnergy = averageEnergy;
         this.dominatingGen = dominatingGen;
         this.lifeExpectancy = lifeExpectancy;
         this.averageChildren = avgChildren;
 
-        history.add(new Epoch(
-                dominatingGen, averageEnergy, lifeExpectancy, averageChildren, animalCount, foodCount, dayCount.intValue()
-        ));
-    }
-
-    public Epoch getEpoch(int i) {
-        return history.get(i - 1);
+        history.add(
+            new Epoch(dominatingGen, averageEnergy, lifeExpectancy, averageChildren, animalCount, foodCount, dayCount)
+        );
     }
 
     public void showDominating() {
         controller.showDominatingAnimals();
     }
 
+    public Epoch getEpoch(int i) {
+        return history.get(i - 1);
+    }
+
+    public int getAnimalCount() {
+        return animalCount;
+    }
+
+    public int getFoodCount() {
+        return foodCount;
+    }
+
+    public int getDayCount() {
+        return dayCount;
+    }
+
+    public int getDominatingGen() {
+        return dominatingGen;
+    }
+
+    public double getAverageEnergy() {
+        return averageEnergy;
+    }
+
+    public double getLifeExpectancy() {
+        return lifeExpectancy;
+    }
+
+    public double getAverageChildren() {
+        return averageChildren;
+    }
+
+    public List<Epoch> getHistory() {
+        return history;
+    }
 }

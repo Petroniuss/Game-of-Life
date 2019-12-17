@@ -1,7 +1,7 @@
 package agh.iet.devs.error;
 
 /**
- * Class existing solely
+ * Class existing solely for no purpose :x
  */
 public class SimulationError extends RuntimeException {
     private final static String header =

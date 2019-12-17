@@ -27,13 +27,13 @@ public class StatisticsMenu extends VBox {
     public StatisticsMenu(SimulationState state) {
         this.state = state;
 
-        this.dayLabel = new Label("Day: " + state.dayCount.get());
-        this.animalLabel = new Label("Animals: " + state.animalCount.get());
-        this.foodLabel = new Label("Food: " + state.foodCount.get());
-        this.averageEnergyLabel = new Label(String.format("Average Energy: %.2f", state.averageEnergy));
-        this.lifeExpectancyLabel = new Label(String.format("Life Expectancy: %.2f", state.lifeExpectancy));
+        this.dayLabel = new Label("Day: " + state.getDayCount());
+        this.animalLabel = new Label("Animals: " + state.getAnimalCount());
+        this.foodLabel = new Label("Food: " + state.getFoodCount());
+        this.averageEnergyLabel = new Label(String.format("Average Energy: %.2f", state.getAverageEnergy()));
+        this.lifeExpectancyLabel = new Label(String.format("Life Expectancy: %.2f", state.getLifeExpectancy()));
         this.dominatingGenomeLabel = new Label("Dominating Gene: ");
-        this.avgChildrenLabel = new Label(String.format("Average Number of Children: %.2f", state.averageChildren));
+        this.avgChildrenLabel = new Label(String.format("Average Number of Children: %.2f", state.getAverageEnergy()));
 
         this.dominatingGenomeLabel.textOverrunProperty().setValue(OverrunStyle.CENTER_ELLIPSIS);
 
@@ -60,13 +60,13 @@ public class StatisticsMenu extends VBox {
     }
 
     public void onUpdate() {
-        this.dayLabel.setText("Day: " + state.dayCount.get());
-        this.animalLabel.setText("Animals: " + state.animalCount.get());
-        this.foodLabel.setText("Food: " + state.foodCount.get());
-        this.averageEnergyLabel.setText(String.format("Average Energy: %.2f", state.averageEnergy));
-        this.lifeExpectancyLabel.setText(String.format("Life Expectancy: %.2f", state.lifeExpectancy));
-        this.dominatingGenomeLabel.setText("Dominating Gene: " + state.dominatingGen);
-        this.avgChildrenLabel.setText(String.format("Average Number of Children: %.2f", state.averageChildren));
+        this.dayLabel.setText("Day: " + state.getDayCount());
+        this.animalLabel.setText("Animals: " + state.getAnimalCount());
+        this.foodLabel.setText("Food: " + state.getFoodCount());
+        this.averageEnergyLabel.setText(String.format("Average Energy: %.2f", state.getAverageEnergy()));
+        this.lifeExpectancyLabel.setText(String.format("Life Expectancy: %.2f", state.getLifeExpectancy()));
+        this.dominatingGenomeLabel.setText("Dominating Gene: " + state.getDominatingGen());
+        this.avgChildrenLabel.setText(String.format("Average Number of Children: %.2f", state.getAverageChildren()));
     }
 
 }

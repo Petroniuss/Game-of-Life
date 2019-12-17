@@ -1,5 +1,7 @@
 package agh.iet.devs.elements.animal;
 
+import agh.iet.devs.utils.GeneralUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -81,20 +83,10 @@ public class Genome {
 
     private int calcDominatingGene() {
         int[] freq = new int[8];
-
         for (int gene : genes)
             freq[gene]++;
 
-        int max = freq[0], dominating = 0;
-
-        for (int i = 1; i < 8; i++) {
-            if (freq[i] > max) {
-                max = freq[i];
-                dominating = i;
-            }
-        }
-
-        return dominating;
+        return GeneralUtils.maxElementFromArray(freq);
     }
 
     private Set<Integer> genesToSet() {

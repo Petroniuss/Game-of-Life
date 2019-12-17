@@ -68,7 +68,7 @@ public class WorldController {
                 .filter(animals -> animals.size() >= 2)
                 .map(WorldController::findHealthiestPair)
                 .filter(parents -> parents.second.eligibleForReproduction())
-                .map(parents -> Animal.cross(parents.first, parents.second, state.dayCount.intValue()))
+                .map(parents -> Animal.cross(parents.first, parents.second, state.getDayCount()))
                 .peek(uiObserver::attach)
                 .forEach(world::attachAnimal);
 

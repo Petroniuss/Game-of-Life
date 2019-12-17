@@ -1,4 +1,4 @@
-package agh.iet.devs.config;
+package agh.iet.devs.map;
 
 import agh.iet.devs.data.Vector;
 

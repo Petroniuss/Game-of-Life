@@ -13,23 +13,23 @@ public class Animal extends AbstractMapElement {
     private final int generation;
     private final int bornEpoch;
 
-    private int children = 0;
     private Direction orientation = Direction.random();
+    private int children = 0;
 
     private Animal(Vector initialPosition, int initialEnergy, Animal p1, Animal p2,
                    int generation, int epoch) {
         super(initialPosition, initialEnergy);
 
-        this.bornEpoch = epoch;
         this.genome = new Genome(p1.genome, p2.genome);
         this.generation = generation;
+        this.bornEpoch = epoch;
     }
 
     public Animal(Vector initialPosition, int initialEnergy) {
         super(initialPosition, initialEnergy);
 
-        this.bornEpoch = 1;
         this.genome = new Genome();
+        this.bornEpoch = 1;
         this.generation = 1;
     }
 
@@ -59,10 +59,6 @@ public class Animal extends AbstractMapElement {
         return this.currentEnergy >= Config.getInstance().params.startEnergy / 2;
     }
 
-    public Genome getGenome() {
-        return this.genome;
-    }
-
     @Override
     public void onDeath() {
         notifyOnVanish(this);
@@ -78,14 +74,6 @@ public class Animal extends AbstractMapElement {
         visitor.onAnimalVanish(this);
     }
 
-    public int getChildren() {
-        return children;
-    }
-
-    public int getLifetime(int currentEpoch) {
-        return currentEpoch - bornEpoch;
-    }
-
     public int dominatingGene() {
         return genome.dominatingGene();
     }
@@ -95,14 +83,14 @@ public class Animal extends AbstractMapElement {
         final var prev = currentPosition;
 
         this.orientation = this.orientation.turn(this.genome.predict());
-        this.currentPosition = Config.getInstance().moveCoordinator
-                .validateMove(this.currentPosition.add(this.orientation.direction));
+        this.currentPosition = AbstractMapElement.validate(
+                this.currentPosition.add(this.orientation.direction));
 
         notifyOnMove(this, prev);
     }
 
     public void markAsDominating() {
-        this.view.setImage(Icon.DOMINATING_ANIMAL.img);
+        this.view.updateIcon(Icon.DOMINATING_ANIMAL);
     }
 
     @Override
@@ -118,6 +106,18 @@ public class Animal extends AbstractMapElement {
             icon = Icon.HEALTHY_ANIMAL;
 
         return icon;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public int getLifetime(int currentEpoch) {
+        return currentEpoch - bornEpoch;
+    }
+
+    public Genome getGenome() {
+        return this.genome;
     }
 
     @Override

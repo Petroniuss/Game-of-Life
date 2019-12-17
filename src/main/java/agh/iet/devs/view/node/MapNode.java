@@ -5,11 +5,11 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class SimulationNode extends ImageView {
+public class MapNode extends ImageView {
 
     private final Tooltip tooltip;
 
-    public SimulationNode(MapElement e) {
+    public MapNode(MapElement e) {
         super(e.getIcon().img);
         this.tooltip = new Tooltip(e.toString());
 
@@ -22,5 +22,9 @@ public class SimulationNode extends ImageView {
 
     public void updateTooltip(String msg) {
         tooltip.setText(msg);
+    }
+
+    public void updateIcon(MapElement.Icon icon) {
+        setImage(icon.img);
     }
 }

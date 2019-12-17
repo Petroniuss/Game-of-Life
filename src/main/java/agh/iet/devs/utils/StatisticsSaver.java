@@ -32,7 +32,7 @@ public class StatisticsSaver {
     private static void writeJson(String content) {
         var file = new File(directory + StatisticsSaver.name + ".json");
 
-        try (FileOutputStream fop = new FileOutputStream(file)) {
+        try (var fop = new FileOutputStream(file)) {
             if (!file.exists())
                 file.createNewFile();
             var bytes = content.getBytes();

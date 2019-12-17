@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -19,11 +18,11 @@ import java.util.Optional;
 import java.util.Random;
 
 public final class GeneralUtils {
-    private static final Random random = new Random();
-
     public static final String resources = "src/main/resources/".replace("/", File.separator);
+
     private static final String images = resources + File.separator + "images" + File.separator;
     private static final String configuration = resources + File.separator + "configuration" + File.separator;
+    private static final Random random = new Random();
 
     public static Image fromImages(String name) {
         try {
@@ -70,16 +69,16 @@ public final class GeneralUtils {
         throw new SimulationError("No way...", Phase.RUNTIME);
     }
 
-    public enum ButtonGraphics {
-        PLAY("play-btn.png"),
-        PAUSE("pause-button.png"),
-        SAVE("save-icon.png"),
-        ARROW("arrow.png");
+    public static int maxElementFromArray(int[] array) {
+        if (array.length < 1)
+            throw new IllegalArgumentException("Array should have at least 1 element");
 
-        public final Image image;
-        ButtonGraphics(String name) {
-            this.image = GeneralUtils.fromImages(name);
+        int i = 0;
+        for (int j = 1; j < array.length; j++) {
+            if (array[i] < array[j])
+                i = j;
         }
-    }
 
+        return i;
+    }
 }

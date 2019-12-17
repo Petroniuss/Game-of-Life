@@ -3,6 +3,7 @@ package agh.iet.devs.view.controller;
 import agh.iet.devs.config.Config;
 import agh.iet.devs.utils.GeneralUtils;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -45,6 +46,22 @@ public final class ViewConfiguration {
             instance = new ViewConfiguration();
 
         return instance;
+    }
+
+    public enum ButtonGraphics {
+        PLAY("play-btn.png"),
+        PAUSE("pause-button.png"),
+        SAVE("save-icon.png"),
+        ARROW("arrow.png");
+
+        public final Image image;
+        ButtonGraphics(String name) {
+            this.image = GeneralUtils.fromImages(name);
+        }
+
+        public ImageView toImageView() {
+            return new ImageView(image);
+        }
     }
 
     public static Image icon() {

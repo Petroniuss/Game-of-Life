@@ -3,7 +3,8 @@ package agh.iet.devs.elements;
 import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementObserver;
-import agh.iet.devs.view.node.SimulationNode;
+import agh.iet.devs.map.MoveCoordinator;
+import agh.iet.devs.view.node.MapNode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +12,11 @@ import java.util.Set;
 
 public abstract class AbstractMapElement implements MapElement {
 
-    protected final SimulationNode view;
+    private static MoveCoordinator moveCoordinator = new MoveCoordinator(
+            Config.getInstance().params.width, Config.getInstance().params.height
+    );
+
+    protected final MapNode view;
 
     protected Vector currentPosition;
     protected int currentEnergy;
@@ -21,22 +26,22 @@ public abstract class AbstractMapElement implements MapElement {
     public AbstractMapElement(Vector initialPosition, int initialEnergy) {
         this.currentPosition = initialPosition;
         this.currentEnergy = initialEnergy;
-        this.view = new SimulationNode(this);
+        this.view = new MapNode(this);
     }
 
     @Override
     public void onUpdate() {
         this.currentEnergy -= Config.getInstance().params.moveEnergy;
-
         if (isAlive()) {
             update();
+
             view.updateTooltip(toString());
-            view.setImage(getIcon().img);
+            view.updateIcon(getIcon());
         }
     }
 
     @Override
-    public SimulationNode getView() {
+    public MapNode getView() {
         return view;
     }
 
@@ -80,11 +85,14 @@ public abstract class AbstractMapElement implements MapElement {
      * Method is responsible for checking whether element should be detached and if so detaching it.
      */
     private boolean isAlive() {
-        if (this.currentEnergy <= 0) {
+        if (this.currentEnergy <= 0)
             this.onDeath();
-        }
 
         return this.currentEnergy > 0;
+    }
+
+    protected static Vector validate(Vector move) {
+        return moveCoordinator.validateMove(move);
     }
 
 }

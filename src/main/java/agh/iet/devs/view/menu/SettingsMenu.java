@@ -45,7 +45,7 @@ public class SettingsMenu extends VBox {
 
         this.pausePlayButton = new Button("Pause");
         this.pausePlayButton.setGraphic(
-                new ImageView(GeneralUtils.ButtonGraphics.PAUSE.image));
+                new ImageView(ViewConfiguration.ButtonGraphics.PAUSE.image));
         this.pausePlayButton.setOnAction(this::onButtonClick);
 
         final var hBox = new HBox(this.pausePlayButton);
@@ -80,10 +80,10 @@ public class SettingsMenu extends VBox {
         if (wasRunning) {
             this.pausePlayButton.setText("Play");
             this.pausePlayButton.setGraphic
-                    (new ImageView(GeneralUtils.ButtonGraphics.PLAY.image));
+                    (new ImageView(ViewConfiguration.ButtonGraphics.PLAY.image));
         } else {
             this.pausePlayButton.setGraphic(
-                    new ImageView(GeneralUtils.ButtonGraphics.PAUSE.image));
+                    new ImageView(ViewConfiguration.ButtonGraphics.PAUSE.image));
             this.pausePlayButton.setText("Pause");
         }
     }

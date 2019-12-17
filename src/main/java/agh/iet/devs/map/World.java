@@ -32,8 +32,8 @@ public class World implements MapElementObserver, MapElementVisitor {
     public World(SimulationState state) {
         this.state = state;
         this.regions = List.of(
-                new Jungle(config.jungleBounds()),
-                new Grassland(config.outerBounds(), config.jungleBounds()));
+                new Jungle(config.params.jungleBounds()),
+                new Grassland(config.params.outerBounds(), config.params.jungleBounds()));
 
         regions.stream()
                 .map(Region::emptyPositions)
@@ -52,8 +52,7 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     public Map<Vector, Set<Animal>> getAnimalMap() {
-        final var shallow = new  HashMap<Vector, Set<Animal>>(animalMap.size());
-
+        final var shallow = new HashMap<Vector, Set<Animal>>(animalMap.size());
         animalMap.forEach((key, value) -> shallow.put(key, new HashSet<>(value)));
 
         return shallow;
@@ -72,10 +71,10 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     public int animalCount() {
-        return animalMap.values()
+        return (int) animalMap.values()
                 .stream()
-                .flatMap(Collection::stream)
-                .reduce(0, (acc, e) -> acc + 1, Integer::sum);
+                .mapToLong(Collection::size)
+                .sum();
     }
 
     public int dominatingGen() {
@@ -86,7 +85,7 @@ public class World implements MapElementObserver, MapElementVisitor {
         return animalMap.values()
                 .stream()
                 .flatMap(Collection::stream)
-                .map(a -> a.getLifetime(state.dayCount.intValue()))
+                .map(a -> a.getLifetime(state.getDayCount()))
                 .reduce(Integer::sum).orElse(0) / (double) animalCount();
     }
 
@@ -146,13 +145,13 @@ public class World implements MapElementObserver, MapElementVisitor {
     }
 
     public void attachAnimal(Animal animal) {
-        animalMap.get(animal.getPosition()).add(animal);
-        attachMapElement(animal);
+        this.animalMap.get(animal.getPosition()).add(animal);
         this.dominatingGeneCalculator.addGenome(animal.getGenome());
+        attachMapElement(animal);
     }
 
     public void attachFood(Food food) {
-        foodMap.put(food.getPosition(), food);
+        this.foodMap.put(food.getPosition(), food);
 
         attachMapElement(food);
     }
@@ -166,29 +165,18 @@ public class World implements MapElementObserver, MapElementVisitor {
         private int[] freq = new int[8];
 
         void addGenome(Genome g) {
-            for(int i = 0; i < 32; i++)
+            for (int i = 0; i < Genome.genomeSize; i++)
                 freq[g.geneAt(i)] += 1;
 
         }
 
         void removeGenome(Genome g) {
-            for(int i = 0; i < 32; i++)
+            for (int i = 0; i < Genome.genomeSize; i++)
                 freq[g.geneAt(i)] -= 1;
-
         }
 
-        @SuppressWarnings("DuplicatedCode")
         int dominating() {
-            int max = freq[0], dominating = 0;
-
-            for (int i = 1; i < 8; i++) {
-                if (freq[i] > max) {
-                    max = freq[i];
-                    dominating = i;
-                }
-            }
-
-            return dominating;
+            return GeneralUtils.maxElementFromArray(freq);
         }
     }
 

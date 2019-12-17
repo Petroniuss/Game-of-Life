@@ -8,6 +8,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
+import static javafx.collections.FXCollections.observableArrayList;
+
 @SuppressWarnings("unchecked")
 public class Chart extends LineChart<Number, Number> {
 
@@ -20,27 +22,34 @@ public class Chart extends LineChart<Number, Number> {
         this.state = state;
 
         this.animalSeries = new XYChart.Series<>(
-                "Animals", FXCollections.observableArrayList(new XYChart.Data<>(state.dayCount.get(), state.animalCount.get())));
+                "Animals", observableArrayList(
+                data(state.getDayCount(), state.getAnimalCount()))
+        );
 
         this.foodSeries = new XYChart.Series<>(
-                "Food", FXCollections.observableArrayList(new XYChart.Data<>(state.dayCount.get(), state.foodCount.get())));
+                "Food", observableArrayList(
+                        data(state.getDayCount(), state.getAnimalCount()))
+        );
 
         getData().addAll(animalSeries, foodSeries);
         setCreateSymbols(false);
         setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH);
         setPadding(new Insets(2, 0, 0, 0));
-
         applyCss();
     }
 
     public void onUpdate() {
-        foodSeries.getData().add(new XYChart.Data<>(
-                state.dayCount, state.foodCount.get()
-        ));
+        foodSeries.getData().add(
+                data(state.getDayCount(), state.getFoodCount())
+        );
 
-        animalSeries.getData().add(new XYChart.Data<>(
-                state.dayCount, state.animalCount.get()
-        ));
+        animalSeries.getData().add(
+                data(state.getDayCount(), state.getAnimalCount())
+        );
+    }
+
+    private static XYChart.Data<Number, Number> data(Number x, Number y) {
+        return new XYChart.Data<>(x, y);
     }
 
 }

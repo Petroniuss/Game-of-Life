@@ -4,6 +4,7 @@ import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.utils.GeneralUtils;
 import agh.iet.devs.utils.StatisticsSaver;
 import agh.iet.devs.view.controller.ViewConfiguration;
+import agh.iet.devs.view.controller.ViewConfiguration.ButtonGraphics;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,9 +31,7 @@ public class Submenu extends VBox {
         this.state = state;
 
         Button saveButton = new Button("Save");
-        saveButton.setGraphic(new ImageView(
-                GeneralUtils.ButtonGraphics.SAVE.image
-        ));
+        saveButton.setGraphic(ButtonGraphics.SAVE.toImageView());
         saveButton.setOnAction(this::setSaveButtonClick);
 
         this.checkBox = new CheckBox("All");
@@ -46,42 +45,40 @@ public class Submenu extends VBox {
         final var label = new Text("Save epochs");
         label.setFont(Font.font(24));
         label.setFill(Color.WHITE);
+
         final var labelBox = new HBox(label);
         labelBox.setPadding(new Insets(0, 5, 10, 0));
 
-        final var hbox = new HBox(saveButton, checkBox, spinner);
+        final var hBox = new HBox(saveButton, checkBox, spinner);
 
         setPadding(new Insets(5, 2, 5, 2));
 
-        hbox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
-        hbox.setAlignment(Pos.BASELINE_CENTER);
+        hBox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
+        hBox.setAlignment(Pos.BASELINE_CENTER);
         labelBox.setAlignment(Pos.BASELINE_CENTER);
 
         final var showDominatingButton = new Button("Show Animals with dominating genome");
         final var anotherHBox = new HBox(showDominatingButton);
 
-        showDominatingButton.setGraphic(new ImageView(
-                GeneralUtils.ButtonGraphics.ARROW.image
-        ));
+        showDominatingButton.setGraphic(ButtonGraphics.ARROW.toImageView());
         showDominatingButton.setOnAction(a -> state.showDominating());
 
         anotherHBox.setPadding(new Insets(5, 5, 5, 5));
         anotherHBox.setAlignment(Pos.BASELINE_CENTER);
         anotherHBox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
 
-        getChildren().addAll(hbox, anotherHBox);
+        getChildren().addAll(hBox, anotherHBox);
     }
 
     private void setSaveButtonClick(ActionEvent a) {
-        if (!checkBox.isSelected()) {
+        if (!checkBox.isSelected())
             StatisticsSaver.save(state.getEpoch(this.spinner.getValue()));
-        } else {
-            StatisticsSaver.saveAll(state.history);
-        }
+        else
+            StatisticsSaver.saveAll(state.getHistory());
     }
 
     public void onUpdate() {
-        this.valueFactory.setMax(state.dayCount.intValue());
+        this.valueFactory.setMax(state.getDayCount());
     }
 
 }

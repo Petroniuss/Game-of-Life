@@ -3,9 +3,12 @@ package agh.iet.devs.elements;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.map.MapElementVisitor;
 import agh.iet.devs.utils.GeneralUtils;
-import agh.iet.devs.view.node.SimulationNode;
+import agh.iet.devs.view.node.MapNode;
 import javafx.scene.image.Image;
 
+/**
+ * Describes what each map element should provide.
+ */
 public interface MapElement extends MapElementObservable {
 
     void acceptOnMove(MapElementVisitor visitor, Vector from);
@@ -16,11 +19,11 @@ public interface MapElement extends MapElementObservable {
 
     void onDeath();
 
-    Vector getPosition();
-
     int getEnergy();
 
-    SimulationNode getView();
+    Vector getPosition();
+
+    MapNode getView();
 
     Icon getIcon();
 
@@ -32,7 +35,6 @@ public interface MapElement extends MapElementObservable {
         DOMINATING_ANIMAL("dominating_animal.png");
 
         public final Image img;
-
         Icon(String name) {
             this.img = GeneralUtils.fromImages(name);
         }

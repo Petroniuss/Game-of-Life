@@ -6,6 +6,9 @@ import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.MapElement;
 import javafx.scene.layout.Pane;
 
+/**
+ * Class responsible for rendering map elements.
+ */
 public class SimulationViewController extends Pane implements UIListener {
 
     private final double fitWidth;

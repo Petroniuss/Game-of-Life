@@ -3,8 +3,8 @@
   "height": 100,
   "startEnergy": 64,
   "moveEnergy": 1,
-  "plantEnergy": 364,
+  "plantEnergy": 512,
   "jungleRatio": 0.35,
-  "animalsAtStart": 50,
+  "animalsAtStart": 10,
   "parallel": false
 }
