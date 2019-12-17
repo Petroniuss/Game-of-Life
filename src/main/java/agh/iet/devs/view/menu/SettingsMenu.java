@@ -2,6 +2,7 @@ package agh.iet.devs.view.menu;
 
 import agh.iet.devs.utils.GeneralUtils;
 import agh.iet.devs.view.controller.ViewConfiguration;
+import agh.iet.devs.view.controller.ViewConfiguration.ButtonGraphics;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -22,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static agh.iet.devs.view.controller.ViewConfiguration.MAX_INTERVAL;
 import static agh.iet.devs.view.controller.ViewConfiguration.MIN_INTERVAL;
 
-public class SettingsMenu extends VBox {
+public class SettingsMenu extends VBox  {
 
     private final AtomicBoolean running;
     private final AtomicLong interval;
@@ -45,7 +46,7 @@ public class SettingsMenu extends VBox {
 
         this.pausePlayButton = new Button("Pause");
         this.pausePlayButton.setGraphic(
-                new ImageView(ViewConfiguration.ButtonGraphics.PAUSE.image));
+                new ImageView(ButtonGraphics.PAUSE.image));
         this.pausePlayButton.setOnAction(this::onButtonClick);
 
         final var hBox = new HBox(this.pausePlayButton);
@@ -80,10 +81,10 @@ public class SettingsMenu extends VBox {
         if (wasRunning) {
             this.pausePlayButton.setText("Play");
             this.pausePlayButton.setGraphic
-                    (new ImageView(ViewConfiguration.ButtonGraphics.PLAY.image));
+                    (new ImageView(ButtonGraphics.PLAY.image));
         } else {
             this.pausePlayButton.setGraphic(
-                    new ImageView(ViewConfiguration.ButtonGraphics.PAUSE.image));
+                    new ImageView(ButtonGraphics.PAUSE.image));
             this.pausePlayButton.setText("Pause");
         }
     }

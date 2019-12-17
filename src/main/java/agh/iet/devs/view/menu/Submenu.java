@@ -1,7 +1,6 @@
 package agh.iet.devs.view.menu;
 
 import agh.iet.devs.config.SimulationState;
-import agh.iet.devs.utils.GeneralUtils;
 import agh.iet.devs.utils.StatisticsSaver;
 import agh.iet.devs.view.controller.ViewConfiguration;
 import agh.iet.devs.view.controller.ViewConfiguration.ButtonGraphics;
@@ -12,14 +11,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class Submenu extends VBox {
+public class Submenu extends VBox implements Updatable {
 
     private final SimulationState state;
 
@@ -77,6 +75,7 @@ public class Submenu extends VBox {
             StatisticsSaver.saveAll(state.getHistory());
     }
 
+    @Override
     public void onUpdate() {
         this.valueFactory.setMax(state.getDayCount());
     }

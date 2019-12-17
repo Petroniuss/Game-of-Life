@@ -11,7 +11,7 @@ import javafx.scene.chart.XYChart;
 import static javafx.collections.FXCollections.observableArrayList;
 
 @SuppressWarnings("unchecked")
-public class Chart extends LineChart<Number, Number> {
+public class Chart extends LineChart<Number, Number> implements Updatable {
 
     private final SimulationState state;
     private final XYChart.Series<Number, Number> foodSeries;
@@ -38,6 +38,7 @@ public class Chart extends LineChart<Number, Number> {
         applyCss();
     }
 
+    @Override
     public void onUpdate() {
         foodSeries.getData().add(
                 data(state.getDayCount(), state.getFoodCount())

@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class StatisticsMenu extends VBox {
+public class StatisticsMenu extends VBox implements Updatable {
 
     private final SimulationState state;
 
@@ -59,6 +59,7 @@ public class StatisticsMenu extends VBox {
         setPadding(new Insets(10, 25, 25, 10));
     }
 
+    @Override
     public void onUpdate() {
         this.dayLabel.setText("Day: " + state.getDayCount());
         this.animalLabel.setText("Animals: " + state.getAnimalCount());
