@@ -17,7 +17,7 @@ public class Food extends AbstractMapElement {
 
     @Override
     public void acceptOnMove(MapElementVisitor visitor, Vector from) {
-        // ignore!
+        // ignore! --> food does not move!
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Food extends AbstractMapElement {
 
     @Override
     protected void update() {
-        // ignore!
+        //ignore! --> well here we could add some energy as if food were growing.
     }
 
     @Override

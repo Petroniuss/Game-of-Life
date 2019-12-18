@@ -106,6 +106,10 @@ public class World implements MapElementObserver, MapElementVisitor {
                 .reduce(0.0, Double::sum, Double::sum) / (double) animalCount();
     }
 
+    public int[] genesDistribution() {
+        return dominatingGeneCalculator.getGenesDistribution();
+    }
+
     public void markDominatingAnimals() {
         final var dominatingGene = dominatingGeneCalculator.dominating();
 
@@ -177,6 +181,10 @@ public class World implements MapElementObserver, MapElementVisitor {
 
         int dominating() {
             return GeneralUtils.maxElementFromArray(freq);
+        }
+
+        public int[] getGenesDistribution() {
+            return Arrays.copyOf(freq, 8);
         }
     }
 

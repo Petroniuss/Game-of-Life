@@ -16,10 +16,11 @@ public class SideMenu extends VBox {
         var statisticsMenu = new StatisticsMenu(state);
         var chart = new Chart(state);
         var submenu = new Submenu(state);
+        var pie = new GenesDistributionChart(state);
 
-        this.updatableList = List.of(statisticsMenu, chart, submenu);
+        this.updatableList = List.of(statisticsMenu, chart, submenu, pie);
 
-        getChildren().addAll(statisticsMenu, chart, settingsMenu, submenu);
+        getChildren().addAll(statisticsMenu, chart, settingsMenu, submenu, pie);
         setStyle("-fx-background-color: #01142F");
     }
 

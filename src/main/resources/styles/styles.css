@@ -71,6 +71,9 @@
 
 .chart {
     -fx-legend-visible: false;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18;
+    -fx-padding: 1;
 }
 
 .chart-plot-background {
@@ -95,5 +98,10 @@
     -fx-text-fill: white;
     -fx-border-radius: 400;
     -fx-background-color: #1771F1;
+}
+
+.chart-pie {
+    -fx-border-color: #0c3442;
+    -fx-border-width: 1px;
 }
 

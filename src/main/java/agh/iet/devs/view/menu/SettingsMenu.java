@@ -34,7 +34,7 @@ public class SettingsMenu extends VBox  {
         this.running = ViewConfiguration.getInstance().running;
         this.interval = ViewConfiguration.getInstance().interval;
 
-        final var slider = new Slider(0.0, 1.0, 1.0);
+        final var slider = new Slider(0.0, 1.0, 1 - (interval.get() - MIN_INTERVAL) / (double) MAX_INTERVAL);
         slider.valueProperty().addListener(this::onSwiped);
         slider.setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH * 3.0/4.0);
 
@@ -48,7 +48,6 @@ public class SettingsMenu extends VBox  {
         this.pausePlayButton.setGraphic(
                 new ImageView(ButtonGraphics.PAUSE.image));
         this.pausePlayButton.setOnAction(this::onButtonClick);
-
         final var hBox = new HBox(this.pausePlayButton);
 
         vbox.setAlignment(Pos.CENTER);

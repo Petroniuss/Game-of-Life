@@ -2,7 +2,6 @@ package agh.iet.devs.view.menu;
 
 import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.view.controller.ViewConfiguration;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -16,6 +15,7 @@ public class Chart extends LineChart<Number, Number> implements Updatable {
     private final SimulationState state;
     private final XYChart.Series<Number, Number> foodSeries;
     private final XYChart.Series<Number, Number> animalSeries;
+    private final XYChart.Series<Number, Number> energySeries;
 
     public Chart(SimulationState state) {
         super(new NumberAxis(), new NumberAxis());
@@ -31,7 +31,12 @@ public class Chart extends LineChart<Number, Number> implements Updatable {
                         data(state.getDayCount(), state.getAnimalCount()))
         );
 
-        getData().addAll(animalSeries, foodSeries);
+        this.energySeries = new XYChart.Series<>(
+                "Energy", observableArrayList(
+                    data(state.getDayCount(), (int) state.getAverageEnergy())
+        ));
+
+        getData().addAll(animalSeries, energySeries, foodSeries);
         setCreateSymbols(false);
         setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH);
         setPadding(new Insets(2, 0, 0, 0));
@@ -47,6 +52,9 @@ public class Chart extends LineChart<Number, Number> implements Updatable {
         animalSeries.getData().add(
                 data(state.getDayCount(), state.getAnimalCount())
         );
+
+        energySeries.getData().add(
+                data(state.getDayCount(), (int) state.getAverageEnergy()));
     }
 
     private static XYChart.Data<Number, Number> data(Number x, Number y) {

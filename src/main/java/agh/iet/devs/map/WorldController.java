@@ -78,7 +78,8 @@ public class WorldController {
                 world.averageEnergy(),
                 world.dominatingGen(),
                 world.lifeExpectancy(),
-                world.averageChildren());
+                world.averageChildren(),
+                world.genesDistribution());
     }
 
     private static Animal findHealthiestAnimal(Set<Animal> animalSet) {
