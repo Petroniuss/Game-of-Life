@@ -1,5 +1,6 @@
 package agh.iet.devs.elements.food;
 
+import agh.iet.devs.config.Config;
 import agh.iet.devs.data.Vector;
 import agh.iet.devs.elements.AbstractMapElement;
 import agh.iet.devs.map.MapElementVisitor;
@@ -32,6 +33,7 @@ public class Food extends AbstractMapElement {
 
     @Override
     protected void update() {
+        this.currentEnergy += Config.getInstance().params.moveEnergy;
         //ignore! --> well here we could add some energy as if food were growing.
     }
 

@@ -45,8 +45,13 @@ public class SettingsMenu extends VBox  {
         vbox.setPrefWidth(ViewConfiguration.SIDE_MENU_WIDTH);
 
         this.pausePlayButton = new Button("Pause");
-        this.pausePlayButton.setGraphic(
-                new ImageView(ButtonGraphics.PAUSE.image));
+        if (running.get())
+            this.pausePlayButton.setGraphic(
+                    new ImageView(ButtonGraphics.PAUSE.image));
+        else
+            this.pausePlayButton.setGraphic(
+                    new ImageView(ButtonGraphics.PLAY.image));
+
         this.pausePlayButton.setOnAction(this::onButtonClick);
         final var hBox = new HBox(this.pausePlayButton);
 

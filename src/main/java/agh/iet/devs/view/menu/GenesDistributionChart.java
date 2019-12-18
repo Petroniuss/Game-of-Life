@@ -2,10 +2,7 @@ package agh.iet.devs.view.menu;
 
 import agh.iet.devs.config.SimulationState;
 import agh.iet.devs.view.controller.ViewConfiguration;
-import javafx.geometry.Insets;
-import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Tooltip;
 
 import java.util.ArrayList;
 
@@ -19,17 +16,13 @@ public class GenesDistributionChart extends PieChart implements Updatable {
         this.state = state;
 
         setMaxWidth(ViewConfiguration.SIDE_MENU_WIDTH);
-        setMaxHeight(225);
-        setPadding(new Insets(0, 5, 0, 80));
-        setLabelLineLength(10);
-        setLegendSide(Side.LEFT);
+        setMaxHeight(100);
 
         final var list = new ArrayList<Data>();
         for (int i = 0; i < 8; i++)
             list.add((data(i, 0)));
 
         setData(observableList(list));
-
         setLabelsVisible(false);
     }
 
@@ -44,4 +37,5 @@ public class GenesDistributionChart extends PieChart implements Updatable {
             getData().get(i).setPieValue(distr[i]);
 
     }
+
 }

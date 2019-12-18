@@ -72,8 +72,11 @@
 .chart {
     -fx-legend-visible: false;
     -fx-text-fill: #ffffff;
-    -fx-font-size: 18;
     -fx-padding: 1;
+}
+
+.chart-label {
+    -fx-text-fill: white;
 }
 
 .chart-plot-background {
@@ -103,5 +106,10 @@
 .chart-pie {
     -fx-border-color: #0c3442;
     -fx-border-width: 1px;
+}
+
+.chart-pie-label { /*this is what you need for labels*/
+    -fx-fill: white;
+    -fx-font-size: 1em;
 }
 
