@@ -23,6 +23,8 @@ public class Animal extends AbstractMapElement {
         this.genome = new Genome(p1.genome, p2.genome);
         this.generation = generation;
         this.bornEpoch = epoch;
+
+        view.updateTooltip(toString());
     }
 
     public Animal(Vector initialPosition, int initialEnergy) {

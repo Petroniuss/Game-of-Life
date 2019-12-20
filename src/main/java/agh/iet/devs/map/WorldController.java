@@ -36,15 +36,6 @@ public class WorldController {
         final var foodMap = world.getFoodMap();
         final var animalMap = world.getAnimalMap();
 
-        // grow!
-        regions.stream()
-                .map(Region::emptyPosition)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(empty -> new Food(empty, Config.getInstance().params.plantEnergy))
-                .peek(uiObserver::attach)
-                .forEach(world::attachFood);
-
         // update!
         foodMap.values()
                 .forEach(AbstractMapElement::onUpdate);
@@ -53,6 +44,15 @@ public class WorldController {
                 .stream()
                 .flatMap(Set::stream)
                 .forEach(AbstractMapElement::onUpdate);
+
+        // grow!
+        regions.stream()
+                .map(Region::emptyPosition)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(empty -> new Food(empty, Config.getInstance().params.plantEnergy))
+                .peek(uiObserver::attach)
+                .forEach(world::attachFood);
 
         // eat!
         animalMap.values()
@@ -72,6 +72,7 @@ public class WorldController {
                 .peek(uiObserver::attach)
                 .forEach(world::attachAnimal);
 
+        // state!
         this.state.update(
                 world.foodCount(),
                 world.animalCount(),
