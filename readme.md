@@ -12,7 +12,7 @@ His inspiration was "Land of Lisp" by Conrad Barski, who in turn had been inspir
 - to exit, press `ESC`
 
 ## Demo
-![](https://j.gifs.com/OMxvgE.gif)
+![alt text](https://j.gifs.com/OMxvgE.gif)
 
 ## Links
 - [description](https://github.com/apohllo/obiektowe-lab/tree/master/lab8)
